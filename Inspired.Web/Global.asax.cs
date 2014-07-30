@@ -16,6 +16,9 @@ namespace Inspired.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Unity Container
+            Bootstrapper.Initialise();
         }
     }
 }
