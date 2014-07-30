@@ -156,14 +156,9 @@
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Inspired.dbo.Inv_MaterialBranch' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Inv_MaterialBranch">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Item_Id" />
-            <PropertyRef Name="Branch_Id" />
-            <PropertyRef Name="Company_Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Item_Id" Type="int" Nullable="false" />
@@ -1120,6 +1115,7 @@ warning 6002: The table/view 'Inspired.dbo.Inv_MaterialBranch' does not have a p
           <EntitySet Name="Inv_CategoryMaster" EntityType="Self.Inv_CategoryMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialAlternateRelative" EntityType="Self.Inv_MaterialAlternateRelative" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialBOM" EntityType="Self.Inv_MaterialBOM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_MaterialBranch" EntityType="Self.Inv_MaterialBranch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialBranchSpec" EntityType="Self.Inv_MaterialBranchSpec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialCategory" EntityType="Self.Inv_MaterialCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialDiscount" EntityType="Self.Inv_MaterialDiscount" Schema="dbo" store:Type="Tables" />
@@ -1132,26 +1128,6 @@ warning 6002: The table/view 'Inspired.dbo.Inv_MaterialBranch' does not have a p
           <EntitySet Name="Inv_MaterialSpecification" EntityType="Self.Inv_MaterialSpecification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialSupplier" EntityType="Self.Inv_MaterialSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_WarehouseMaster" EntityType="Self.Inv_WarehouseMaster" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Inv_MaterialBranch" EntityType="Self.Inv_MaterialBranch" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Inv_MaterialBranch].[Id] AS [Id], 
-    [Inv_MaterialBranch].[Item_Id] AS [Item_Id], 
-    [Inv_MaterialBranch].[Branch_Id] AS [Branch_Id], 
-    [Inv_MaterialBranch].[Description] AS [Description], 
-    [Inv_MaterialBranch].[Long_Description] AS [Long_Description], 
-    [Inv_MaterialBranch].[Overview] AS [Overview], 
-    [Inv_MaterialBranch].[SKU_Number] AS [SKU_Number], 
-    [Inv_MaterialBranch].[NETT_Price] AS [NETT_Price], 
-    [Inv_MaterialBranch].[Sale_Price] AS [Sale_Price], 
-    [Inv_MaterialBranch].[Batch_YN] AS [Batch_YN], 
-    [Inv_MaterialBranch].[Serial_YN] AS [Serial_YN], 
-    [Inv_MaterialBranch].[Location_YN] AS [Location_YN], 
-    [Inv_MaterialBranch].[Status] AS [Status], 
-    [Inv_MaterialBranch].[Company_Id] AS [Company_Id], 
-    [Inv_MaterialBranch].[User_Id] AS [User_Id], 
-    [Inv_MaterialBranch].[Last_Updated] AS [Last_Updated]
-    FROM [dbo].[Inv_MaterialBranch] AS [Inv_MaterialBranch]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CategoryType_Lookup" Association="Self.FK_CategoryType_Lookup">
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
@@ -2739,9 +2715,6 @@ warning 6002: The table/view 'Inspired.dbo.Inv_MaterialBranch' does not have a p
         <EntityType Name="Inv_MaterialBranch">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Item_Id" />
-            <PropertyRef Name="Branch_Id" />
-            <PropertyRef Name="Company_Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Item_Id" Type="Int32" Nullable="false" />

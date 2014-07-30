@@ -48,16 +48,101 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="FAS_AccountMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gen_BranchMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gen_CompanyMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gen_LookupGroup.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gen_LookupItem.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gen_LookupType.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="InspiredModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InspiredModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InspiredModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
     <Compile Include="InspiredModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InspiredModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Inv_CategoryMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialAlternateRelative.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialBOM.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialBranch.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialBranchSpec.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialCategory.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialDiscount.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialDocument.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialNotes.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialPackaging.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialPrice.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialSpares.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialSpecification.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_MaterialSupplier.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_WarehouseMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IObjectWithState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,16 +161,14 @@
     <None Include="InspiredModel.edmx.diagram">
       <DependentUpon>InspiredModel.edmx</DependentUpon>
     </None>
+    <None Include="InspiredModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InspiredModel.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Inspired.DomainClasses\Inspired.DomainClasses.csproj">
-      <Project>{a29f71fc-92c7-4445-9dfe-42df030470b8}</Project>
-      <Name>Inspired.DomainClasses</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

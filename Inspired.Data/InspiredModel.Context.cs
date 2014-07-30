@@ -12,7 +12,7 @@ namespace Inspired.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using Inspired.DomainClasses;
+    
     public partial class InspiredEntities : DbContext
     {
         public InspiredEntities()
