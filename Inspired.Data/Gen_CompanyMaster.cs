@@ -36,6 +36,7 @@ namespace Inspired.Data
             this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
             this.Inv_MaterialBOM = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
+            this.Gen_UserMaster = new HashSet<Gen_UserMaster>();
         }
     
         public int Id { get; set; }
@@ -63,5 +64,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
+        public virtual ICollection<Gen_UserMaster> Gen_UserMaster { get; set; }
     }
 }
