@@ -44,7 +44,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
           <Property Name="SecurityStamp" Type="nvarchar(max)" />
           <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -115,6 +115,16 @@
           <Property Name="Company_Id" Type="int" Nullable="false" />
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gen_UserMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Company_Id" Type="int" Nullable="false" />
+          <Property Name="Branch_Id" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Inv_CategoryMaster">
           <Key>
@@ -384,7 +394,19 @@
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
         </EntityType>
-        <Association Name="FK_CategoryType_Lookup">
+        <Association Name="Branch">
+          <End Role="Gen_BranchMaster" Type="Self.Gen_BranchMaster" Multiplicity="0..1" />
+          <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_BranchMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_UserMaster">
+              <PropertyRef Name="Branch_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CategoryType_Lookup">
           <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
           <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="*" />
           <ReferentialConstraint>
@@ -393,6 +415,18 @@
             </Principal>
             <Dependent Role="Inv_CategoryMaster">
               <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Company">
+          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
+          <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_UserMaster">
+              <PropertyRef Name="Company_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -556,18 +590,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Gen_LookupType">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_CategoryMaster_Gen_CompanyMaster">
-          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
-          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_CompanyMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_CategoryMaster">
               <PropertyRef Name="Company_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1100,6 +1122,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="InvCategory_Company">
+          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_CategoryMaster">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="InspiredModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -1112,6 +1146,7 @@
           <EntitySet Name="Gen_LookupGroup" EntityType="Self.Gen_LookupGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gen_LookupItem" EntityType="Self.Gen_LookupItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gen_LookupType" EntityType="Self.Gen_LookupType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gen_UserMaster" EntityType="Self.Gen_UserMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_CategoryMaster" EntityType="Self.Inv_CategoryMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialAlternateRelative" EntityType="Self.Inv_MaterialAlternateRelative" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialBOM" EntityType="Self.Inv_MaterialBOM" Schema="dbo" store:Type="Tables" />
@@ -1128,9 +1163,17 @@
           <EntitySet Name="Inv_MaterialSpecification" EntityType="Self.Inv_MaterialSpecification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialSupplier" EntityType="Self.Inv_MaterialSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_WarehouseMaster" EntityType="Self.Inv_WarehouseMaster" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_CategoryType_Lookup" Association="Self.FK_CategoryType_Lookup">
+          <AssociationSet Name="Branch" Association="Self.Branch">
+            <End Role="Gen_BranchMaster" EntitySet="Gen_BranchMaster" />
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+          </AssociationSet>
+          <AssociationSet Name="CategoryType_Lookup" Association="Self.CategoryType_Lookup">
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+          </AssociationSet>
+          <AssociationSet Name="Company" Association="Self.Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1183,10 +1226,6 @@
           <AssociationSet Name="FK_Gen_LookupType_Company" Association="Self.FK_Gen_LookupType_Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Gen_LookupType" EntitySet="Gen_LookupType" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_CategoryMaster_Gen_CompanyMaster" Association="Self.FK_Inv_CategoryMaster_Gen_CompanyMaster">
-            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
@@ -1364,6 +1403,10 @@
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
           </AssociationSet>
+          <AssociationSet Name="InvCategory_Company" Association="Self.InvCategory_Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1403,7 +1446,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
@@ -1443,6 +1486,7 @@
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="Self.FK_Inv_WarehouseMaster_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="Inv_WarehouseMaster" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="Inv_MaterialBranch" />
+          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.Branch" FromRole="Gen_BranchMaster" ToRole="Gen_UserMaster" />
         </EntityType>
         <EntityType Name="Gen_CompanyMaster">
           <Key>
@@ -1472,6 +1516,7 @@
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="Self.FK_Inv_WarehouseMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_WarehouseMaster" />
           <NavigationProperty Name="Inv_MaterialBOM" Relationship="InspiredModel.FK_Inv_MaterialBOM_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBranch" />
+          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.Company" FromRole="Gen_CompanyMaster" ToRole="Gen_UserMaster" />
         </EntityType>
         <EntityType Name="Gen_LookupGroup">
           <Key>
@@ -2682,6 +2727,15 @@
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialBranch" EntitySet="Inv_MaterialBranch" />
           </AssociationSet>
+          <EntitySet Name="Gen_UserMaster" EntityType="InspiredModel.Gen_UserMaster" />
+          <AssociationSet Name="Branch" Association="InspiredModel.Branch">
+            <End Role="Gen_BranchMaster" EntitySet="Gen_BranchMaster" />
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+          </AssociationSet>
+          <AssociationSet Name="Company" Association="InspiredModel.Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Inv_MaterialNotes_Gen_LookupItem">
           <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
@@ -2805,6 +2859,42 @@
             </Principal>
             <Dependent Role="Inv_MaterialBranch">
               <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Gen_UserMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="Branch_Id" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Gen_BranchMaster" Relationship="InspiredModel.Branch" FromRole="Gen_UserMaster" ToRole="Gen_BranchMaster" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.Company" FromRole="Gen_UserMaster" ToRole="Gen_CompanyMaster" />
+        </EntityType>
+        <Association Name="Branch">
+          <End Type="InspiredModel.Gen_BranchMaster" Role="Gen_BranchMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_BranchMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_UserMaster">
+              <PropertyRef Name="Branch_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Company">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_UserMaster">
+              <PropertyRef Name="Company_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3210,6 +3300,17 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Branch_Id" ColumnName="Branch_Id" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gen_UserMaster">
+            <EntityTypeMapping TypeName="InspiredModel.Gen_UserMaster">
+              <MappingFragment StoreEntitySet="Gen_UserMaster">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Branch_Id" ColumnName="Branch_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -17,7 +17,7 @@ namespace Inspired.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Unity Container
+            ////Unity Container
             Bootstrapper.Initialise();
         }
     }

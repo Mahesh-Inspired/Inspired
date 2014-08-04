@@ -79,6 +79,9 @@
     <Compile Include="Gen_LookupType.cs">
       <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gen_UserMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="InspiredModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

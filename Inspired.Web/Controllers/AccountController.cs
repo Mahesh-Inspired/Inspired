@@ -24,7 +24,7 @@ namespace Inspired.Web.Controllers
         {
             UserManager = userManager;
         }
-
+        
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         //

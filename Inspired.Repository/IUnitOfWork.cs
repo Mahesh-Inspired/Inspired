@@ -8,9 +8,10 @@ using Inspired.Data;
 
 namespace Inspired.Repository
 {
-    interface IUnitOfWork
+    public interface IUnitOfWork
     {
         IGenericRepository<Inv_CategoryMaster> CategoryMasterRepository { get; }
+        IGenericRepository<Gen_UserMaster> UserMasterRepository { get; }
         void Save();
 
         void DisableChangeTracking();

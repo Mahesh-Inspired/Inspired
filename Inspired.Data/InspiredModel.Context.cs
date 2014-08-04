@@ -51,5 +51,6 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
         public virtual DbSet<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual DbSet<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
+        public virtual DbSet<Gen_UserMaster> Gen_UserMaster { get; set; }
     }
 }

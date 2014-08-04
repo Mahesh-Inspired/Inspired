@@ -89,6 +89,9 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBOM_Child" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBOM_Parent" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranch_Inv_MaterialMaster" />
+        <EntityTypeShape EntityType="InspiredModel.Gen_UserMaster" Width="1.5" PointX="16" PointY="0.75" />
+        <AssociationConnector Association="InspiredModel.Branch" />
+        <AssociationConnector Association="InspiredModel.Company" />
       </Diagram>
       <Diagram DiagramId="e504ad272b3b491aa21f0a8d91b382e9" Name="Diagram2" />
     </edmx:Diagrams>

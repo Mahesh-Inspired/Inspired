@@ -16,14 +16,9 @@ namespace Inspired.Repository
         private bool _disposed;
 
         private IGenericRepository<Inv_CategoryMaster> _categoryMasterRepository;
-
-
-        public IGenericRepository<Inv_CategoryMaster> CategoryMasterRepository 
-        {
-            get { return _categoryMasterRepository ?? (_categoryMasterRepository = new GenericRepository<Inv_CategoryMaster>(DbContext)); } 
-        }
-
-
+        private IGenericRepository<Gen_UserMaster> _userMasterRepository;
+             
+        
         #region Constructor
             public UnitOfWork()
             {
@@ -56,7 +51,6 @@ namespace Inspired.Repository
                 }
             }
         #endregion
-
 
         #region dispose
         public void Dispose()
@@ -92,11 +86,14 @@ namespace Inspired.Repository
         }
         #endregion
 
+        public IGenericRepository<Inv_CategoryMaster> CategoryMasterRepository
+        {
+            get { return _categoryMasterRepository ?? (_categoryMasterRepository = new GenericRepository<Inv_CategoryMaster>(DbContext)); }
+        }
 
-    
-IGenericRepository<Data.Inv_CategoryMaster> IUnitOfWork.CategoryMasterRepository
-{
-	get { throw new NotImplementedException(); }
-}
-}
+        public IGenericRepository<Data.Gen_UserMaster> UserMasterRepository
+        {
+            get { return _userMasterRepository ?? (_userMasterRepository = new GenericRepository<Gen_UserMaster>(DbContext)); }
+        }
+    }
 }
