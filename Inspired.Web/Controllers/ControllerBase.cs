@@ -11,10 +11,11 @@ namespace Inspired.Web.Controllers
     public class ControllerBase : AntiForgeryControllerBase
     {
         protected IUnitOfWork UnitOfWork { get; set; }
+        protected IUserIdentity UserIdentity { get; set; }
 
-        public ControllerBase(IUnitOfWork unitOfWork) {
-
+        public ControllerBase(IUnitOfWork unitOfWork, IUserIdentity userIdentity) {
             UnitOfWork = unitOfWork;
+            UserIdentity = userIdentity;
         }
 	}
 }

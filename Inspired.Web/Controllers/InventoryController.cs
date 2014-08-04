@@ -13,7 +13,7 @@ namespace Inspired.Web.Controllers
     {
 
         #region Constructor
-            public InventoryController(IUnitOfWork unitOfWork):base(unitOfWork)
+            public InventoryController(IUnitOfWork unitOfWork, IUserIdentity userIdentity):base(unitOfWork, userIdentity)
             { }
         #endregion
 
@@ -25,16 +25,11 @@ namespace Inspired.Web.Controllers
         }
         public ActionResult ListCategory()
         {
-            
-            String userName = HttpContext.User.Identity.Name;
-            Gen_UserMaster currentUser = UnitOfWork.UserMasterRepository.Get().Where(e => e.UserName == userName).FirstOrDefault();
-            if(currentUser == null)
-            {
-                HandleErrorInfo error = new HandleErrorInfo(new Exception("INFO: Invalid user"), "Inventory", "ListCategory");
-                return View("Error", error);
-            }
-            IEnumerable<Inv_CategoryMaster> catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == currentUser.Company_Id);
-            return View(catList);
+
+            if (String.IsNullOrEmpty(UserIdentity.GetUserName()))
+                return RedirectToAction("Login", "Account");                              
+            IEnumerable<Inv_CategoryMaster> catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == UserIdentity.GetCompanyId());
+            return View(catList);            
         }
 	}
 }
