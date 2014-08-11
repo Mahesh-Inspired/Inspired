@@ -49,6 +49,8 @@
     <Compile Include="Data\ExtensionMethods.cs" />
     <Compile Include="Data\GenericRepository.cs" />
     <Compile Include="Data\IGenericRepository.cs" />
+    <Compile Include="Data\OrderByExtension.cs" />
+    <Compile Include="Data\WhereExtension.cs" />
     <Compile Include="MVC\AntiForgeryControllerBase.cs" />
     <Compile Include="MVC\IUserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

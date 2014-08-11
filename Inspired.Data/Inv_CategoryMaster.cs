@@ -14,6 +14,17 @@ namespace Inspired.Data
     
     public partial class Inv_CategoryMaster
     {
+        public Inv_CategoryMaster()
+        {
+            this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
+            this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
+            this.Inv_MaterialDiscount1 = new HashSet<Inv_MaterialDiscount>();
+            this.Inv_MaterialDiscount2 = new HashSet<Inv_MaterialDiscount>();
+            this.Inv_MaterialDiscount3 = new HashSet<Inv_MaterialDiscount>();
+            this.Inv_MaterialDiscount4 = new HashSet<Inv_MaterialDiscount>();
+            this.Inv_MaterialDiscount5 = new HashSet<Inv_MaterialDiscount>();
+        }
+    
         public int Id { get; set; }
         public int Type { get; set; }
         public string Code { get; set; }
@@ -25,5 +36,12 @@ namespace Inspired.Data
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
+        public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
+        public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
+        public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount1 { get; set; }
+        public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount2 { get; set; }
+        public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount3 { get; set; }
+        public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount4 { get; set; }
+        public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount5 { get; set; }
     }
 }

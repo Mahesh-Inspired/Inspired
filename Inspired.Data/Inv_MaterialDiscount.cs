@@ -39,5 +39,11 @@ namespace Inspired.Data
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
+        public virtual Inv_CategoryMaster Inv_CategoryMaster { get; set; }
+        public virtual Inv_CategoryMaster Inv_CategoryMaster1 { get; set; }
+        public virtual Inv_CategoryMaster Inv_CategoryMaster2 { get; set; }
+        public virtual Inv_CategoryMaster Inv_CategoryMaster3 { get; set; }
+        public virtual Inv_CategoryMaster Inv_CategoryMaster4 { get; set; }
+        public virtual Inv_CategoryMaster Inv_CategoryMaster5 { get; set; }
     }
 }

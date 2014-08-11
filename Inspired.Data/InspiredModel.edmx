@@ -206,6 +206,7 @@
           </Key>
           <Property Name="Item_Id" Type="int" Nullable="false" />
           <Property Name="Category_Id" Type="int" Nullable="false" />
+          <Property Name="Category_Type" Type="int" Nullable="false" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Inv_MaterialDiscount">
@@ -750,6 +751,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Inv_MaterialCategory_Inv_CategoryMaster1">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="1" />
+          <End Role="Inv_MaterialCategory" Type="Self.Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Inv_MaterialCategory_Material">
           <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
           <End Role="Inv_MaterialCategory" Type="Self.Inv_MaterialCategory" Multiplicity="*" />
@@ -759,6 +772,18 @@
             </Principal>
             <Dependent Role="Inv_MaterialCategory">
               <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Category">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Category_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -810,6 +835,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Group">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Inv_MaterialDiscount_Inv_MaterialMaster">
           <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="0..1" />
           <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
@@ -819,6 +856,54 @@
             </Principal>
             <Dependent Role="Inv_MaterialDiscount">
               <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Make">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Make_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Model_Number">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Model_Number_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_SubCategory">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="SubCategory_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Type">
+          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Type_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1134,6 +1219,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="MaterialCategoryTypeLookup">
+          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
+          <End Role="Inv_MaterialCategory" Type="Self.Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Category_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="InspiredModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -1279,9 +1376,17 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
           </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialCategory_Inv_CategoryMaster1" Association="Self.FK_Inv_MaterialCategory_Inv_CategoryMaster1">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialCategory_Material" Association="Self.FK_Inv_MaterialCategory_Material">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Category" Association="Self.FK_Inv_MaterialDiscount_Category">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDiscount_FAS_AccountMaster" Association="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster">
             <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
@@ -1299,8 +1404,28 @@
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Group" Association="Self.FK_Inv_MaterialDiscount_Group">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDiscount_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Make" Association="Self.FK_Inv_MaterialDiscount_Make">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Model_Number" Association="Self.FK_Inv_MaterialDiscount_Model_Number">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_SubCategory" Association="Self.FK_Inv_MaterialDiscount_SubCategory">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Type" Association="Self.FK_Inv_MaterialDiscount_Type">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDocument_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialDocument_Inv_MaterialMaster">
@@ -1407,6 +1532,10 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
           </AssociationSet>
+          <AssociationSet Name="MaterialCategoryTypeLookup" Association="Self.MaterialCategoryTypeLookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1504,7 +1633,6 @@
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="Self.FK_Inv_CategoryMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Inv_MaterialAlternateRelative" Relationship="Self.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialAlternateRelative" />
           <NavigationProperty Name="Inv_MaterialBranchSpec" Relationship="Self.FK_Inv_MaterialBranchSpec_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBranchSpec" />
-          <NavigationProperty Name="Inv_MaterialCategory" Relationship="Self.FK_Inv_MaterialCategory_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialCategory" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="Self.FK_Inv_MaterialNotes_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialNotes" />
@@ -1517,6 +1645,7 @@
           <NavigationProperty Name="Inv_MaterialBOM" Relationship="InspiredModel.FK_Inv_MaterialBOM_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBranch" />
           <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.Company" FromRole="Gen_CompanyMaster" ToRole="Gen_UserMaster" />
+          <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialCategory" />
         </EntityType>
         <EntityType Name="Gen_LookupGroup">
           <Key>
@@ -1557,6 +1686,7 @@
           <NavigationProperty Name="Inv_MaterialSupplier" Relationship="Self.FK_Inv_MaterialSupplier_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialSupplier" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="Self.FK_WarehouseType_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_WarehouseMaster" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialNotes" />
+          <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.MaterialCategoryTypeLookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialCategory" />
         </EntityType>
         <EntityType Name="Gen_LookupType">
           <Key>
@@ -1585,17 +1715,13 @@
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_CategoryMaster_Gen_CompanyMaster" FromRole="Inv_CategoryMaster" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_CategoryType_Lookup" FromRole="Inv_CategoryMaster" ToRole="Gen_LookupItem" />
-        </EntityType>
-        <EntityType Name="Inv_MaterialCategory">
-          <Key>
-            <PropertyRef Name="Item_Id" />
-            <PropertyRef Name="Category_Id" />
-          </Key>
-          <Property Name="Item_Id" Type="Int32" Nullable="false" />
-          <Property Name="Category_Id" Type="Int32" Nullable="false" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialCategory_Gen_CompanyMaster" FromRole="Inv_MaterialCategory" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialCategory" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Inv_CategoryMaster1" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialCategory" />
+          <NavigationProperty Name="Inv_MaterialDiscount" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Category" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialDiscount1" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Group" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialDiscount2" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Make" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialDiscount3" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Model_Number" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialDiscount4" Relationship="InspiredModel.FK_Inv_MaterialDiscount_SubCategory" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialDiscount5" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Type" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
         </EntityType>
         <EntityType Name="Inv_MaterialDiscount">
           <Key>
@@ -1625,6 +1751,12 @@
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialDiscount_Gen_CompanyMaster" FromRole="Inv_MaterialDiscount" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Inv_MaterialDiscount" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialDiscount" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Category" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster1" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Group" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster2" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Make" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster3" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Model_Number" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster4" Relationship="InspiredModel.FK_Inv_MaterialDiscount_SubCategory" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster5" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Type" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
         </EntityType>
         <EntityType Name="Inv_MaterialDocument">
           <Key>
@@ -1682,7 +1814,6 @@
           <Property Name="Last_Updated" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialMaster_Gen_CompanyMaster" FromRole="Inv_MaterialMaster" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Inv_MaterialMaster_UOM_Lookup" FromRole="Inv_MaterialMaster" ToRole="Gen_LookupItem" />
-          <NavigationProperty Name="Inv_MaterialCategory" Relationship="Self.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialCategory" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialDocument" Relationship="Self.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDocument" />
           <NavigationProperty Name="Inv_MaterialAlternateRelative" Relationship="Self.FK_Inv_MaterialAlternateRelative_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialAlternateRelative" />
@@ -1698,6 +1829,7 @@
           <NavigationProperty Name="Inv_MaterialBOM" Relationship="InspiredModel.FK_Inv_MaterialBOM_Child" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBOM1" Relationship="InspiredModel.FK_Inv_MaterialBOM_Parent" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBranch" />
+          <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialCategory" />
         </EntityType>
         <EntityType Name="Inv_MaterialPackaging">
           <Key>
@@ -2092,18 +2224,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_MaterialCategory_Gen_CompanyMaster">
-          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialCategory" Type="Self.Inv_MaterialCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_CompanyMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialCategory">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_MaterialDiscount_Gen_CompanyMaster">
           <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
           <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
@@ -2308,18 +2428,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_MaterialCategory_Material">
-          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialCategory" Type="Self.Inv_MaterialCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_MaterialMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialCategory">
-              <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_MaterialDiscount_Inv_MaterialMaster">
           <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="0..1" />
           <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
@@ -2480,7 +2588,6 @@
           <EntitySet Name="Gen_LookupItem" EntityType="Self.Gen_LookupItem" />
           <EntitySet Name="Gen_LookupType" EntityType="Self.Gen_LookupType" />
           <EntitySet Name="Inv_CategoryMaster" EntityType="Self.Inv_CategoryMaster" />
-          <EntitySet Name="Inv_MaterialCategory" EntityType="Self.Inv_MaterialCategory" />
           <EntitySet Name="Inv_MaterialDiscount" EntityType="Self.Inv_MaterialDiscount" />
           <EntitySet Name="Inv_MaterialDocument" EntityType="Self.Inv_MaterialDocument" />
           <EntitySet Name="Inv_MaterialMaster" EntityType="Self.Inv_MaterialMaster" />
@@ -2569,10 +2676,6 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialCategory_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialCategory_Gen_CompanyMaster">
-            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDiscount_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialDiscount_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
@@ -2640,10 +2743,6 @@
           <AssociationSet Name="FK_WarehouseType_Lookup" Association="Self.FK_WarehouseType_Lookup">
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialCategory_Material" Association="Self.FK_Inv_MaterialCategory_Material">
-            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDiscount_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
@@ -2735,6 +2834,47 @@
           <AssociationSet Name="Company" Association="InspiredModel.Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+          </AssociationSet>
+          <EntitySet Name="Inv_MaterialCategory" EntityType="InspiredModel.Inv_MaterialCategory" />
+          <AssociationSet Name="FK_Inv_MaterialCategory_Gen_CompanyMaster" Association="InspiredModel.FK_Inv_MaterialCategory_Gen_CompanyMaster">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialCategoryTypeLookup" Association="InspiredModel.MaterialCategoryTypeLookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialCategory_Material" Association="InspiredModel.FK_Inv_MaterialCategory_Material">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialCategory_Inv_CategoryMaster1" Association="InspiredModel.FK_Inv_MaterialCategory_Inv_CategoryMaster1">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Category" Association="InspiredModel.FK_Inv_MaterialDiscount_Category">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Group" Association="InspiredModel.FK_Inv_MaterialDiscount_Group">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Make" Association="InspiredModel.FK_Inv_MaterialDiscount_Make">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Model_Number" Association="InspiredModel.FK_Inv_MaterialDiscount_Model_Number">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_SubCategory" Association="InspiredModel.FK_Inv_MaterialDiscount_SubCategory">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Type" Association="InspiredModel.FK_Inv_MaterialDiscount_Type">
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Inv_MaterialNotes_Gen_LookupItem">
@@ -2898,6 +3038,140 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Inv_MaterialCategory">
+          <Key>
+            <PropertyRef Name="Item_Id" />
+            <PropertyRef Name="Category_Id" />
+          </Key>
+          <Property Name="Item_Id" Type="Int32" Nullable="false" />
+          <Property Name="Category_Id" Type="Int32" Nullable="false" />
+          <Property Name="Category_Type" Type="Int32" Nullable="false" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Inv_MaterialCategory_Gen_CompanyMaster" FromRole="Inv_MaterialCategory" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.MaterialCategoryTypeLookup" FromRole="Inv_MaterialCategory" ToRole="Gen_LookupItem" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialCategory" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.FK_Inv_MaterialCategory_Inv_CategoryMaster1" FromRole="Inv_MaterialCategory" ToRole="Inv_CategoryMaster" />
+        </EntityType>
+        <Association Name="FK_Inv_MaterialCategory_Gen_CompanyMaster">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialCategory" Role="Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialCategoryTypeLookup">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialCategory" Role="Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Category_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialCategory_Material">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialCategory" Role="Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialCategory_Inv_CategoryMaster1">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialCategory" Role="Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Category">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Group">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Make">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Make_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Model_Number">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Model_Number_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_SubCategory">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="SubCategory_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Type">
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_CategoryMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3026,15 +3300,6 @@
                 <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Inv_MaterialCategory">
-            <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialCategory">
-              <MappingFragment StoreEntitySet="Inv_MaterialCategory">
-                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3312,6 +3577,16 @@
                 <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_MaterialCategory">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialCategory">
+              <MappingFragment StoreEntitySet="Inv_MaterialCategory">
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Category_Type" ColumnName="Category_Type" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

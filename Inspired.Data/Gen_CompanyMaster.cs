@@ -24,7 +24,6 @@ namespace Inspired.Data
             this.Inv_CategoryMaster = new HashSet<Inv_CategoryMaster>();
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
             this.Inv_MaterialBranchSpec = new HashSet<Inv_MaterialBranchSpec>();
-            this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
             this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
@@ -37,6 +36,7 @@ namespace Inspired.Data
             this.Inv_MaterialBOM = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
             this.Gen_UserMaster = new HashSet<Gen_UserMaster>();
+            this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
         }
     
         public int Id { get; set; }
@@ -52,7 +52,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual ICollection<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
-        public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
@@ -65,5 +64,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
         public virtual ICollection<Gen_UserMaster> Gen_UserMaster { get; set; }
+        public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
     }
 }

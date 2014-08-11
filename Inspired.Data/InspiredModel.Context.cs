@@ -36,7 +36,6 @@ namespace Inspired.Data
         public virtual DbSet<Gen_LookupItem> Gen_LookupItem { get; set; }
         public virtual DbSet<Gen_LookupType> Gen_LookupType { get; set; }
         public virtual DbSet<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
-        public virtual DbSet<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual DbSet<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual DbSet<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
         public virtual DbSet<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
@@ -52,5 +51,6 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual DbSet<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
         public virtual DbSet<Gen_UserMaster> Gen_UserMaster { get; set; }
+        public virtual DbSet<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
     }
 }

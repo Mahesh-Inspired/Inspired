@@ -17,12 +17,14 @@ namespace Inspired.Repository
 
         private IGenericRepository<Inv_CategoryMaster> _categoryMasterRepository;
         private IGenericRepository<Gen_UserMaster> _userMasterRepository;
-             
+        private IGenericRepository<Gen_LookupItem> _lookupItemRepository;
+        private IGenericRepository<Inv_MaterialMaster> _materialMasterRepository;
         
         #region Constructor
             public UnitOfWork()
             {
                 DbContext = new InspiredEntities();
+               // this.DbContext.Configuration.LazyLoadingEnabled = false;
             }
         #endregion
 
@@ -91,9 +93,20 @@ namespace Inspired.Repository
             get { return _categoryMasterRepository ?? (_categoryMasterRepository = new GenericRepository<Inv_CategoryMaster>(DbContext)); }
         }
 
-        public IGenericRepository<Data.Gen_UserMaster> UserMasterRepository
+        public IGenericRepository<Gen_UserMaster> UserMasterRepository
         {
             get { return _userMasterRepository ?? (_userMasterRepository = new GenericRepository<Gen_UserMaster>(DbContext)); }
+        }
+
+        public IGenericRepository<Gen_LookupItem> LookupItemRepository
+        {
+            get { return _lookupItemRepository ?? (_lookupItemRepository = new GenericRepository<Gen_LookupItem>(DbContext)); }
+        }
+
+
+        public IGenericRepository<Data.Inv_MaterialMaster> MaterialMasterRepository
+        {
+            get { return _materialMasterRepository ?? (_materialMasterRepository = new GenericRepository<Inv_MaterialMaster>(DbContext)); }
         }
     }
 }

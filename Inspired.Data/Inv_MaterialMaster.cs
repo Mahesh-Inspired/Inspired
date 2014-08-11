@@ -16,7 +16,6 @@ namespace Inspired.Data
     {
         public Inv_MaterialMaster()
         {
-            this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
             this.Inv_MaterialDocument = new HashSet<Inv_MaterialDocument>();
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
@@ -32,6 +31,7 @@ namespace Inspired.Data
             this.Inv_MaterialBOM = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBOM1 = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
+            this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
         }
     
         public int Id { get; set; }
@@ -75,7 +75,6 @@ namespace Inspired.Data
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
-        public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
@@ -91,5 +90,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM1 { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
+        public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
     }
 }

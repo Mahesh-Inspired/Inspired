@@ -33,10 +33,10 @@ namespace Utilities.MVC
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
-            base.OnAuthorization(filterContext);
+              base.OnAuthorization(filterContext);
 
             string httpMethodOverride = filterContext.HttpContext.Request.GetHttpMethodOverride();
-            if (_verbs.Verbs.Contains(httpMethodOverride, StringComparer.OrdinalIgnoreCase))
+            if (_verbs.Verbs.Contains(httpMethodOverride, StringComparer.OrdinalIgnoreCase) && !HttpContext.Request.IsAjaxRequest())
             {
                 _validator.OnAuthorization(filterContext);
             }

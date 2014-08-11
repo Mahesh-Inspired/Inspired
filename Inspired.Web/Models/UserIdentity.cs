@@ -10,8 +10,10 @@ namespace Inspired.Web.Models
     class UserIdentity : IUserIdentity
     { 
         public int GetUserId()
-        {            
-            throw new NotImplementedException();
+        {
+            IUnitOfWork unitOfWork = new UnitOfWork();
+            Gen_UserMaster currentUser = unitOfWork.UserMasterRepository.Get(e => e.UserName == HttpContext.Current.User.Identity.Name).FirstOrDefault();
+            return currentUser.Id;          
         }
 
         public string GetUserName()
