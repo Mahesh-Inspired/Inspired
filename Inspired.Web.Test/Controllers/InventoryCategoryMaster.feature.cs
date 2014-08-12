@@ -70,12 +70,14 @@ namespace Inspired.Web.Test.Controllers
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Category Master - User should be taken to the login page if not logged in")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Category Master - User should be taken to the login page if not logge" +
+            "d in")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("mytag")]
-        public virtual void CategoryMaster_UserShouldBeTakenToTheLoginPageIfNotLoggedIn()
+        public virtual void Inventory_CategoryMaster_UserShouldBeTakenToTheLoginPageIfNotLoggedIn()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Category Master - User should be taken to the login page if not logged in", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Category Master - User should be taken to the login page if not logge" +
+                    "d in", new string[] {
                         "mytag"});
 #line 6
 this.ScenarioSetup(scenarioInfo);
@@ -90,11 +92,13 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Category Master - User should be displayed the category master list page")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Category Master - User should be displayed the category master list p" +
+            "age")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void CategoryMaster_UserShouldBeDisplayedTheCategoryMasterListPage()
+        public virtual void Inventory_CategoryMaster_UserShouldBeDisplayedTheCategoryMasterListPage()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Category Master - User should be displayed the category master list page", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Category Master - User should be displayed the category master list p" +
+                    "age", ((string[])(null)));
 #line 11
 this.ScenarioSetup(scenarioInfo);
 #line 12
@@ -108,35 +112,39 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Category Master - User should be displayed the create category page.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Category Master - User should be displayed the category lists jsonres" +
+            "ult")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void CreateCategoryMaster_UserShouldBeDisplayedTheCreateCategoryPage_()
+        public virtual void Inventory_CategoryMaster_UserShouldBeDisplayedTheCategoryListsJsonresult()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Category Master - User should be displayed the create category page.", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Category Master - User should be displayed the category lists jsonres" +
+                    "ult", ((string[])(null)));
 #line 16
 this.ScenarioSetup(scenarioInfo);
 #line 17
  testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 18
- testRunner.When("I Try to access the create category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("The category master is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19
- testRunner.Then("The Create/Edit category master page should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The category list result is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Edit Category Master - User should be displayed the edit category page")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Create Category Master - User should be displayed the create category" +
+            " page.")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void EditCategoryMaster_UserShouldBeDisplayedTheEditCategoryPage()
+        public virtual void Inventory_CreateCategoryMaster_UserShouldBeDisplayedTheCreateCategoryPage_()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Category Master - User should be displayed the edit category page", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Create Category Master - User should be displayed the create category" +
+                    " page.", ((string[])(null)));
 #line 21
 this.ScenarioSetup(scenarioInfo);
 #line 22
- testRunner.Given("I am not logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 23
- testRunner.When("I try to access the edit category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I Try to access the create category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
  testRunner.Then("The Create/Edit category master page should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -144,53 +152,55 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Category Master - User saves the record")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Edit Category Master - User should be displayed the edit category pag" +
+            "e")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void CreateCategoryMaster_UserSavesTheRecord()
+        public virtual void Inventory_EditCategoryMaster_UserShouldBeDisplayedTheEditCategoryPage()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Category Master - User saves the record", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Edit Category Master - User should be displayed the edit category pag" +
+                    "e", ((string[])(null)));
 #line 26
 this.ScenarioSetup(scenarioInfo);
 #line 27
- testRunner.Given("I enter the details of the category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am not logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 28
- testRunner.When("I click the create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I try to access the edit category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
+ testRunner.Then("The Create/Edit category master page should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Create Category Master - User saves the record")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
+        public virtual void Inventory_CreateCategoryMaster_UserSavesTheRecord()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Create Category Master - User saves the record", ((string[])(null)));
+#line 31
+this.ScenarioSetup(scenarioInfo);
+#line 32
+ testRunner.Given("I enter the details of the category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 33
+ testRunner.When("I click the create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 34
  testRunner.Then("Details should be saved and I should be redirected to the category list page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Category Master - Incomplete data returns an error - no category code")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Create Category Master - Incomplete data returns an error - no catego" +
+            "ry code")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void CreateCategoryMaster_IncompleteDataReturnsAnError_NoCategoryCode()
+        public virtual void Inventory_CreateCategoryMaster_IncompleteDataReturnsAnError_NoCategoryCode()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Category Master - Incomplete data returns an error - no category code", ((string[])(null)));
-#line 31
-this.ScenarioSetup(scenarioInfo);
-#line 32
- testRunner.Given("I enter incomplete details of the category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 33
- testRunner.When("I click the create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 34
- testRunner.Then("The edit/create page is displayed with error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Category Master - Incomplete data returns an error - no category descripti" +
-            "on")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void CreateCategoryMaster_IncompleteDataReturnsAnError_NoCategoryDescription()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Category Master - Incomplete data returns an error - no category descripti" +
-                    "on", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Create Category Master - Incomplete data returns an error - no catego" +
+                    "ry code", ((string[])(null)));
 #line 36
 this.ScenarioSetup(scenarioInfo);
 #line 37
- testRunner.Given("I enter incomplete details of the category with no category description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I enter incomplete details of the category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 38
  testRunner.When("I click the create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 39
@@ -200,15 +210,17 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Category Master - Category code already exist should display an error")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Create Category Master - Incomplete data returns an error - no catego" +
+            "ry description")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void CreateCategoryMaster_CategoryCodeAlreadyExistShouldDisplayAnError()
+        public virtual void Inventory_CreateCategoryMaster_IncompleteDataReturnsAnError_NoCategoryDescription()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Category Master - Category code already exist should display an error", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Create Category Master - Incomplete data returns an error - no catego" +
+                    "ry description", ((string[])(null)));
 #line 41
 this.ScenarioSetup(scenarioInfo);
 #line 42
- testRunner.Given("The category code already exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I enter incomplete details of the category with no category description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 43
  testRunner.When("I click the create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 44
@@ -218,17 +230,19 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Edit Category Master - Incomplete data returns an error")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Create Category Master - Category code already exist should display a" +
+            "n error")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void EditCategoryMaster_IncompleteDataReturnsAnError()
+        public virtual void Inventory_CreateCategoryMaster_CategoryCodeAlreadyExistShouldDisplayAnError()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Category Master - Incomplete data returns an error", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Create Category Master - Category code already exist should display a" +
+                    "n error", ((string[])(null)));
 #line 46
 this.ScenarioSetup(scenarioInfo);
 #line 47
- testRunner.Given("I enter incomplete details of the category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("The category code already exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 48
- testRunner.When("I click the save button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click the create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 49
  testRunner.Then("The edit/create page is displayed with error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -236,18 +250,36 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Edit Category Master - User saves the record")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Edit Category Master - Incomplete data returns an error")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
-        public virtual void EditCategoryMaster_UserSavesTheRecord()
+        public virtual void Inventory_EditCategoryMaster_IncompleteDataReturnsAnError()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Category Master - User saves the record", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Edit Category Master - Incomplete data returns an error", ((string[])(null)));
 #line 51
 this.ScenarioSetup(scenarioInfo);
 #line 52
- testRunner.Given("I edit the details of a category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I enter incomplete details of the category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 53
  testRunner.When("I click the save button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 54
+ testRunner.Then("The edit/create page is displayed with error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Edit Category Master - User saves the record")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryCategoryMaster")]
+        public virtual void Inventory_EditCategoryMaster_UserSavesTheRecord()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Edit Category Master - User saves the record", ((string[])(null)));
+#line 56
+this.ScenarioSetup(scenarioInfo);
+#line 57
+ testRunner.Given("I edit the details of a category", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 58
+ testRunner.When("I click the save button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 59
  testRunner.Then("Details should be saved and I should be redirected to the category list page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

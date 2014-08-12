@@ -114,6 +114,12 @@
       <DependentUpon>InventoryCategoryMaster.feature</DependentUpon>
     </Compile>
     <Compile Include="Controllers\InventoryCategoryMasterSteps.cs" />
+    <Compile Include="Controllers\InventoryMaterialMaster.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventoryMaterialMaster.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\InventoryMaterialMasterSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +141,10 @@
     <None Include="Controllers\InventoryCategoryMaster.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>InventoryCategoryMaster.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Controllers\InventoryMaterialMaster.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>InventoryMaterialMaster.feature.cs</LastGenOutput>
     </None>
     <None Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />

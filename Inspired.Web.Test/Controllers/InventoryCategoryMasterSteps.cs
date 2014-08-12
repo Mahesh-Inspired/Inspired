@@ -40,7 +40,8 @@ namespace Inspired.Web.Test.Controllers
         {           
             baseController.UserIdentity.Expect(u => u.GetUserName()).IgnoreArguments().Return("InventoryUser");
             baseController.UserIdentity.Expect(u => u.GetCompanyId()).IgnoreArguments().Return(1);
-            baseController.InvCategoryRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_CategoryMaster> { });
+            Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
+            baseController.InvCategoryRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
         }
 
         [When(@"I try to access the category master")]
@@ -50,6 +51,17 @@ namespace Inspired.Web.Test.Controllers
             result = invController.CategoryList();
         }
 
+        [When(@"The category master is displayed")]
+        public void WhenTheCategoryMasterIsDisplayed()
+        {
+
+            result = invController.CatList(0, 10, "Description ASC");
+        }
+        [Then(@"The category list result is displayed")]
+        public void ThenTheCategoryListResultIsDisplayed()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+        }
         [Then(@"The login page should be displayed")]
         public void ThenTheLoginPageShouldBeDisplayed()
         {

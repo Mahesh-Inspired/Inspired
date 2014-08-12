@@ -27,6 +27,7 @@ namespace Inspired.Web.Test.Controllers
         public IGenericRepository<Inv_CategoryMaster> InvCategoryRepository { get; set; }
         public IGenericRepository<Gen_UserMaster> UserRepository { get; set; }
         public IGenericRepository<Gen_LookupItem> LookupItemRepository { get; set; }
+        public IGenericRepository<Inv_MaterialMaster> MaterialMasterRepository { get; set; }
 
         #endregion
 
@@ -37,6 +38,7 @@ namespace Inspired.Web.Test.Controllers
             InvCategoryRepository = MockRepository.GenerateMock<IGenericRepository<Inv_CategoryMaster>>();
             UserRepository = MockRepository.GenerateMock<IGenericRepository<Gen_UserMaster>>();
             LookupItemRepository = MockRepository.GenerateMock<IGenericRepository<Gen_LookupItem>>();
+            MaterialMasterRepository = MockRepository.GenerateMock<IGenericRepository<Inv_MaterialMaster>>();
 
             userPrincipal = new FakePrincipal(new FakeIdentity("InventoryUser"), null);
 
@@ -47,6 +49,7 @@ namespace Inspired.Web.Test.Controllers
             UnitOfWork.Stub(u => u.CategoryMasterRepository).Return(InvCategoryRepository);
             UnitOfWork.Stub(u => u.UserMasterRepository).Return(UserRepository);
             UnitOfWork.Stub(u => u.LookupItemRepository).Return(LookupItemRepository);
+            UnitOfWork.Stub(u => u.MaterialMasterRepository).Return(MaterialMasterRepository);
 
             //// Create controller
             //HttpContext = MockRepository.GenerateStub<HttpContextBase>();
