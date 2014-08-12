@@ -274,6 +274,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\antiforgerytoken.js" />
+    <Content Include="Scripts\app\materiallist.js" />
     <Content Include="Scripts\app\categorylist.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -452,6 +453,7 @@
     <Content Include="Views\Inventory\CreateCategory.cshtml" />
     <Content Include="Views\Inventory\EditCategory.cshtml" />
     <Content Include="Views\Inventory\ListCategory.cshtml" />
+    <Content Include="Views\Inventory\MaterialList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

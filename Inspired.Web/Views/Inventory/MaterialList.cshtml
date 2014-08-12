@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Material List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jtable/jquery.jtable.js"></script>
+<link href="~/Scripts/jtable/themes/metro/blue/jtable.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <br />
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-9" style="text-align:right">
+            @Html.ActionLink("Create Items", "CreateItem", null, new { @class = "btn" })&nbsp;
+        </div>
+    </div>
+    <div id="MaterialContainer"></div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/materiallist")
+}

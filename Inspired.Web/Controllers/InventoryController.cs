@@ -173,7 +173,7 @@ namespace Inspired.Web.Controllers
 
 
         #region Material Master list
-        public ActionResult MaterialMasterList()
+        public ActionResult MaterialList()
         {
             if (UserIdentity.GetUserName() == null)
                 return RedirectToAction("Login", "Account");
@@ -181,7 +181,7 @@ namespace Inspired.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult MaterialMasterList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
+        public JsonResult MaterialList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
         {
 
             try
@@ -191,6 +191,7 @@ namespace Inspired.Web.Controllers
                     {
                         Id = c.Id,
                         Category = c.Inv_MaterialCategory.Where(d => d.Category_Type == Core.Global.LookupItem_Category).FirstOrDefault().Inv_CategoryMaster.Description,
+                        Code = c.Code,
                         Description = c.Description,
                         Status = (c.Status == "A" ? "Active" : "Passive")
                     }).ToList();
