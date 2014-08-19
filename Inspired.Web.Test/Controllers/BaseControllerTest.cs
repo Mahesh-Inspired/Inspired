@@ -50,6 +50,7 @@ namespace Inspired.Web.Test.Controllers
             UnitOfWork.Stub(u => u.UserMasterRepository).Return(UserRepository);
             UnitOfWork.Stub(u => u.LookupItemRepository).Return(LookupItemRepository);
             UnitOfWork.Stub(u => u.MaterialMasterRepository).Return(MaterialMasterRepository);
+            
 
             //// Create controller
             //HttpContext = MockRepository.GenerateStub<HttpContextBase>();

@@ -1,0 +1,67 @@
+﻿@model Inspired.Web.ViewModel.CategoryViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<!-- DataTables -->
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.9.2.js"></script>
+<script src="~/Scripts/json2.js"></script>
+<script type="text/javascript" charset="utf8" src="~/Scripts/DataTables-1.10.1/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables-1.10.1/dataTables.tableTools.js"></script>
+
+<h2>Index</h2>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <table class="table" id="tbl" style="width:100%">
+                <thead>
+                    <tr><td>Test</td><td>Test Col 2</td></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Category.Code)</td>
+                        <td>@Html.LabelFor(m => m.Category.Description)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var table = $('#tbl').DataTable({
+            "tableTools": {
+                "sSwfPath": "~/Content/DataTables-1.10.1/swf/copy_csv_xls.swf",
+                "sRowSelect": "single",
+                "sSelectedClass": "row_selected",
+                "fnRowSelected": function (nodes) {
+                    alert('The row with ID  was selected');
+                },
+                "fnRowDeselected": function (nodes) {
+                    alert('The row with ID ' + nodes[0].id + ' was deselected');
+                }
+            }
+        });
+        //$('#tbl').dataTable().fnSetColumnVis(0, false);
+        $('#tbl tbody').on('click', 'tr',
+        function () {
+            alert($("#tbl"));
+            var tt = new $.fn.dataTable.TableTools(table);
+            alert(tt);
+            //alert(TableTools.fnGetInstance('tbl'));
+            alert(TableTools.fnGetInstance('tbl'));
+            var oTT = TableTools.fnGetInstance('tbl');
+            alert(oTT);
+            var sRow = oTT.fnGetSelected();
+
+            alert(oTT.fnGetNodes());
+            alert(sRow);
+            alert("3");
+            //alert($.trim(sRow[0].cells[1].innerHTML.toString()));
+            //$("#catCode").val($.trim(sRow[0].cells[2].innerHTML.toString()));
+            alert("4");
+        });
+
+
+    });
+</script>

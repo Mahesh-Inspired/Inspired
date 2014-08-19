@@ -22,16 +22,19 @@ namespace Inspired.Web.Controllers
         { }
         #endregion
 
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+        //// just a test page to do TDD
+        //public ActionResult ListCategory()
+        //{
 
-        // just a test page to do TDD
-        public ActionResult ListCategory()
-        {
-
-            if (UserIdentity.GetUserName() == null)
-                return RedirectToAction("Login", "Account");
-            IEnumerable<Inv_CategoryMaster> catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == UserIdentity.GetCompanyId());
-            return View(catList);
-        }
+        //    if (UserIdentity.GetUserName() == null)
+        //        return RedirectToAction("Login", "Account");
+        //    IEnumerable<Inv_CategoryMaster> catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == UserIdentity.GetCompanyId());
+        //    return View(catList);
+        //}
 
 
         #region CategoryList
@@ -48,7 +51,8 @@ namespace Inspired.Web.Controllers
 
             try
             {
-                var catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == UserIdentity.GetCompanyId())
+                var companyID = UserIdentity.GetCompanyId();
+                var catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == companyID )
                     .Select(c => new
                     {
                         Id = c.Id,
@@ -186,7 +190,8 @@ namespace Inspired.Web.Controllers
 
             try
             {
-                var itemList = UnitOfWork.MaterialMasterRepository.Get().Where(e => e.Company_Id == UserIdentity.GetCompanyId())
+                var companyId = UserIdentity.GetCompanyId();
+                var itemList = UnitOfWork.MaterialMasterRepository.Get().Where(e => e.Company_Id == companyId)
                     .Select(c => new
                     {
                         Id = c.Id,
@@ -207,8 +212,57 @@ namespace Inspired.Web.Controllers
             {
                 return Json(new { Result = "Error", Message = e.Message });
             }
+
+            
         }
 
         #endregion
+
+        #region Create Material        
+        public ActionResult CreateMaterial()
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            IEnumerable<Gen_LookupItem> catTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_Category && u.Company_Id == companyId).ToList();
+            IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
+            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, null);
+            return View(material);
+        }
+        #endregion
+
+        #region Edit Material
+        public ActionResult EditMaterial(Int32 itemId)
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            IEnumerable<Gen_LookupItem> catTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_Category && u.Company_Id == companyId).ToList();
+            IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
+            Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
+            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, item);
+            return View(material);
+        }
+        #endregion
+        [HttpPost]
+        public JsonResult SaveMaterial(MaterialSubmitModel data)
+        {
+           // MaterialViewModel mat = (MaterialViewModel)material;
+            return Json(new { success = true}, JsonRequestBehavior.AllowGet);
+        }
+        #region JSon Fetch details
+
+        public JsonResult fetchCategoryJSON(Int32? catType, String catCode) 
+        {
+            Int32 id =0;
+            String catDescription = String.Empty;
+            Inv_CategoryMaster cat = UnitOfWork.CategoryMasterRepository.Get(u => u.Code.ToLower() == catCode.ToLower() && u.Type == catType)
+                .FirstOrDefault();
+            if (cat != null)
+            {
+                id = cat.Id;
+                catDescription = cat.Description;
+            }
+            return Json(new { success = true, id = id, CategoryDescription = catDescription }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
     }
 }

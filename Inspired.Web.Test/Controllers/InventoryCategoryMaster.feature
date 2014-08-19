@@ -18,6 +18,11 @@ Scenario: Inventory - Category Master - User should be displayed the category li
 	When The category master is displayed
 	Then The category list result is displayed
 
+Scenario: Inventory - Category Master - A exception is raised in the jsonresult
+	Given I am logged in user
+	When The category master is displayed and has incomplete category details	
+	Then An json exception is raised
+
 Scenario: Inventory - Create Category Master - User should be displayed the create category page.
 	Given I am logged in user
 	When I Try to access the create category

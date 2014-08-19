@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Inspired.Data;
 using System.Collections.Generic;
 using Inspired.Web.ViewModel;
+using Inspired.Web.Test.Code;
 
 namespace Inspired.Web.Test.Controllers
 {
@@ -24,6 +25,7 @@ namespace Inspired.Web.Test.Controllers
         {
             baseController = new BaseControllerTest();
             baseController.InitializeBase();
+          
             invController = new InventoryController(baseController.UnitOfWork,baseController.UserIdentity);
             //invController.ControllerContext = new ControllerContext(baseController.HttpContext, baseController.RouteData, invController);
         }
@@ -37,11 +39,10 @@ namespace Inspired.Web.Test.Controllers
 
         [Given(@"I am logged in user")]
         public void GivenIAmLoggedInUser()
-        {           
+        {
             baseController.UserIdentity.Expect(u => u.GetUserName()).IgnoreArguments().Return("InventoryUser");
             baseController.UserIdentity.Expect(u => u.GetCompanyId()).IgnoreArguments().Return(1);
-            Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
-            baseController.InvCategoryRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
+          
         }
 
         [When(@"I try to access the category master")]
@@ -54,14 +55,43 @@ namespace Inspired.Web.Test.Controllers
         [When(@"The category master is displayed")]
         public void WhenTheCategoryMasterIsDisplayed()
         {
-
+            Gen_LookupItem lookupItem = new Gen_LookupItem() { Id = 1, LookupType_Id = 1, Description = "TypeDescription" };
+            Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST", Company_Id = 1, Gen_LookupItem = lookupItem };
+            baseController.InvCategoryRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
+           
             result = invController.CatList(0, 10, "Description ASC");
         }
         [Then(@"The category list result is displayed")]
         public void ThenTheCategoryListResultIsDisplayed()
         {
             Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var jsonData = serializer.DeserializeObject(serializer.Serialize(jsonTopLevel["Records"])) as object[];
+            var jsonDataValues = jsonData[0] as IDictionary<string, object>;
+            Assert.AreEqual(1, jsonData.Length);
+            Assert.IsTrue(jsonDataValues.ContainsKey("Id"));
+            Assert.IsTrue(jsonDataValues.ContainsKey("Description"));
+
         }
+        [When(@"The category master is displayed and has incomplete category details")]
+        public void WhenTheCategoryMasterIsDisplayedAndHasIncompleteCategoryDetails()
+        {
+            Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST", Company_Id = 1 };
+            baseController.InvCategoryRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
+            result = invController.CatList(0, 10, "Description ASC");
+        }
+
+        [Then(@"An json exception is raised")]
+        public void ThenAnJsonExceptionIsRaised()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsTrue(jsonTopLevel["Result"].ToString() == "Error");
+        }
+
         [Then(@"The login page should be displayed")]
         public void ThenTheLoginPageShouldBeDisplayed()
         {
@@ -72,7 +102,7 @@ namespace Inspired.Web.Test.Controllers
         }
 
         [Then(@"The Category master screen should be displayed")]
-        public void ThenTheCategoryMasterScreenShouldBeDisplayed()
+        public void ThenTheCategoryMasterScreenShouldBeDisplayedAndTheCategoryJSONIsReturned()
         {
             Assert.IsInstanceOfType(result, typeof(ViewResult));
             //Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(IEnumerable<Inv_CategoryMaster>));
@@ -160,13 +190,13 @@ namespace Inspired.Web.Test.Controllers
         {
             Assert.IsInstanceOfType(result, typeof(ViewResult));
             var viewResult = (ViewResult)result;
-            
-            foreach(ModelState modelState in viewResult.ViewData.ModelState.Values)
-            {
-                Assert.IsTrue(modelState.Errors.Count >0);
-                foreach (ModelError error in modelState.Errors)
-                    Assert.IsTrue(error.ErrorMessage.Contains(errorMessage));
-            }            
+            Assert.IsTrue(viewResult.ContainsErrorMessage(errorMessage));
+            //foreach(ModelState modelState in viewResult.ViewData.ModelState.Values)
+            //{
+            //    Assert.IsTrue(modelState.Errors.Count >0);
+            //    foreach (ModelError error in modelState.Errors)
+            //        Assert.IsTrue(error.ErrorMessage.Contains(errorMessage));
+            //}            
         }
 
         [Given(@"I edit the details of a category")]
