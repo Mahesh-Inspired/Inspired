@@ -181,7 +181,9 @@ namespace Inspired.Web.Controllers
         {
             if (UserIdentity.GetUserName() == null)
                 return RedirectToAction("Login", "Account");
-            return View();
+            var companyId = UserIdentity.GetCompanyId();
+            List<Inv_MaterialMaster> matlList = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList();
+            return View(matlList);
         }
 
         [HttpPost]
@@ -195,7 +197,7 @@ namespace Inspired.Web.Controllers
                     .Select(c => new
                     {
                         Id = c.Id,
-                        Category = c.Inv_MaterialCategory.Where(d => d.Category_Type == Core.Global.LookupItem_Category).FirstOrDefault().Inv_CategoryMaster.Description,
+                        Category = "",//c.Inv_MaterialCategory.Where(d => d.Category_Type == Core.Global.LookupItem_Category).FirstOrDefault().Inv_CategoryMaster.Description,
                         Code = c.Code,
                         Description = c.Description,
                         Status = (c.Status == "A" ? "Active" : "Passive")
@@ -237,14 +239,84 @@ namespace Inspired.Web.Controllers
             IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
             MaterialViewModel material = new MaterialViewModel(catTypes, statuses, item);
-            return View(material);
+            return View("CreateMaterial", material);
         }
         #endregion
+        private Boolean SaveMaterialDetails(MaterialSubmitModel data)
+        {
+            
+            Inv_MaterialCategory matCat;
+            var companyId = UserIdentity.GetCompanyId();
+
+            Inv_MaterialMaster material;
+            if (data.Id != 0)
+            {
+                material = UnitOfWork.MaterialMasterRepository.Get(u => u.Id == data.Id).FirstOrDefault();            
+                material.Code = data.Code;
+                material.Description = data.Description;
+                material.Status = Resources.Inventory.MatlStatusTemp;
+                material.Company_Id = companyId;            
+            }
+            else
+            {
+                material = new Inv_MaterialMaster()
+                {
+                    Code = data.Code,
+                    Description = data.Description,
+                    Status = Resources.Inventory.MatlStatusTemp,
+                    Company_Id = companyId
+                };
+            }
+
+            foreach (MaterialCategory itemCat in data.ItemCategory)
+            {
+                matCat = new Inv_MaterialCategory()
+                {
+                    Category_Id = itemCat.CatId,
+                    Category_Type = itemCat.CategoryType,
+                    Company_Id = companyId
+                };
+                UnitOfWork.MaterialCategoryRepository.Insert(matCat);
+                material.Inv_MaterialCategory.Add(matCat);
+            }
+
+            if (data.Id != 0)
+                UnitOfWork.MaterialMasterRepository.Update(material);
+            else
+                UnitOfWork.MaterialMasterRepository.Insert(material);
+            
+            UnitOfWork.Save();
+            
+
+            return true;
+        }
+
+        private Boolean EditMaterialDetails(MaterialSubmitModel data)
+        {           
+            List<Inv_MaterialCategory> materialCategoryList = UnitOfWork.MaterialCategoryRepository.Get(u => u.Item_Id == data.Id).ToList();
+            foreach (Inv_MaterialCategory materialCategory in materialCategoryList)
+            {
+                UnitOfWork.MaterialCategoryRepository.Delete(materialCategory);
+            }
+           
+
+            return SaveMaterialDetails(data);            
+        }
+
+     
         [HttpPost]
         public JsonResult SaveMaterial(MaterialSubmitModel data)
         {
-           // MaterialViewModel mat = (MaterialViewModel)material;
-            return Json(new { success = true}, JsonRequestBehavior.AllowGet);
+
+            Boolean canContinue = false;
+            
+            if (data.Id != 0)
+                canContinue = EditMaterialDetails(data);
+            else
+                canContinue = SaveMaterialDetails(data);
+            
+            
+            return Json(new { success = canContinue}, JsonRequestBehavior.AllowGet);
         }
         #region JSon Fetch details
 

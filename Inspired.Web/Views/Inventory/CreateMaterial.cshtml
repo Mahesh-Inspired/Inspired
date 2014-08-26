@@ -41,13 +41,14 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#Category" data-id="Category" data-toggle="tab">Categories</a></li>
                             <li><a href="#Specification" data-id="Specification" data-toggle="tab">Specification</a></li>
+                            <li></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tab-content" id="tabs">
-            <div class="tab-pane" id="Category" data-id="Category">
+        <div class="tab-content" id="tabs" >
+            <div class="tab-pane" id="Category" data-id="Category" >
                 <div class="row-fluid">
                     <div class="col-md-12">
                         <div class="container-fluid">
@@ -59,7 +60,7 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     @Html.LabelFor(m => m.catCode, new { @class = "control-label" })
-                                    @Html.HiddenFor(m=>m.catId)
+                                    @Html.HiddenFor(m => m.catId)
                                     @Html.TextBoxFor(m => m.catCode, new { @class = "form-control", @onblur = "fetchCategory();" })
                                     @Html.ValidationMessageFor(m => m.catCode)
                                 </div>
@@ -77,7 +78,6 @@
                                 <div class="col-md-12">
                                     <br />
                                     <input type="button" class="btn btn-warning" value="Delete" onclick="DeleteCategory()" />
-                                    <input type="button" class="btn btn-primary" value="Save" onclick="Item_Save()" />
                                 </div>
                             </div>
                             <div class="row-fluid">
@@ -90,32 +90,36 @@
                                                 <th>Category Code</th>
                                                 <th>Category Description</th>
                                                 <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @if (Model.Material != null)
-                                        {
-                                            foreach (var cat in Model.Material.Inv_MaterialCategory)
                                             {
-                                            <tr>
-                                                <td style="width:0%">
-                                                    Html.DisplayFor(modelItem => cat.Category_Type)
-                                                </td>
-                                                <td style="width:20%">
-                                                    Html.DisplayFor(modelItem => cat.Gen_LookupItem.Description)
-                                                </td>
-                                                <td style="width:20%">
-                                                    @Html.DisplayFor(modelItem => cat.Category_Id)
-                                                </td>
-                                                <td style="width:60%">
-                                                    @Html.DisplayFor(modelItem => cat.Inv_CategoryMaster.Description)
-                                                </td>
-                                                <td style="width:0%">
-                                                    @Html.DisplayFor(modelItem=>cat.Category_Id)
-                                                </td>
-                                            </tr>
+                                                foreach (var cat in Model.Material.Inv_MaterialCategory)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => cat.Category_Type)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => cat.Gen_LookupItem.Description)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => cat.Inv_CategoryMaster.Code)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => cat.Inv_CategoryMaster.Description)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => cat.Category_Id)
+                                                        </td>
+                                                        <td>
+                                                                                                                
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
-                                        }
                                         </tbody>
                                     </table>
                                 </div>
@@ -128,6 +132,11 @@
                 test
             </div>
         </div>
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <input type="button" class="btn btn-primary" value="Save" onclick="Item_Save()" />
+            </div>            
+        </div>
     </div>
 }
 @section Scripts {
@@ -136,9 +145,21 @@
 }
 <script type="text/javascript">
     $(function () {
+        $('#Category').addClass('active');
         var catTable = $('#CategoryTable').DataTable({
             //"aoColumns": [{ "sWidth": "1%" }, { "sWidth": "25%" }, { "sWidth": "15%" }, { "sWidth": "55%" }, {"sWidth":"0%"}],
             "dom": '<"top"i>rt<"bottom"flp><"clear">',
+            "columnDefs": [
+                              {
+                                  "targets": [ 0 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },
+                              {
+                                  "targets": [ 4 ],
+                                  "visible": false
+                              }
+                          ],
             "oTableTools": {
                 "sSwfPath": "~/Content/DataTables-1.10.1/swf/copy_csv_xls.swf",
                 "sRowSelect": "single",
@@ -160,6 +181,7 @@
             var sRow = catTable.$('tr.selected');
             $("#catCode").val($.trim(sRow[0].cells[2].innerHTML.toString()));
             $("#catDescription").val($.trim(sRow[0].cells[3].innerHTML.toString()));
+            $("#catId").val($.trim(sRow[0].cells[4].innerHTML.toString()));
             $("#Category_Type").append(new Option($.trim(sRow[0].cells[1].innerHTML.toString()), $.trim(sRow[0].cells[0].innerHTML.toString()), false, true));            
             $('#CategoryTable').dataTable().fnDeleteRow(sRow[0]);
 
@@ -172,7 +194,26 @@
         $('#catDescription').val('');
     }
     function AddCategory() {
-        $('#CategoryTable').dataTable().fnAddData([$("#Category_Type").val(), $("#Category_Type option:selected").text(), $("#catCode").val(), $("#catDescription").val(), $("#catId").val()]);
+        if ($('#Category_Type').val() == null)
+        {
+            alert("Enter a valid Category Type");
+            $('#Category_Type').focus();
+            return false;
+        }
+        else if ($('#catCode').val() == '')
+        {
+            alert("Enter a valid Category code");
+            $('#catCode').focus();
+            return false;
+        }
+        else if ($('#catDescription').val() == '')
+        {
+            alert("Enter a valid Category Description");
+            $('#catDescription').focus();
+            return false;
+        }
+
+        $('#CategoryTable').dataTable().fnAddData([$("#Category_Type").val(), $("#Category_Type option:selected").text(), $("#catCode").val(), $("#catDescription").val(), $("#catId").val(),"Added"]);
         $("#catCode").val("");
         $("#catDescription").val("");
         $("#catId").val("");

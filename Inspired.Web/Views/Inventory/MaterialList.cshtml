@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Inspired.Data.Inv_MaterialMaster>
 @{
     ViewBag.Title = "Material List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,16 +10,66 @@
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <br />
+        <div class="row-fluid">
+            <div class="col-md-3"></div>
+            <div class="col-md-9" style="text-align:right">
+                @Html.ActionLink("Create Items", "CreateMaterial", null, new { @class = "btn" })&nbsp;
+            </div>
+        </div>
+        <div class="row-fluid" id="MaterialContainer">
+            <div class="col-md-12">
+                <table class="table" id="MaterialTable">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Item code</th>
+                            <th>Item Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="width:25%">
+                                    @Html.DisplayFor(modelItem => item.Inv_MaterialCategory.Where(d => d.Category_Type == Inspired.Web.Core.Global.LookupItem_Category).FirstOrDefault().Inv_CategoryMaster.Description)
+                                </td>
+                                <td style="width:15%">
+                                    @Html.DisplayFor(m => item.Code)
+                                </td>
+                                <td style="width:35%">
+                                    @Html.DisplayFor(m => item.Description)
+                                </td>
+                                <td style="width:10%">
+                                    @Html.DisplayFor(m => item.Status)
+                                </td>
+                                <td style="width:15%">
+                                    @Html.ActionLink("Edit", "EditMaterial", new { itemId = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-    <br />
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9" style="text-align:right">
-            @Html.ActionLink("Create Items", "CreateMaterial", null, new { @class = "btn" })&nbsp;
+            </div>
+
         </div>
     </div>
-    <div id="MaterialContainer"></div>
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/materiallist")
-}
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    }
+<script language="text/javascript">
+    $(function () {
+        var itemTable = $("#MaterialTable").DataTable({
+            "oTableTools": {
+                "sSwfPath": "~/Content/DataTables-1.10.1/swf/copy_csv_xls.swf",
+                "sRowSelect": "single",
+                "sSelectedClass": "row_selected",
+                "sAutoWidth": "false"
+            }
+        });
+    });
+</script>

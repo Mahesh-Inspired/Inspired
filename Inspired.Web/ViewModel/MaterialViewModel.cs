@@ -27,7 +27,10 @@ namespace Inspired.Web.ViewModel
             public MaterialViewModel(IEnumerable<Gen_LookupItem> categoryTypes, IEnumerable<Gen_LookupItem> statuses, Inv_MaterialMaster material)
             {
                 if (categoryTypes == null || categoryTypes.Count() <= 0) throw new ArgumentNullException("Categories");
+                if (statuses == null || statuses.Count() <= 0) throw new ArgumentNullException("Statuses");
                 CategoryTypes = new SelectList(categoryTypes.ToList(), "Id", "Description");
+                Statuses = new SelectList(statuses.ToList(), "Id", "Description");
+                Material = material;
             }
         #endregion
 

@@ -21,7 +21,7 @@ namespace Inspired.Web.ViewModel
     public class MaterialCategory 
     {
         public Int32 ItemId { get; set; }
-        public String CategoryType { get; set; }
+        public Int32 CategoryType { get; set; }
         public String CategoryCode { get; set; }
         public String CategoryDescription { get; set; }
 

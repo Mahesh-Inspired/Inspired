@@ -191,6 +191,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Inventory.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventory.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\UserIdentity.cs" />
@@ -538,6 +543,7 @@
     <Content Include="Views\Inventory\MaterialList.cshtml" />
     <Content Include="Views\Inventory\CreateMaterial.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Inventory\CreateMaterial - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -560,6 +566,12 @@
       <Project>{0ce27ab8-f417-4ab4-bd18-3100d460ff08}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Inventory.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Inventory.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
