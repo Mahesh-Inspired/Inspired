@@ -46,6 +46,9 @@ namespace Inspired.Web.Test.Controllers
         [When(@"I try to access the material master page")]
         public void WhenITryToAccessTheMaterialMasterPage()
         {
+            Inv_MaterialMaster invMatl = new Inv_MaterialMaster { Id = 1, Code = "TEST", Description = "Item Description", Status = "A"};
+            baseController.MaterialMasterRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_MaterialMaster> { invMatl });
+
             result = invController.MaterialList();
         }
 
@@ -61,52 +64,7 @@ namespace Inspired.Web.Test.Controllers
         public void ThenTheMaterialMasterListPageShouldBeDisplayed()
         {
             Assert.IsInstanceOfType(result, typeof(ViewResult));
-        }
-
-        [When(@"The material master is displayed")]
-        public void WhenTheMaterialMasterIsDisplayed()
-        {
-            Inv_CategoryMaster invCat = new Inv_CategoryMaster { Id = 1, Description = "DESC" };
-            Inv_MaterialCategory invMatlCat = new Inv_MaterialCategory { Category_Type = 12, Inv_CategoryMaster = invCat };
-            List<Inv_MaterialCategory> lstMatlCat = new List<Inv_MaterialCategory> { invMatlCat };
-            Inv_MaterialMaster invMatl = new Inv_MaterialMaster { Id = 1, Code = "TEST", Description = "Item Description", Status = "A", Inv_MaterialCategory = lstMatlCat };
-            baseController.MaterialMasterRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_MaterialMaster> { invMatl });
-
-            result = invController.MaterialList(0, 10, "Description ASC");
-        }
-
-        [When(@"The material master is displayed and has incomplete category details")]
-        public void WhenTheMaterialMasterIsDisplayedAndHasIncompleteCategoryDetails()
-        {
-            Inv_MaterialMaster invMatl = new Inv_MaterialMaster { Id = 1, Code = "TEST", Description = "Item Description", Status = "A"};
-            baseController.MaterialMasterRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Inv_MaterialMaster> { invMatl });
-
-            result = invController.MaterialList(0, 10, "Description ASC");
-        }
-
-        [Then(@"Material Master list page raises a json exception")]
-        public void ThenMaterialMasterListPageRaisesAJsonException()
-        {
-            Assert.IsInstanceOfType(result, typeof(JsonResult));
-            var jsonResult = (JsonResult)result;
-            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
-            Assert.IsTrue(jsonTopLevel["Result"].ToString() == "Error");
-        }
-
-
-        [Then(@"The material list result is displayed")]
-        public void ThenTheMaterialListResultIsDisplayed()
-        {
-            Assert.IsInstanceOfType(result, typeof(JsonResult));
-            var jsonResult = (JsonResult)result;
-            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
-            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-            var jsonData = serializer.DeserializeObject(serializer.Serialize(jsonTopLevel["Records"])) as object[];
-            var jsonDataValues = jsonData[0] as IDictionary<string, object>;
-            Assert.AreEqual(1, jsonData.Length);
-            Assert.IsTrue(jsonDataValues.ContainsKey("Id"));
-            Assert.IsTrue(jsonDataValues.ContainsKey("Description"));
-        }
+        }       
 
         [When(@"I try to access the create material page")]
         public void WhenITryToAccessTheCreateMaterialPage()
@@ -129,7 +87,8 @@ namespace Inspired.Web.Test.Controllers
         {
             Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
             baseController.InvCategoryRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
-            Inv_MaterialMaster invMaterial = new Inv_MaterialMaster() { Id = 1, Code = "Item1", Description = "Description" };
+            Inv_MaterialCategory invMatlCat = new Inv_MaterialCategory() { Category_Id = 12, Category_Type = 1, Id = 1, Item_Id = 1 };
+            Inv_MaterialMaster invMaterial = new Inv_MaterialMaster() { Id = 1, Code = "Item1", Description = "Description", Inv_MaterialCategory = new List<Inv_MaterialCategory> { invMatlCat } };
             baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster> { invMaterial });
             
             result = invController.EditMaterial(1);
@@ -160,6 +119,24 @@ namespace Inspired.Web.Test.Controllers
             Assert.IsTrue(jsonTopLevel.ContainsKey("CategoryDescription"));
         }
 
+        [When(@"I enter an invalid category code")]
+        public void WhenIEnterAnInvalidCategoryCode()
+        {
+            //Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST Description", Code = "TEST" };
+            baseController.InvCategoryRepository.Expect(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { });
+            result = invController.fetchCategoryJSON(2, "TEST");
+        }
+
+        [Then(@"Enter a valid category code error should be displayed")]
+        public void ThenEnterAValidCategoryCodeErrorShouldBeDisplayed()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var data = jsonResult.ConvertToObjectDictionary();
+            Assert.AreEqual(false, data["success"]);
+            Assert.AreEqual("Enter a valid Category details", data["Message"]);
+            
+        }
 
     }
 }

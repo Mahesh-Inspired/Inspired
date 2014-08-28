@@ -14,6 +14,7 @@ namespace Inspired.Data
     
     public partial class Inv_MaterialCategory
     {
+        public int Id { get; set; }
         public int Item_Id { get; set; }
         public int Category_Id { get; set; }
         public int Category_Type { get; set; }

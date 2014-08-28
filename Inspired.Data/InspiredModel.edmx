@@ -109,7 +109,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
@@ -201,9 +201,9 @@
         </EntityType>
         <EntityType Name="Inv_MaterialCategory">
           <Key>
-            <PropertyRef Name="Item_Id" />
-            <PropertyRef Name="Category_Id" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Item_Id" Type="int" Nullable="false" />
           <Property Name="Category_Id" Type="int" Nullable="false" />
           <Property Name="Category_Type" Type="int" Nullable="false" />
@@ -3040,9 +3040,9 @@
         </Association>
         <EntityType Name="Inv_MaterialCategory">
           <Key>
-            <PropertyRef Name="Item_Id" />
-            <PropertyRef Name="Category_Id" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
           <Property Name="Item_Id" Type="Int32" Nullable="false" />
           <Property Name="Category_Id" Type="Int32" Nullable="false" />
           <Property Name="Category_Type" Type="Int32" Nullable="false" />
@@ -3583,6 +3583,7 @@
           <EntitySetMapping Name="Inv_MaterialCategory">
             <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialCategory">
               <MappingFragment StoreEntitySet="Inv_MaterialCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
                 <ScalarProperty Name="Category_Type" ColumnName="Category_Type" />
                 <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />

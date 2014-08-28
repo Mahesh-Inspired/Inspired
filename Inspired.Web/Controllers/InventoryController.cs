@@ -186,37 +186,37 @@ namespace Inspired.Web.Controllers
             return View(matlList);
         }
 
-        [HttpPost]
-        public JsonResult MaterialList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
-        {
+        //[HttpPost]
+        //public JsonResult MaterialList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
+        //{
 
-            try
-            {
-                var companyId = UserIdentity.GetCompanyId();
-                var itemList = UnitOfWork.MaterialMasterRepository.Get().Where(e => e.Company_Id == companyId)
-                    .Select(c => new
-                    {
-                        Id = c.Id,
-                        Category = "",//c.Inv_MaterialCategory.Where(d => d.Category_Type == Core.Global.LookupItem_Category).FirstOrDefault().Inv_CategoryMaster.Description,
-                        Code = c.Code,
-                        Description = c.Description,
-                        Status = (c.Status == "A" ? "Active" : "Passive")
-                    }).ToList();
-                int recordCount = itemList.Count;
-               if (jtSorting != null)
-               {
-                   itemList = itemList.OrderBy(jtSorting).ToList();
-               }
-               itemList = itemList.Skip(jtStartIndex).Take(jtPageSize).ToList();
-               return Json(new { Result = "OK", Records = itemList, TotalRecordCount = recordCount });
-            }
-            catch (Exception e)
-            {
-                return Json(new { Result = "Error", Message = e.Message });
-            }
+        //    try
+        //    {
+        //        var companyId = UserIdentity.GetCompanyId();
+        //        var itemList = UnitOfWork.MaterialMasterRepository.Get().Where(e => e.Company_Id == companyId)
+        //            .Select(c => new
+        //            {
+        //                Id = c.Id,
+        //                Category = "",//c.Inv_MaterialCategory.Where(d => d.Category_Type == Core.Global.LookupItem_Category).FirstOrDefault().Inv_CategoryMaster.Description,
+        //                Code = c.Code,
+        //                Description = c.Description,
+        //                Status = (c.Status == "A" ? "Active" : "Passive")
+        //            }).ToList();
+        //        int recordCount = itemList.Count;
+        //       if (jtSorting != null)
+        //       {
+        //           itemList = itemList.OrderBy(jtSorting).ToList();
+        //       }
+        //       itemList = itemList.Skip(jtStartIndex).Take(jtPageSize).ToList();
+        //       return Json(new { Result = "OK", Records = itemList, TotalRecordCount = recordCount });
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Json(new { Result = "Error", Message = e.Message });
+        //    }
 
             
-        }
+        //}
 
         #endregion
 
@@ -235,9 +235,14 @@ namespace Inspired.Web.Controllers
         public ActionResult EditMaterial(Int32 itemId)
         {
             Int32 companyId = UserIdentity.GetCompanyId();
-            IEnumerable<Gen_LookupItem> catTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_Category && u.Company_Id == companyId).ToList();
+            List<Gen_LookupItem> catTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_Category && u.Company_Id == companyId).ToList();
             IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
+
+            // Remove the Categories that already exist in Material Category
+            foreach (Inv_MaterialCategory matCat in item.Inv_MaterialCategory)
+                catTypes.Remove(catTypes.Where(u => u.Id == matCat.Category_Type).First());
+            
             MaterialViewModel material = new MaterialViewModel(catTypes, statuses, item);
             return View("CreateMaterial", material);
         }
@@ -245,7 +250,6 @@ namespace Inspired.Web.Controllers
         private Boolean SaveMaterialDetails(MaterialSubmitModel data)
         {
             
-            Inv_MaterialCategory matCat;
             var companyId = UserIdentity.GetCompanyId();
 
             Inv_MaterialMaster material;
@@ -255,7 +259,7 @@ namespace Inspired.Web.Controllers
                 material.Code = data.Code;
                 material.Description = data.Description;
                 material.Status = Resources.Inventory.MatlStatusTemp;
-                material.Company_Id = companyId;            
+                material.Company_Id = companyId;                            
             }
             else
             {
@@ -268,18 +272,8 @@ namespace Inspired.Web.Controllers
                 };
             }
 
-            foreach (MaterialCategory itemCat in data.ItemCategory)
-            {
-                matCat = new Inv_MaterialCategory()
-                {
-                    Category_Id = itemCat.CatId,
-                    Category_Type = itemCat.CategoryType,
-                    Company_Id = companyId
-                };
-                UnitOfWork.MaterialCategoryRepository.Insert(matCat);
-                material.Inv_MaterialCategory.Add(matCat);
-            }
-
+            var materialCategoryFlg = SaveItemCategory(data.ItemCategory.ToList(), ref material, companyId);
+            
             if (data.Id != 0)
                 UnitOfWork.MaterialMasterRepository.Update(material);
             else
@@ -291,28 +285,37 @@ namespace Inspired.Web.Controllers
             return true;
         }
 
-        private Boolean EditMaterialDetails(MaterialSubmitModel data)
-        {           
-            List<Inv_MaterialCategory> materialCategoryList = UnitOfWork.MaterialCategoryRepository.Get(u => u.Item_Id == data.Id).ToList();
-            foreach (Inv_MaterialCategory materialCategory in materialCategoryList)
+        private Boolean SaveItemCategory(List<MaterialCategory> newCategories,ref Inv_MaterialMaster material, Int32 companyId)
+        {
+            Inv_MaterialCategory invMaterialCategory;
+            // Delete the existing Inv_MaterialCategory details
+            foreach(Inv_MaterialCategory tmpCat in material.Inv_MaterialCategory.ToList())
             {
-                UnitOfWork.MaterialCategoryRepository.Delete(materialCategory);
+                UnitOfWork.MaterialCategoryRepository.Delete(tmpCat);
             }
-           
 
-            return SaveMaterialDetails(data);            
+            // Insert values in the data table into Inv_MaterialCategory table
+            foreach (MaterialCategory itemCat in newCategories)
+            {
+                invMaterialCategory = new Inv_MaterialCategory()
+                {
+                    Category_Id = itemCat.CatId,
+                    Category_Type = itemCat.CategoryType,
+                    Company_Id = companyId
+                };
+                UnitOfWork.MaterialCategoryRepository.Insert(invMaterialCategory);
+                material.Inv_MaterialCategory.Add(invMaterialCategory);
+            }
+            return true;
         }
 
-     
+    
         [HttpPost]
         public JsonResult SaveMaterial(MaterialSubmitModel data)
         {
 
             Boolean canContinue = false;
-            
-            if (data.Id != 0)
-                canContinue = EditMaterialDetails(data);
-            else
+
                 canContinue = SaveMaterialDetails(data);
             
             
@@ -330,8 +333,10 @@ namespace Inspired.Web.Controllers
             {
                 id = cat.Id;
                 catDescription = cat.Description;
+                return Json(new { success = true, id = id, CategoryDescription = catDescription }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = true, id = id, CategoryDescription = catDescription }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new { success = false, Message = "Enter a valid Category details" }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

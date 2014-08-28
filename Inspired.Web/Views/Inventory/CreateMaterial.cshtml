@@ -58,7 +58,7 @@
                                     @Html.DropDownListFor(model => model.Material.Inv_MaterialCategory.FirstOrDefault().Category_Type, Model.CategoryTypes, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.CategoryTypes)
                                 </div>
-                                <div class="col-md-4 col-sm-12">
+                                <div class="col-md-3 col-sm-12">
                                     @Html.LabelFor(m => m.catCode, new { @class = "control-label" })
                                     @Html.HiddenFor(m => m.catId)
                                     @Html.TextBoxFor(m => m.catCode, new { @class = "form-control", @onblur = "fetchCategory();" })
@@ -73,12 +73,13 @@
                                     <br />
                                     <input type="button" class="btn btn-success" value="Add" onclick="AddCategory()" />
                                 </div>
-                            </div>
-                            <div class="row-fluid">
-                                <div class="col-md-12">
+                                <div class="col-md-1 col-sm-12" id="divCatDelete">
                                     <br />
                                     <input type="button" class="btn btn-warning" value="Delete" onclick="DeleteCategory()" />
                                 </div>
+                            </div>
+                            <div class="row-fluid">
+                                
                             </div>
                             <div class="row-fluid">
                                 <div class="col-md-12">
@@ -89,7 +90,6 @@
                                                 <th>Category Type</th>
                                                 <th>Category Code</th>
                                                 <th>Category Description</th>
-                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -114,9 +114,6 @@
                                                         <td>
                                                             @Html.DisplayFor(modelItem => cat.Category_Id)
                                                         </td>
-                                                        <td>
-                                                                                                                
-                                                        </td>
                                                     </tr>
                                                 }
                                             }
@@ -140,143 +137,8 @@
     </div>
 }
 @section Scripts {
+    @Scripts.Render("~/bundles/materialmaster")    
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/antiforgerytoken")
+    
 }
-<script type="text/javascript">
-    $(function () {
-        $('#Category').addClass('active');
-        var catTable = $('#CategoryTable').DataTable({
-            //"aoColumns": [{ "sWidth": "1%" }, { "sWidth": "25%" }, { "sWidth": "15%" }, { "sWidth": "55%" }, {"sWidth":"0%"}],
-            "dom": '<"top"i>rt<"bottom"flp><"clear">',
-            "columnDefs": [
-                              {
-                                  "targets": [ 0 ],
-                                  "visible": false,
-                                  "searchable": false
-                              },
-                              {
-                                  "targets": [ 4 ],
-                                  "visible": false
-                              }
-                          ],
-            "oTableTools": {
-                "sSwfPath": "~/Content/DataTables-1.10.1/swf/copy_csv_xls.swf",
-                "sRowSelect": "single",
-                "sSelectedClass": "row_selected",
-                "sAutoWidth": "false"
-            }
-        });
-        $('#CategoryTable tbody').on('click', 'tr',
-        function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                $('#CategoryTable').dataTable().$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-            var tt = new $.fn.dataTable.TableTools(catTable);
-            var oTT = TableTools.fnGetInstance('CategoryTable');
-            var sRow = catTable.$('tr.selected');
-            $("#catCode").val($.trim(sRow[0].cells[2].innerHTML.toString()));
-            $("#catDescription").val($.trim(sRow[0].cells[3].innerHTML.toString()));
-            $("#catId").val($.trim(sRow[0].cells[4].innerHTML.toString()));
-            $("#Category_Type").append(new Option($.trim(sRow[0].cells[1].innerHTML.toString()), $.trim(sRow[0].cells[0].innerHTML.toString()), false, true));            
-            $('#CategoryTable').dataTable().fnDeleteRow(sRow[0]);
-
-        });
-
-
-    });
-    function DeleteCategory() {
-        $('#catCode').val('');
-        $('#catDescription').val('');
-    }
-    function AddCategory() {
-        if ($('#Category_Type').val() == null)
-        {
-            alert("Enter a valid Category Type");
-            $('#Category_Type').focus();
-            return false;
-        }
-        else if ($('#catCode').val() == '')
-        {
-            alert("Enter a valid Category code");
-            $('#catCode').focus();
-            return false;
-        }
-        else if ($('#catDescription').val() == '')
-        {
-            alert("Enter a valid Category Description");
-            $('#catDescription').focus();
-            return false;
-        }
-
-        $('#CategoryTable').dataTable().fnAddData([$("#Category_Type").val(), $("#Category_Type option:selected").text(), $("#catCode").val(), $("#catDescription").val(), $("#catId").val(),"Added"]);
-        $("#catCode").val("");
-        $("#catDescription").val("");
-        $("#catId").val("");
-        $("#Category_Type option:selected").remove();        
-    }
-
-    function fetchCategory() {
-        var categoryType = $("#Category_Type").val();
-        var categoryCode = $("#catCode").val();
-        $.ajax({
-            context: document.body,
-            data: addAntiForgeryToken({ catType: categoryType, catCode: categoryCode }),
-            error: function (e) { alert(e.Message); },
-            success: function (data) {
-                if (data.success == true) {
-                    $('#catDescription').val(data.CategoryDescription)
-                    $('#catId').val(data.id);
-                } else if (data.success == false) {
-                    alert(data.Message);
-                }
-            },
-            type: 'POST',
-            url: 'fetchCategoryJSON'
-        });
-    }
-
-
-    function Item_Save()
-    {
-        var Material ={"Item":""};
-        var ItemCategory = { "ItemId": "", "CatId": "", "CategoryType": "", "CategoryCode": "", "CategoryDescription": "" };
-        var Item = { "Id": "", "Code": "", "Description": "", "ItemCategory": [] };
-        Item.Id = $("#Material_Id").val();
-        Item.Code = $("#Material_Code").val();
-        Item.Description = $("#Material_Description").val();
-
-        var oTable = $('#CategoryTable').dataTable().fnGetData();
-
-        for(var i =0;i<oTable.length;i++)
-        {
-            ItemCategory.ItemId = Item.id;
-            ItemCategory.CategoryType = oTable[i][0];
-            ItemCategory.CategoryCode = oTable[i][2];
-            ItemCategory.CategoryDescription = oTable[i][3];
-            ItemCategory.CatId = oTable[i][4];
-            Item.ItemCategory.push(ItemCategory);
-        }
-
-        Material.Item = Item;
-        $.ajax({
-            type: "POST",
-            url: 'SaveMaterial',
-            data:' { data: ' + JSON.stringify(Item) + '}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            error: function (e) { alert(e.Message); },
-            success: function (data) {
-                if (data.success == true)
-                    window.location.href = "/Inventory/MaterialList";
-                else
-                    alert(data.Message);
-            }
-        });
-    }
-</script>
-
