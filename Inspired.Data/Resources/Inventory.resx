@@ -118,15 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MaterialRegEx" xml:space="preserve">
-    <value>([A-Z0-9]){4}\-[A-Z0-9.]</value>
-  </data>
-  <data name="MatlStatusActive" xml:space="preserve">
-    <value>Active</value>
-  </data>
-  <data name="MatlStatusPassive" xml:space="preserve">
-    <value>Passive</value>
-  </data>
-  <data name="MatlStatusTemp" xml:space="preserve">
-    <value>Temporary</value>
+    <value>^(([A-Z0-9]){4}\-[A-Z0-9.])$</value>
   </data>
 </root>

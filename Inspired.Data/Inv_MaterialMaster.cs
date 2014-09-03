@@ -57,11 +57,6 @@ namespace Inspired.Data
         public Nullable<decimal> LIFO_Price { get; set; }
         public Nullable<decimal> FIFO_Price { get; set; }
         public Nullable<decimal> WA_Price { get; set; }
-        public Nullable<decimal> Length { get; set; }
-        public Nullable<decimal> Width { get; set; }
-        public Nullable<decimal> Height { get; set; }
-        public Nullable<decimal> Gross_Weight { get; set; }
-        public Nullable<decimal> NETT_Weight { get; set; }
         public Nullable<int> MCarton_Quantity { get; set; }
         public Nullable<decimal> MCarton_Length { get; set; }
         public Nullable<decimal> MCarton_Width { get; set; }

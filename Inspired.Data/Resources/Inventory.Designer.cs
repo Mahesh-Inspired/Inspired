@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inspired.Web.Resources {
+namespace Inspired.Data.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Inspired.Web.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Inspired.Web.Resources.Inventory", typeof(Inventory).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Inspired.Data.Resources.Inventory", typeof(Inventory).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,11 @@ namespace Inspired.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ([A-Z0-9]){4}\-[A-Z0-9.].
+        ///   Looks up a localized string similar to ^(([A-Z0-9]){4}\-[A-Z0-9.])$.
         /// </summary>
         internal static string MaterialRegEx {
             get {
                 return ResourceManager.GetString("MaterialRegEx", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Active.
-        /// </summary>
-        internal static string MatlStatusActive {
-            get {
-                return ResourceManager.GetString("MatlStatusActive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passive.
-        /// </summary>
-        internal static string MatlStatusPassive {
-            get {
-                return ResourceManager.GetString("MatlStatusPassive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Temporary.
-        /// </summary>
-        internal static string MatlStatusTemp {
-            get {
-                return ResourceManager.GetString("MatlStatusTemp", resourceCulture);
             }
         }
     }

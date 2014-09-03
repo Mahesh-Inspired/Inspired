@@ -73,7 +73,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Company_Code" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Company_Description" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="1" Nullable="false" />
@@ -271,11 +271,6 @@
           <Property Name="LIFO_Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FIFO_Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="WA_Price" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Length" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Width" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Height" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Gross_Weight" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="NETT_Weight" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MCarton_Quantity" Type="int" />
           <Property Name="MCarton_Length" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MCarton_Width" Type="decimal" Precision="18" Scale="2" />
@@ -1797,11 +1792,6 @@
           <Property Name="LIFO_Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="FIFO_Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="WA_Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Length" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Width" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Height" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gross_Weight" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="NETT_Weight" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="MCarton_Quantity" Type="Int32" />
           <Property Name="MCarton_Length" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="MCarton_Width" Type="Decimal" Precision="18" Scale="2" />
@@ -3366,11 +3356,6 @@
                 <ScalarProperty Name="LIFO_Price" ColumnName="LIFO_Price" />
                 <ScalarProperty Name="FIFO_Price" ColumnName="FIFO_Price" />
                 <ScalarProperty Name="WA_Price" ColumnName="WA_Price" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Gross_Weight" ColumnName="Gross_Weight" />
-                <ScalarProperty Name="NETT_Weight" ColumnName="NETT_Weight" />
                 <ScalarProperty Name="MCarton_Quantity" ColumnName="MCarton_Quantity" />
                 <ScalarProperty Name="MCarton_Length" ColumnName="MCarton_Length" />
                 <ScalarProperty Name="MCarton_Width" ColumnName="MCarton_Width" />

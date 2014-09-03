@@ -1,0 +1,153 @@
+﻿@model Inspired.Web.ViewModel.MaterialViewModel
+<div class="row-fluid">
+    <div class="col-md-12"><br /></div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.UOM, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">        
+        @Html.TextBoxFor(m => m.Material.UOM, new { @class = "form-control", placeholder = "Unit of Measurement" })
+        @Html.ValidationMessageFor(m => m.Material.UOM)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Barcode, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Barcode, new { @class = "form-control", placeholder = "Barcode" })
+        @Html.ValidationMessageFor(m => m.Material.Barcode)
+    </div>    
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.SKU_Number, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.SKU_Number, new { @class = "form-control", placeholder = "SKU Number" })
+        @Html.ValidationMessageFor(m => m.Material.SKU_Number)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Status, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.Material.Status, Model.Statuses, new { @class = "form-control" })        
+        @Html.ValidationMessageFor(m => m.Material.Status)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">@Html.LabelFor(m=>m.Material.Long_Description)</div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Long_Description, new { @class = "form-control", placeholder = "Long Description" })
+        @Html.ValidationMessageFor(m=>m.Material.Long_Description)
+    </div>
+    <div class="col-md-2">@Html.LabelFor(m => m.Material.Overview)</div>
+    <div class="col-md-4">
+        @Html.TextAreaFor(m => m.Material.Overview, new { @class = "form-control", placeholder = "Overview" })
+        @Html.ValidationMessageFor(m => m.Material.Overview)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-12" ><p class="bg-info">Stock details</p></div>    
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Batch_YN, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.Material.Batch_YN, Model.ListYesNo, new { @class = "form-control" })                
+        @Html.ValidationMessageFor(m => m.Material.Batch_YN)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Serial_YN, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.Material.Serial_YN, Model.ListYesNo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Material.Serial_YN)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Location_YN, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.Material.Location_YN, Model.ListYesNo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Material.Location_YN)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Shelf_Life, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Shelf_Life, new { @class = "form-control", placeholder = "Shelf life" })
+        @Html.ValidationMessageFor(m => m.Material.Shelf_Life)
+    </div>
+</div>
+<div class="row-fluid">       
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Min_Level, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Min_Level, new { @class = "form-control", placeholder = "Minimum Stock Level" })
+        @Html.ValidationMessageFor(m => m.Material.Min_Level)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Max_Level, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Max_Level, new { @class = "form-control", placeholder = "Maximum Stock Level" })
+        @Html.ValidationMessageFor(m => m.Material.Max_Level)
+    </div>
+</div>
+<div class="row-fluid">    
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Re_order_Level, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Re_order_Level, new { @class = "form-control", placeholder = "Re-order Level" })
+        @Html.ValidationMessageFor(m => m.Material.Re_order_Level)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-12"><p class="bg-info">Purchase and Pricing details</p></div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Lead_Time, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Lead_Time, new { @class = "form-control", placeholder = "Purchase lead time" })
+        @Html.ValidationMessageFor(m => m.Material.Lead_Time)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Cost_Price, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Cost_Price, new { @class = "form-control", placeholder = "Cost Price" })
+        @Html.ValidationMessageFor(m => m.Material.Cost_Price)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Margin_Percent, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Margin_Percent, new { @class = "form-control", placeholder = "Margin Percentage" })
+        @Html.ValidationMessageFor(m => m.Material.Margin_Percent)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.NETT_Price, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.NETT_Price, new { @class = "form-control", placeholder = "NETT Price" })
+        @Html.ValidationMessageFor(m => m.Material.NETT_Price)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Sale_Price, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.Sale_Price, new { @class = "form-control", placeholder = "Sale Price" })
+        @Html.ValidationMessageFor(m => m.Material.Sale_Price)
+    </div>    
+</div>
+

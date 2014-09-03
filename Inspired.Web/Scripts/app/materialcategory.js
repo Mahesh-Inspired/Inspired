@@ -43,8 +43,7 @@
             $("#divCatDelete").show("slow");
         }
     });
-
-    $('#Category').addClass('active');
+    
     $("#divCatDelete").hide("slow");
 }
 function DeleteCategory() {

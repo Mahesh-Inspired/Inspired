@@ -1,0 +1,79 @@
+﻿@model Inspired.Web.ViewModel.MaterialViewModel
+<div class="row-fluid">
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.CategoryTypes, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Material.Inv_MaterialCategory.FirstOrDefault().Category_Type, Model.CategoryTypes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.CategoryTypes)
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    @Html.LabelFor(m => m.catCode, new { @class = "control-label" })
+                    @Html.HiddenFor(m => m.catId)
+                    @Html.TextBoxFor(m => m.catCode, new { @class = "form-control", @onblur = "fetchCategory();" })
+                    @Html.ValidationMessageFor(m => m.catCode)
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    @Html.LabelFor(m => m.catDescription, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.catDescription, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.catDescription)
+                </div>
+                <div class="col-md-1 col-sm-12">
+                    <br />
+                    <input type="button" class="btn btn-success" value="Add" onclick="AddCategory()" />
+                </div>
+                <div class="col-md-1 col-sm-12" id="divCatDelete">
+                    <br />
+                    <input type="button" class="btn btn-warning" value="Delete" onclick="DeleteCategory()" />
+                </div>
+            </div>
+            <div class="row-fluid">
+
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <table class="table" id="CategoryTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Category Type</th>
+                                <th>Category Code</th>
+                                <th>Category Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Material != null)
+                            {
+                                foreach (var cat in Model.Material.Inv_MaterialCategory)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => cat.Category_Type)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => cat.Gen_LookupItem.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => cat.Inv_CategoryMaster.Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => cat.Inv_CategoryMaster.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => cat.Category_Id)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

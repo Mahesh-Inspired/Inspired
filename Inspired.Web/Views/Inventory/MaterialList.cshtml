@@ -45,8 +45,11 @@
                                 <td style="width:10%">
                                     @Html.DisplayFor(m => item.Status)
                                 </td>
-                                <td style="width:15%">
-                                    @Html.ActionLink("Edit", "EditMaterial", new { itemId = item.Id })
+                                <td style="width:5%">
+                                    <a href="@Url.Action("EditMaterial", new { ItemId = item.Id })">
+                                        <i class="glyphicon glyphicon-pencil" ></i>
+                                        <span class="sr-only">Edit</span>
+                                    </a>
                                 </td>
                             </tr>
                         }
