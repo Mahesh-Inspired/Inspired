@@ -1,9 +1,10 @@
-﻿var catTable;
+﻿var catTable, specTable;
 $(function () {
     $('#Material').addClass('active');
     $('#Category').addClass('inactive');
-    $("#divCatDelete").hide("slow");
+    $('#Specification').addClass('inactive');    
     LoadCategory();
+    LoadSpecification();
     $('form').submit(function (evt) {
         evt.preventDefault();
         var $form = $(this);
@@ -17,12 +18,15 @@ $(function () {
 function Item_Save() {
     var Material = { "Item": "" };
     var ItemCategory = { "ItemId": "", "CatId": "", "CategoryType": "", "CategoryCode": "", "CategoryDescription": "" };
+    var ItemSpecification = { "ItemId": "", "BatchNumber": "", "SpecId": "", "SpecValue": "" };
     var Item = {
         "Id": "", "Code": "", "Description": "", "SKU_Number": "", "Long_Description": "", "Overview": "", "UOM": "",
         "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Shelf_Life": "", "Barcode": "",
-        "Max_Level":"","Min_Level":"","Re_order_level":"","Lead_Time":"","NETT_Price":"","Sale_Price":"","Cost_Price":"",
-        "ItemCategory": []
+        "Max_Level": "", "Min_Level": "", "Re_order_level": "", "Lead_Time": "", "NETT_Price": "", "Sale_Price": "", "Cost_Price": "",
+        "ItemCategory": [],
+        "ItemSpecification": []
     };
+    // Material Master main details
     Item.Id = $("#Material_Id").val();
     Item.Code = $("#Material_Code").val();
     Item.Description = $("#Material_Description").val();
@@ -45,7 +49,7 @@ function Item_Save() {
     Item.Cost_Price = $("#Material_Cost_Price").val();
 
 
-
+    // Category details
     var oTable = $('#CategoryTable').dataTable().fnGetData();
 
     for (var i = 0; i < oTable.length; i++) {
@@ -58,6 +62,21 @@ function Item_Save() {
         Item.ItemCategory.push(ItemCategory);
         ItemCategory = { "ItemId": "", "CatId": "", "CategoryType": "", "CategoryCode": "", "CategoryDescription": "" };
     }
+
+
+    // Specification Details
+    var specTable = $('#SpecificationTable').dataTable().fnGetData();
+
+    for (var i = 0; i < specTable.length; i++) {
+        ItemSpecification.ItemId = Item.id;
+        ItemSpecification.BatchNumber = specTable[i][1];
+        ItemSpecification.SpecId = specTable[i][4];
+        ItemSpecification.SpecValue = specTable[i][3];
+        
+        Item.ItemSpecification.push(ItemSpecification);
+        ItemSpecification = { "ItemId": "", "BatchNumber": "", "SpecId": "", "SpecValue": "" };
+    }
+
 
     Material.Item = Item;
     $.ajax({

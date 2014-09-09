@@ -71,7 +71,7 @@ namespace Inspired.Web.Test.Controllers
         {
             Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
             baseController.InvCategoryRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
-            
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });   
             result = invController.CreateMaterial();
         }
 
@@ -85,6 +85,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"I try to edit a material")]
         public void WhenITryToEditAMaterial()
         {
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });   
             Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
             baseController.InvCategoryRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
             Inv_MaterialCategory invMatlCat = new Inv_MaterialCategory() { Category_Id = 12, Category_Type = 1, Id = 1, Item_Id = 1 };
@@ -136,6 +137,38 @@ namespace Inspired.Web.Test.Controllers
             Assert.AreEqual(false, data["success"]);
             Assert.AreEqual("Enter a valid Category details", data["Message"]);
             
+        }
+        [When(@"I try to enter an invalid specification")]
+        public void WhenITryToEnterAnInvalidSpecification()
+        {
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { } );
+            result = invController.fetchSpecJSON(1);
+        }
+
+        [Then(@"Enter a valid specification error message is displayed")]
+        public void ThenEnterAValidSpecificationErrorMessageIsDisplayed()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsTrue(jsonTopLevel["success"].ToString() == "False");
+        }
+        [When(@"I try to enter a valid specification")]
+        public void WhenITryToEnterAValidSpecification()
+        {
+            Gen_LookupGroup lookupGroup = new Gen_LookupGroup() { Id = 1, Description = "Test Group" };
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem> { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test", Gen_LookupGroup = lookupGroup } });
+            result = invController.fetchSpecJSON(1);
+        }
+
+        [Then(@"The call succeeds and return group details for the specification")]
+        public void ThenTheCallSucceedsAndReturnGroupDetailsForTheSpecification()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsTrue(jsonTopLevel["success"].ToString() == "True");
+            Assert.IsTrue(jsonTopLevel["SpecGroup"].ToString() == "Test Group");
         }
 
     }

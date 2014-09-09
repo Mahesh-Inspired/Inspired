@@ -28,6 +28,7 @@ namespace Inspired.Web.Test.Controllers
         public IGenericRepository<Gen_UserMaster> UserRepository { get; set; }
         public IGenericRepository<Gen_LookupItem> LookupItemRepository { get; set; }
         public IGenericRepository<Inv_MaterialMaster> MaterialMasterRepository { get; set; }
+        
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace Inspired.Web.Test.Controllers
             //HttpContext.User = userPrincipal;            
             //RouteData = new RouteData();
 
-            LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });
+           
         }
 
         #endregion

@@ -4,16 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2a44ecfd6cf84c8b9d13f1c8139fb876" Name="Diagram1" ZoomLevel="108">
+      <Diagram DiagramId="2a44ecfd6cf84c8b9d13f1c8139fb876" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="InspiredModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.AspNetUser" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.FAS_AccountMaster" Width="1.5" PointX="16" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Gen_BranchMaster" Width="1.5" PointX="13.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="InspiredModel.Gen_CompanyMaster" Width="1.5" PointX="11.5" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="InspiredModel.Gen_LookupGroup" Width="1.5" PointX="13.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InspiredModel.Gen_LookupItem" Width="1.5" PointX="19" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InspiredModel.Gen_CompanyMaster" Width="1.5" PointX="10.5" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Gen_LookupType" Width="1.5" PointX="13.75" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_CategoryMaster" Width="1.875" PointX="24.25" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialDiscount" Width="1.5" PointX="21.25" PointY="4.5" IsExpanded="true" />
@@ -22,17 +20,15 @@
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialPackaging" Width="2.125" PointX="32.5" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialPrice" Width="1.5" PointX="24.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialSpares" Width="2" PointX="29.5" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InspiredModel.Inv_WarehouseMaster" Width="1.5" PointX="19" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InspiredModel.Inv_WarehouseMaster" Width="1.5" PointX="18.375" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialAlternateRelative" Width="1.5" PointX="32.5" PointY="9.875" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBranchSpec" Width="1.5" PointX="11.75" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialNotes" Width="1.5" PointX="17" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialSpecification" Width="1.625" PointX="35.5" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialSupplier" Width="1.5" PointX="24.25" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="InspiredModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_FAS_AccountMaster_Gen_BranchMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_FAS_AccountMaster_Gen_CompanyMaster" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_FAS_AccountMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialNotes_FAS_AccountMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialPrice_FAS_AccountMaster" ManuallyRouted="false" />
@@ -41,8 +37,6 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranchSpec_Branch" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Gen_BranchMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_WarehouseMaster_Gen_BranchMaster" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Gen_LookupGroup_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Gen_LookupItem_Company" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Gen_LookupType_Company" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_CategoryMaster_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" ManuallyRouted="false" />
@@ -53,17 +47,8 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialPackaging_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialPrice_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSpares_Gen_CompanyMaster" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSpecification_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSupplier_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_WarehouseMaster_Gen_CompanyMaster" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Gen_LookupItem_Gen_LookupGroup" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_CategoryType_Lookup" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Gen_LookupItem_Gen_LookupType" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem" ManuallyRouted="false" />
-        <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialPrice_Gen_LookupItem" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSupplier_Gen_LookupItem" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_WarehouseType_Lookup" ManuallyRouted="false" />
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialDiscount_Inv_MaterialMaster" />
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" />
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialAlternateRelative_Inv_MaterialMaster" />
@@ -74,10 +59,8 @@
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialPrice_Inv_MaterialMaster" />
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialSpares_Material" />
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialSpares_Spares_Material" />
-        <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialSpecification_Material" />
         <AssociationConnector ManuallyRouted="false" Association="InspiredModel.FK_Inv_MaterialSupplier_Inv_MaterialMaster" />
         <AssociationConnector Association="InspiredModel.AspNetUserRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBOM" Width="2.25" PointX="29.5" PointY="11.875" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBranch" Width="1.75" PointX="29.5" PointY="6.125" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranch_Gen_BranchMaster" />
@@ -91,7 +74,6 @@
         <AssociationConnector Association="InspiredModel.Company" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialCategory" Width="2" PointX="32.5" PointY="6.375" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialCategory_Gen_CompanyMaster" />
-        <AssociationConnector Association="InspiredModel.MaterialCategoryTypeLookup" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialCategory_Material" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialCategory_Inv_CategoryMaster1" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Category" />
@@ -100,7 +82,26 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Model_Number" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_SubCategory" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Type" />
-      </Diagram>
+        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialSpecification" Width="1.5" PointX="35.75" PointY="5.875" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSpecification_Gen_CompanyMaster" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSpecification_Material" />
+        <EntityTypeShape EntityType="InspiredModel.Gen_LookupItem" Width="1.5" PointX="19.125" PointY="7.625" />
+        <AssociationConnector Association="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" />
+        <AssociationConnector Association="InspiredModel.FK_Gen_LookupItem_Company" />
+        <AssociationConnector Association="InspiredModel.CategoryType_Lookup" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialPrice_Gen_LookupItem" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSupplier_Gen_LookupItem" />
+        <AssociationConnector Association="InspiredModel.FK_MaterialSpecIdLookup" />
+        <AssociationConnector Association="InspiredModel.FK_WarehouseType_Lookup" />
+        <AssociationConnector Association="InspiredModel.LookupType_LookupItem" />
+        <AssociationConnector Association="InspiredModel.MaterialCategoryTypeLookup" />
+        <EntityTypeShape EntityType="InspiredModel.Gen_LookupGroup" Width="1.5" PointX="11.875" PointY="7.25" />
+        <AssociationConnector Association="InspiredModel.FK_Gen_LookupGroup_Company" />
+        <AssociationConnector Association="InspiredModel.LookupGroup_LookupItem" />
+        </Diagram>
       <Diagram DiagramId="e504ad272b3b491aa21f0a8d91b382e9" Name="Diagram2" />
     </edmx:Diagrams>
   </edmx:Designer>

@@ -32,3 +32,13 @@ Scenario: Inventory - Material Master - An error is raised when invalid category
 	Given I am logged in user
 	When I enter an invalid category code
 	Then Enter a valid category code error should be displayed
+
+Scenario: Inventory - Material Master - The specification displays an error message when the specification is not selected
+	Given I am logged in user
+	When I try to enter an invalid specification
+	Then Enter a valid specification error message is displayed
+
+Scenario: Inventory - Material Master - The specification group is populated when the specification is selected
+	Given I am logged in user
+	When I try to enter a valid specification
+	Then The call succeeds and return group details for the specification

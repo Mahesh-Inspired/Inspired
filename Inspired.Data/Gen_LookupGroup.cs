@@ -22,7 +22,7 @@ namespace Inspired.Data
         public int Id { get; set; }
         public int LookupType_Id { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
+        public bool IsHidden { get; set; }
         public int Company_Id { get; set; }
         public int User_Id { get; set; }
         public System.DateTime Last_Updated { get; set; }

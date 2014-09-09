@@ -20,6 +20,7 @@ namespace Inspired.Repository
         private IGenericRepository<Gen_LookupItem> _lookupItemRepository;
         private IGenericRepository<Inv_MaterialMaster> _materialMasterRepository;
         private IGenericRepository<Inv_MaterialCategory> _materialCategoryRepository;
+        private IGenericRepository<Inv_MaterialSpecification> _materialSpecificationRepository;
         
         #region Constructor
             public UnitOfWork()
@@ -114,6 +115,11 @@ namespace Inspired.Repository
         public IGenericRepository<Data.Inv_MaterialCategory> MaterialCategoryRepository
         {
             get { return _materialCategoryRepository ?? (_materialCategoryRepository = new GenericRepository<Inv_MaterialCategory>(DbContext)); }
+        }
+
+        public IGenericRepository<Data.Inv_MaterialSpecification> MaterialSpecificationRepository
+        {
+            get { return _materialSpecificationRepository ?? (_materialSpecificationRepository = new GenericRepository<Inv_MaterialSpecification>(DbContext)); }
         }
     }
 }

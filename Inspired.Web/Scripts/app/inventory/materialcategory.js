@@ -35,9 +35,9 @@
             //var oTT = TableTools.fnGetInstance('CategoryTable');
             var sRow = catTable.$('tr.selected');
             var oTable = $('#CategoryTable').dataTable().fnGetData(sRow);
-            $("#catCode").val((oTable[2]).toString());
-            $("#catDescription").val(oTable[3].toString());
-            $("#catId").val(oTable[4].toString());
+            $("#CatCode").val((oTable[2]).toString());
+            $("#CatDescription").val(oTable[3].toString());
+            $("#CatId").val(oTable[4].toString());
             $("#Category_Type").append(new Option(oTable[1].toString(), oTable[0].toString(), false, true));
             $('#CategoryTable').dataTable().fnDeleteRow(sRow[0]);
             $("#divCatDelete").show("slow");
@@ -47,8 +47,8 @@
     $("#divCatDelete").hide("slow");
 }
 function DeleteCategory() {
-    $('#catCode').val('');
-    $('#catDescription').val('');
+    $('#CatCode').val('');
+    $('#CatDescription').val('');
     $("#divCatDelete").hide("slow");
 }
 function AddCategory() {
@@ -57,28 +57,28 @@ function AddCategory() {
         $('#Category_Type').focus();
         return false;
     }
-    else if ($('#catCode').val() == '') {
+    else if ($('#CatCode').val() == '') {
         alert("Enter a valid Category code");
-        $('#catCode').focus();
+        $('#CatCode').focus();
         return false;
     }
-    else if ($('#catDescription').val() == '') {
+    else if ($('#CatDescription').val() == '') {
         alert("Enter a valid Category Description");
-        $('#catDescription').focus();
+        $('#CatDescription').focus();
         return false;
     }
 
-    $('#CategoryTable').dataTable().fnAddData([$("#Category_Type").val(), $("#Category_Type option:selected").text(), $("#catCode").val(), $("#catDescription").val(), $("#catId").val()]);
-    $("#catCode").val("");
-    $("#catDescription").val("");
-    $("#catId").val("");
+    $('#CategoryTable').dataTable().fnAddData([$("#Category_Type").val(), $("#Category_Type option:selected").text(), $("#CatCode").val(), $("#CatDescription").val(), $("#CatId").val()]);
+    $("#CatCode").val("");
+    $("#CatDescription").val("");
+    $("#CatId").val("");
     $("#Category_Type option:selected").remove();
     $("#divCatDelete").hide("slow");
 }
 
 function fetchCategory() {
     var categoryType = $("#Category_Type").val();
-    var categoryCode = $("#catCode").val();
+    var categoryCode = $("#CatCode").val();
     if (categoryCode == '') return;
     $.ajax({
         context: document.body,
@@ -86,11 +86,11 @@ function fetchCategory() {
         error: function (e) { alert(e.Message); },
         success: function (data) {
             if (data.success == true) {
-                $('#catDescription').val(data.CategoryDescription)
-                $('#catId').val(data.id);
+                $('#CatDescription').val(data.CategoryDescription)
+                $('#CatId').val(data.id);
             } else if (data.success == false) {
                 alert(data.Message);
-                $('#catCode').focus();
+                $('#CatCode').focus();
             }
         },
         type: 'POST',

@@ -82,10 +82,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="LookupType_Id" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsHidden" Type="bit" Nullable="false" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
@@ -352,10 +352,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Item_Id" Type="int" Nullable="false" />
-          <Property Name="Spec_Group" Type="varchar" MaxLength="150" />
           <Property Name="Batch_Number" Type="varchar" MaxLength="150" />
-          <Property Name="Spec_Code" Type="varchar" MaxLength="50" />
-          <Property Name="Spec_Description" Type="varchar" MaxLength="250" />
+          <Property Name="Spec_Id" Type="int" Nullable="false" />
           <Property Name="Spec_Value" Type="varchar" MaxLength="100" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
           <Property Name="User_Id" Type="int" />
@@ -551,30 +549,6 @@
             </Principal>
             <Dependent Role="Gen_LookupItem">
               <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gen_LookupItem_Gen_LookupGroup">
-          <End Role="Gen_LookupGroup" Type="Self.Gen_LookupGroup" Multiplicity="0..1" />
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupGroup">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Gen_LookupItem">
-              <PropertyRef Name="LookupGroup_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gen_LookupItem_Gen_LookupType">
-          <End Role="Gen_LookupType" Type="Self.Gen_LookupType" Multiplicity="1" />
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Gen_LookupItem">
-              <PropertyRef Name="LookupType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1190,6 +1164,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MaterialSpecIdLookup">
+          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
+          <End Role="Inv_MaterialSpecification" Type="Self.Inv_MaterialSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialSpecification">
+              <PropertyRef Name="Spec_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WarehouseType_Lookup">
           <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
           <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="*" />
@@ -1211,6 +1197,30 @@
             </Principal>
             <Dependent Role="Inv_CategoryMaster">
               <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LookupGroup_LookupItem">
+          <End Role="Gen_LookupGroup" Type="Self.Gen_LookupGroup" Multiplicity="0..1" />
+          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_LookupItem">
+              <PropertyRef Name="LookupGroup_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LookupType_LookupItem">
+          <End Role="Gen_LookupType" Type="Self.Gen_LookupType" Multiplicity="1" />
+          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_LookupItem">
+              <PropertyRef Name="LookupType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1305,14 +1315,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Gen_LookupItem_Company" Association="Self.FK_Gen_LookupItem_Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gen_LookupItem_Gen_LookupGroup" Association="Self.FK_Gen_LookupItem_Gen_LookupGroup">
-            <End Role="Gen_LookupGroup" EntitySet="Gen_LookupGroup" />
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gen_LookupItem_Gen_LookupType" Association="Self.FK_Gen_LookupItem_Gen_LookupType">
-            <End Role="Gen_LookupType" EntitySet="Gen_LookupType" />
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
           </AssociationSet>
           <AssociationSet Name="FK_Gen_LookupType_Company" Association="Self.FK_Gen_LookupType_Company">
@@ -1519,6 +1521,10 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
           </AssociationSet>
+          <AssociationSet Name="FK_MaterialSpecIdLookup" Association="Self.FK_MaterialSpecIdLookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
+          </AssociationSet>
           <AssociationSet Name="FK_WarehouseType_Lookup" Association="Self.FK_WarehouseType_Lookup">
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
@@ -1526,6 +1532,14 @@
           <AssociationSet Name="InvCategory_Company" Association="Self.InvCategory_Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+          </AssociationSet>
+          <AssociationSet Name="LookupGroup_LookupItem" Association="Self.LookupGroup_LookupItem">
+            <End Role="Gen_LookupGroup" EntitySet="Gen_LookupGroup" />
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+          </AssociationSet>
+          <AssociationSet Name="LookupType_LookupItem" Association="Self.LookupType_LookupItem">
+            <End Role="Gen_LookupType" EntitySet="Gen_LookupType" />
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
           </AssociationSet>
           <AssociationSet Name="MaterialCategoryTypeLookup" Association="Self.MaterialCategoryTypeLookup">
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
@@ -1591,11 +1605,11 @@
           <Property Name="Branch_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_BranchMaster" FromRole="FAS_AccountMaster" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="FAS_AccountMaster" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="FAS_AccountMaster" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="Self.FK_Inv_MaterialNotes_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialNotes" />
           <NavigationProperty Name="Inv_MaterialPrice" Relationship="Self.FK_Inv_MaterialPrice_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialPrice" />
           <NavigationProperty Name="Inv_MaterialSupplier" Relationship="Self.FK_Inv_MaterialSupplier_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialSupplier" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="FAS_AccountMaster" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Gen_BranchMaster">
           <Key>
@@ -1622,8 +1636,6 @@
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_Gen_BranchMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Gen_BranchMaster" />
-          <NavigationProperty Name="Gen_LookupGroup" Relationship="Self.FK_Gen_LookupGroup_Company" FromRole="Gen_CompanyMaster" ToRole="Gen_LookupGroup" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Gen_LookupItem_Company" FromRole="Gen_CompanyMaster" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Gen_LookupType" Relationship="Self.FK_Gen_LookupType_Company" FromRole="Gen_CompanyMaster" ToRole="Gen_LookupType" />
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="Self.FK_Inv_CategoryMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Inv_MaterialAlternateRelative" Relationship="Self.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialAlternateRelative" />
@@ -1634,54 +1646,15 @@
           <NavigationProperty Name="Inv_MaterialPackaging" Relationship="Self.FK_Inv_MaterialPackaging_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialPackaging" />
           <NavigationProperty Name="Inv_MaterialPrice" Relationship="Self.FK_Inv_MaterialPrice_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialPrice" />
           <NavigationProperty Name="Inv_MaterialSpares" Relationship="Self.FK_Inv_MaterialSpares_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialSpares" />
-          <NavigationProperty Name="Inv_MaterialSpecification" Relationship="Self.FK_Inv_MaterialSpecification_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialSpecification" />
           <NavigationProperty Name="Inv_MaterialSupplier" Relationship="Self.FK_Inv_MaterialSupplier_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialSupplier" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="Self.FK_Inv_WarehouseMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_WarehouseMaster" />
           <NavigationProperty Name="Inv_MaterialBOM" Relationship="InspiredModel.FK_Inv_MaterialBOM_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialBranch" />
           <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.Company" FromRole="Gen_CompanyMaster" ToRole="Gen_UserMaster" />
           <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialCategory" />
-        </EntityType>
-        <EntityType Name="Gen_LookupGroup">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LookupType_Id" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <Property Name="User_Id" Type="Int32" Nullable="false" />
-          <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Gen_LookupGroup_Company" FromRole="Gen_LookupGroup" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Gen_LookupItem_Gen_LookupGroup" FromRole="Gen_LookupGroup" ToRole="Gen_LookupItem" />
-        </EntityType>
-        <EntityType Name="Gen_LookupItem">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="LookupType_Id" Type="Int32" Nullable="false" />
-          <Property Name="LookupGroup_Id" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Ordinal" Type="Int32" Nullable="false" />
-          <Property Name="IsOther" Type="Boolean" Nullable="false" />
-          <Property Name="IsHidden" Type="Boolean" Nullable="false" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <Property Name="User_Id" Type="Int32" Nullable="false" />
-          <Property Name="Last_update" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="FAS_AccountMaster" />
-          <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Gen_LookupItem_Company" FromRole="Gen_LookupItem" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupGroup" Relationship="Self.FK_Gen_LookupItem_Gen_LookupGroup" FromRole="Gen_LookupItem" ToRole="Gen_LookupGroup" />
-          <NavigationProperty Name="Inv_CategoryMaster" Relationship="Self.FK_CategoryType_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_CategoryMaster" />
-          <NavigationProperty Name="Gen_LookupType" Relationship="Self.FK_Gen_LookupItem_Gen_LookupType" FromRole="Gen_LookupItem" ToRole="Gen_LookupType" />
-          <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialDiscount" />
-          <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialMaster_UOM_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialMaster" />
-          <NavigationProperty Name="Inv_MaterialPrice" Relationship="Self.FK_Inv_MaterialPrice_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialPrice" />
-          <NavigationProperty Name="Inv_MaterialSupplier" Relationship="Self.FK_Inv_MaterialSupplier_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialSupplier" />
-          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="Self.FK_WarehouseType_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_WarehouseMaster" />
-          <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialNotes" />
-          <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.MaterialCategoryTypeLookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialCategory" />
+          <NavigationProperty Name="Inv_MaterialSpecification" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialSpecification" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Gen_LookupItem_Company" FromRole="Gen_CompanyMaster" ToRole="Gen_LookupItem" />
+          <NavigationProperty Name="Gen_LookupGroup" Relationship="InspiredModel.FK_Gen_LookupGroup_Company" FromRole="Gen_CompanyMaster" ToRole="Gen_LookupGroup" />
         </EntityType>
         <EntityType Name="Gen_LookupType">
           <Key>
@@ -1694,7 +1667,7 @@
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Gen_LookupType_Company" FromRole="Gen_LookupType" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Gen_LookupItem_Gen_LookupType" FromRole="Gen_LookupType" ToRole="Gen_LookupItem" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.LookupType_LookupItem" FromRole="Gen_LookupType" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Inv_CategoryMaster">
           <Key>
@@ -1709,7 +1682,6 @@
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_CategoryMaster_Gen_CompanyMaster" FromRole="Inv_CategoryMaster" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_CategoryType_Lookup" FromRole="Inv_CategoryMaster" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Inv_CategoryMaster1" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialCategory" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Category" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialDiscount1" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Group" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
@@ -1717,6 +1689,7 @@
           <NavigationProperty Name="Inv_MaterialDiscount3" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Model_Number" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialDiscount4" Relationship="InspiredModel.FK_Inv_MaterialDiscount_SubCategory" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialDiscount5" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Type" FromRole="Inv_CategoryMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.CategoryType_Lookup" FromRole="Inv_CategoryMaster" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Inv_MaterialDiscount">
           <Key>
@@ -1744,7 +1717,6 @@
           <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="Inv_MaterialDiscount" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_Inv_MaterialDiscount_Gen_BranchMaster" FromRole="Inv_MaterialDiscount" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialDiscount_Gen_CompanyMaster" FromRole="Inv_MaterialDiscount" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Inv_MaterialDiscount" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialDiscount" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Category" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Inv_CategoryMaster1" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Group" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
@@ -1752,6 +1724,7 @@
           <NavigationProperty Name="Inv_CategoryMaster3" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Model_Number" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Inv_CategoryMaster4" Relationship="InspiredModel.FK_Inv_MaterialDiscount_SubCategory" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Inv_CategoryMaster5" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Type" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Inv_MaterialDiscount" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Inv_MaterialDocument">
           <Key>
@@ -1803,7 +1776,6 @@
           <Property Name="User_Id" Type="Int32" />
           <Property Name="Last_Updated" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialMaster_Gen_CompanyMaster" FromRole="Inv_MaterialMaster" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Inv_MaterialMaster_UOM_Lookup" FromRole="Inv_MaterialMaster" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_MaterialDocument" Relationship="Self.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDocument" />
           <NavigationProperty Name="Inv_MaterialAlternateRelative" Relationship="Self.FK_Inv_MaterialAlternateRelative_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialAlternateRelative" />
@@ -1814,12 +1786,13 @@
           <NavigationProperty Name="Inv_MaterialPrice" Relationship="Self.FK_Inv_MaterialPrice_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialPrice" />
           <NavigationProperty Name="Inv_MaterialSpares" Relationship="Self.FK_Inv_MaterialSpares_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialSpares" />
           <NavigationProperty Name="Inv_MaterialSpares1" Relationship="Self.FK_Inv_MaterialSpares_Spares_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialSpares" />
-          <NavigationProperty Name="Inv_MaterialSpecification" Relationship="Self.FK_Inv_MaterialSpecification_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialSpecification" />
           <NavigationProperty Name="Inv_MaterialSupplier" Relationship="Self.FK_Inv_MaterialSupplier_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialSupplier" />
           <NavigationProperty Name="Inv_MaterialBOM" Relationship="InspiredModel.FK_Inv_MaterialBOM_Child" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBOM1" Relationship="InspiredModel.FK_Inv_MaterialBOM_Parent" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBOM" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBranch" />
           <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialCategory" />
+          <NavigationProperty Name="Inv_MaterialSpecification" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialSpecification" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup" FromRole="Inv_MaterialMaster" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Inv_MaterialPackaging">
           <Key>
@@ -1855,8 +1828,8 @@
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialPrice_FAS_AccountMaster" FromRole="Inv_MaterialPrice" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialPrice_Gen_CompanyMaster" FromRole="Inv_MaterialPrice" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Inv_MaterialPrice_Gen_LookupItem" FromRole="Inv_MaterialPrice" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialPrice_Inv_MaterialMaster" FromRole="Inv_MaterialPrice" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialPrice_Gen_LookupItem" FromRole="Inv_MaterialPrice" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Inv_MaterialSpares">
           <Key>
@@ -1889,7 +1862,7 @@
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_Inv_WarehouseMaster_Gen_BranchMaster" FromRole="Inv_WarehouseMaster" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_WarehouseMaster_Gen_CompanyMaster" FromRole="Inv_WarehouseMaster" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_WarehouseType_Lookup" FromRole="Inv_WarehouseMaster" ToRole="Gen_LookupItem" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_WarehouseType_Lookup" FromRole="Inv_WarehouseMaster" ToRole="Gen_LookupItem" />
         </EntityType>
         <EntityType Name="Inv_MaterialAlternateRelative">
           <Key>
@@ -1945,23 +1918,6 @@
           <Property Name="Priority_Flg" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" FromRole="Inv_MaterialNotes" ToRole="Gen_LookupItem" />
         </EntityType>
-        <EntityType Name="Inv_MaterialSpecification">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Item_Id" Type="Int32" Nullable="false" />
-          <Property Name="Spec_Group" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Batch_Number" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Spec_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Spec_Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Spec_Value" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <Property Name="User_Id" Type="Int32" />
-          <Property Name="Last_Updated" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialSpecification_Gen_CompanyMaster" FromRole="Inv_MaterialSpecification" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialSpecification_Material" FromRole="Inv_MaterialSpecification" ToRole="Inv_MaterialMaster" />
-        </EntityType>
         <EntityType Name="Inv_MaterialSupplier">
           <Key>
             <PropertyRef Name="Id" />
@@ -1979,8 +1935,8 @@
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialSupplier_FAS_AccountMaster" FromRole="Inv_MaterialSupplier" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialSupplier_Gen_CompanyMaster" FromRole="Inv_MaterialSupplier" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="Self.FK_Inv_MaterialSupplier_Gen_LookupItem" FromRole="Inv_MaterialSupplier" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="Self.FK_Inv_MaterialSupplier_Inv_MaterialMaster" FromRole="Inv_MaterialSupplier" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialSupplier_Gen_LookupItem" FromRole="Inv_MaterialSupplier" ToRole="Gen_LookupItem" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -2031,18 +1987,6 @@
             </Principal>
             <Dependent Role="FAS_AccountMaster">
               <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FAS_AccountMaster_Gen_LookupItem">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="0..1" />
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FAS_AccountMaster">
-              <PropertyRef Name="Price_Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2139,30 +2083,6 @@
             </Principal>
             <Dependent Role="Inv_WarehouseMaster">
               <PropertyRef Name="Branch_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gen_LookupGroup_Company">
-          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
-          <End Role="Gen_LookupGroup" Type="Self.Gen_LookupGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_CompanyMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Gen_LookupGroup">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gen_LookupItem_Company">
-          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_CompanyMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Gen_LookupItem">
-              <PropertyRef Name="Company_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2286,18 +2206,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_MaterialSpecification_Gen_CompanyMaster">
-          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialSpecification" Type="Self.Inv_MaterialSpecification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_CompanyMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialSpecification">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_MaterialSupplier_Gen_CompanyMaster">
           <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
           <End Role="Inv_MaterialSupplier" Type="Self.Inv_MaterialSupplier" Multiplicity="*" />
@@ -2319,102 +2227,6 @@
             </Principal>
             <Dependent Role="Inv_WarehouseMaster">
               <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gen_LookupItem_Gen_LookupGroup">
-          <End Role="Gen_LookupGroup" Type="Self.Gen_LookupGroup" Multiplicity="0..1" />
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupGroup">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Gen_LookupItem">
-              <PropertyRef Name="LookupGroup_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CategoryType_Lookup">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
-          <End Role="Inv_CategoryMaster" Type="Self.Inv_CategoryMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_CategoryMaster">
-              <PropertyRef Name="Type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gen_LookupItem_Gen_LookupType">
-          <End Role="Gen_LookupType" Type="Self.Gen_LookupType" Multiplicity="1" />
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Gen_LookupItem">
-              <PropertyRef Name="LookupType_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialDiscount_Gen_LookupItem">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
-          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialDiscount">
-              <PropertyRef Name="Price_Type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialMaster_UOM_Lookup">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="0..1" />
-          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialMaster">
-              <PropertyRef Name="UOM" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialPrice_Gen_LookupItem">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
-          <End Role="Inv_MaterialPrice" Type="Self.Inv_MaterialPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialPrice">
-              <PropertyRef Name="Price_Type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialSupplier_Gen_LookupItem">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
-          <End Role="Inv_MaterialSupplier" Type="Self.Inv_MaterialSupplier" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialSupplier">
-              <PropertyRef Name="Currency" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WarehouseType_Lookup">
-          <End Role="Gen_LookupItem" Type="Self.Gen_LookupItem" Multiplicity="1" />
-          <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_WarehouseMaster">
-              <PropertyRef Name="Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2538,18 +2350,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_MaterialSpecification_Material">
-          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialSpecification" Type="Self.Inv_MaterialSpecification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_MaterialMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialSpecification">
-              <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_MaterialSupplier_Inv_MaterialMaster">
           <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
           <End Role="Inv_MaterialSupplier" Type="Self.Inv_MaterialSupplier" Multiplicity="*" />
@@ -2574,8 +2374,6 @@
           <EntitySet Name="FAS_AccountMaster" EntityType="Self.FAS_AccountMaster" />
           <EntitySet Name="Gen_BranchMaster" EntityType="Self.Gen_BranchMaster" />
           <EntitySet Name="Gen_CompanyMaster" EntityType="Self.Gen_CompanyMaster" />
-          <EntitySet Name="Gen_LookupGroup" EntityType="Self.Gen_LookupGroup" />
-          <EntitySet Name="Gen_LookupItem" EntityType="Self.Gen_LookupItem" />
           <EntitySet Name="Gen_LookupType" EntityType="Self.Gen_LookupType" />
           <EntitySet Name="Inv_CategoryMaster" EntityType="Self.Inv_CategoryMaster" />
           <EntitySet Name="Inv_MaterialDiscount" EntityType="Self.Inv_MaterialDiscount" />
@@ -2588,7 +2386,6 @@
           <EntitySet Name="Inv_MaterialAlternateRelative" EntityType="Self.Inv_MaterialAlternateRelative" />
           <EntitySet Name="Inv_MaterialBranchSpec" EntityType="Self.Inv_MaterialBranchSpec" />
           <EntitySet Name="Inv_MaterialNotes" EntityType="Self.Inv_MaterialNotes" />
-          <EntitySet Name="Inv_MaterialSpecification" EntityType="Self.Inv_MaterialSpecification" />
           <EntitySet Name="Inv_MaterialSupplier" EntityType="Self.Inv_MaterialSupplier" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -2604,10 +2401,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_FAS_AccountMaster_Gen_CompanyMaster" Association="Self.FK_FAS_AccountMaster_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FAS_AccountMaster_Gen_LookupItem" Association="Self.FK_FAS_AccountMaster_Gen_LookupItem">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDiscount_FAS_AccountMaster" Association="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster">
@@ -2641,14 +2434,6 @@
           <AssociationSet Name="FK_Inv_WarehouseMaster_Gen_BranchMaster" Association="Self.FK_Inv_WarehouseMaster_Gen_BranchMaster">
             <End Role="Gen_BranchMaster" EntitySet="Gen_BranchMaster" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gen_LookupGroup_Company" Association="Self.FK_Gen_LookupGroup_Company">
-            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Gen_LookupGroup" EntitySet="Gen_LookupGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gen_LookupItem_Company" Association="Self.FK_Gen_LookupItem_Company">
-            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
           </AssociationSet>
           <AssociationSet Name="FK_Gen_LookupType_Company" Association="Self.FK_Gen_LookupType_Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
@@ -2690,48 +2475,12 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialSpares" EntitySet="Inv_MaterialSpares" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialSpecification_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialSpecification_Gen_CompanyMaster">
-            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialSupplier_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialSupplier_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_WarehouseMaster_Gen_CompanyMaster" Association="Self.FK_Inv_WarehouseMaster_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gen_LookupItem_Gen_LookupGroup" Association="Self.FK_Gen_LookupItem_Gen_LookupGroup">
-            <End Role="Gen_LookupGroup" EntitySet="Gen_LookupGroup" />
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CategoryType_Lookup" Association="Self.FK_CategoryType_Lookup">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gen_LookupItem_Gen_LookupType" Association="Self.FK_Gen_LookupItem_Gen_LookupType">
-            <End Role="Gen_LookupType" EntitySet="Gen_LookupType" />
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialDiscount_Gen_LookupItem" Association="Self.FK_Inv_MaterialDiscount_Gen_LookupItem">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialMaster_UOM_Lookup" Association="Self.FK_Inv_MaterialMaster_UOM_Lookup">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialPrice_Gen_LookupItem" Association="Self.FK_Inv_MaterialPrice_Gen_LookupItem">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_MaterialPrice" EntitySet="Inv_MaterialPrice" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialSupplier_Gen_LookupItem" Association="Self.FK_Inv_MaterialSupplier_Gen_LookupItem">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WarehouseType_Lookup" Association="Self.FK_WarehouseType_Lookup">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialDiscount_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialDiscount_Inv_MaterialMaster">
@@ -2774,10 +2523,6 @@
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialSpares" EntitySet="Inv_MaterialSpares" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialSpecification_Material" Association="Self.FK_Inv_MaterialSpecification_Material">
-            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialSupplier_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialSupplier_Inv_MaterialMaster">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
@@ -2785,10 +2530,6 @@
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialNotes_Gen_LookupItem" Association="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_MaterialNotes" EntitySet="Inv_MaterialNotes" />
           </AssociationSet>
           <EntitySet Name="Inv_MaterialBOM" EntityType="InspiredModel.Inv_MaterialBOM" />
           <EntitySet Name="Inv_MaterialBranch" EntityType="InspiredModel.Inv_MaterialBranch" />
@@ -2830,10 +2571,6 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
           </AssociationSet>
-          <AssociationSet Name="MaterialCategoryTypeLookup" Association="InspiredModel.MaterialCategoryTypeLookup">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialCategory_Material" Association="InspiredModel.FK_Inv_MaterialCategory_Material">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
@@ -2866,19 +2603,74 @@
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
-        </EntityContainer>
-        <Association Name="FK_Inv_MaterialNotes_Gen_LookupItem">
-          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
-          <End Type="InspiredModel.Inv_MaterialNotes" Role="Inv_MaterialNotes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialNotes">
-              <PropertyRef Name="Priority_Flg" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          <EntitySet Name="Inv_MaterialSpecification" EntityType="InspiredModel.Inv_MaterialSpecification" />
+          <AssociationSet Name="FK_Inv_MaterialSpecification_Gen_CompanyMaster" Association="InspiredModel.FK_Inv_MaterialSpecification_Gen_CompanyMaster">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialSpecification_Material" Association="InspiredModel.FK_Inv_MaterialSpecification_Material">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
+          </AssociationSet>
+          <EntitySet Name="Gen_LookupItem" EntityType="InspiredModel.Gen_LookupItem" />
+          <AssociationSet Name="FK_FAS_AccountMaster_Gen_LookupItem" Association="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gen_LookupItem_Company" Association="InspiredModel.FK_Gen_LookupItem_Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+          </AssociationSet>
+          <AssociationSet Name="CategoryType_Lookup" Association="InspiredModel.CategoryType_Lookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_Gen_LookupItem" Association="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialMaster_UOM_Lookup" Association="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialNotes_Gen_LookupItem" Association="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialNotes" EntitySet="Inv_MaterialNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialPrice_Gen_LookupItem" Association="InspiredModel.FK_Inv_MaterialPrice_Gen_LookupItem">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialPrice" EntitySet="Inv_MaterialPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialSupplier_Gen_LookupItem" Association="InspiredModel.FK_Inv_MaterialSupplier_Gen_LookupItem">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialSpecIdLookup" Association="InspiredModel.FK_MaterialSpecIdLookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WarehouseType_Lookup" Association="InspiredModel.FK_WarehouseType_Lookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+          </AssociationSet>
+          <AssociationSet Name="LookupType_LookupItem" Association="InspiredModel.LookupType_LookupItem">
+            <End Role="Gen_LookupType" EntitySet="Gen_LookupType" />
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialCategoryTypeLookup" Association="InspiredModel.MaterialCategoryTypeLookup">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="Inv_MaterialCategory" EntitySet="Inv_MaterialCategory" />
+          </AssociationSet>
+          <EntitySet Name="Gen_LookupGroup" EntityType="InspiredModel.Gen_LookupGroup" />
+          <AssociationSet Name="FK_Gen_LookupGroup_Company" Association="InspiredModel.FK_Gen_LookupGroup_Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Gen_LookupGroup" EntitySet="Gen_LookupGroup" />
+          </AssociationSet>
+          <AssociationSet Name="LookupGroup_LookupItem" Association="InspiredModel.LookupGroup_LookupItem">
+            <End Role="Gen_LookupGroup" EntitySet="Gen_LookupGroup" />
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Inv_MaterialBOM">
           <Key>
             <PropertyRef Name="Id" />
@@ -3038,9 +2830,9 @@
           <Property Name="Category_Type" Type="Int32" Nullable="false" />
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Inv_MaterialCategory_Gen_CompanyMaster" FromRole="Inv_MaterialCategory" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.MaterialCategoryTypeLookup" FromRole="Inv_MaterialCategory" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialCategory" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.FK_Inv_MaterialCategory_Inv_CategoryMaster1" FromRole="Inv_MaterialCategory" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.MaterialCategoryTypeLookup" FromRole="Inv_MaterialCategory" ToRole="Gen_LookupItem" />
         </EntityType>
         <Association Name="FK_Inv_MaterialCategory_Gen_CompanyMaster">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
@@ -3051,18 +2843,6 @@
             </Principal>
             <Dependent Role="Inv_MaterialCategory">
               <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="MaterialCategoryTypeLookup">
-          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
-          <End Type="InspiredModel.Inv_MaterialCategory" Role="Inv_MaterialCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialCategory">
-              <PropertyRef Name="Category_Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3162,7 +2942,257 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="Inv_MaterialSpecification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item_Id" Type="Int32" Nullable="false" />
+          <Property Name="Batch_Number" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Spec_Id" Type="Int32" Nullable="false" />
+          <Property Name="Spec_Value" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="User_Id" Type="Int32" />
+          <Property Name="Last_Updated" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Gen_CompanyMaster" FromRole="Inv_MaterialSpecification" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Material" FromRole="Inv_MaterialSpecification" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_MaterialSpecIdLookup" FromRole="Inv_MaterialSpecification" ToRole="Gen_LookupItem" />
+        </EntityType>
+        <Association Name="FK_Inv_MaterialSpecification_Gen_CompanyMaster">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialSpecification" Role="Inv_MaterialSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialSpecification">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialSpecification_Material">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialSpecification" Role="Inv_MaterialSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialSpecification">
+              <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Gen_LookupItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LookupType_Id" Type="Int32" Nullable="false" />
+          <Property Name="LookupGroup_Id" Type="Int32" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Ordinal" Type="Int32" Nullable="false" />
+          <Property Name="IsOther" Type="Boolean" Nullable="false" />
+          <Property Name="IsHidden" Type="Boolean" Nullable="false" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="User_Id" Type="Int32" Nullable="false" />
+          <Property Name="Last_update" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="FAS_AccountMaster" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Gen_LookupItem_Company" FromRole="Gen_LookupItem" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.CategoryType_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_CategoryMaster" />
+          <NavigationProperty Name="Inv_MaterialDiscount" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialNotes" />
+          <NavigationProperty Name="Inv_MaterialPrice" Relationship="InspiredModel.FK_Inv_MaterialPrice_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialPrice" />
+          <NavigationProperty Name="Inv_MaterialSupplier" Relationship="InspiredModel.FK_Inv_MaterialSupplier_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialSupplier" />
+          <NavigationProperty Name="Inv_MaterialSpecification" Relationship="InspiredModel.FK_MaterialSpecIdLookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialSpecification" />
+          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_WarehouseType_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_WarehouseMaster" />
+          <NavigationProperty Name="Gen_LookupType" Relationship="InspiredModel.LookupType_LookupItem" FromRole="Gen_LookupItem" ToRole="Gen_LookupType" />
+          <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.MaterialCategoryTypeLookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialCategory" />
+          <NavigationProperty Name="Gen_LookupGroup" Relationship="InspiredModel.LookupGroup_LookupItem" FromRole="Gen_LookupItem" ToRole="Gen_LookupGroup" />
+        </EntityType>
+        <Association Name="FK_FAS_AccountMaster_Gen_LookupItem">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="0..1" />
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAS_AccountMaster">
+              <PropertyRef Name="Price_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gen_LookupItem_Company">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_LookupItem">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CategoryType_Lookup">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_CategoryMaster" Role="Inv_CategoryMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_CategoryMaster">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_Gen_LookupItem">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Price_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialMaster_UOM_Lookup">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialMaster">
+              <PropertyRef Name="UOM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialNotes_Gen_LookupItem">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialNotes" Role="Inv_MaterialNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialNotes">
+              <PropertyRef Name="Priority_Flg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialPrice_Gen_LookupItem">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialPrice" Role="Inv_MaterialPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialPrice">
+              <PropertyRef Name="Price_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialSupplier_Gen_LookupItem">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialSupplier" Role="Inv_MaterialSupplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialSupplier">
+              <PropertyRef Name="Currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialSpecIdLookup">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialSpecification" Role="Inv_MaterialSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialSpecification">
+              <PropertyRef Name="Spec_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WarehouseType_Lookup">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LookupType_LookupItem">
+          <End Type="InspiredModel.Gen_LookupType" Role="Gen_LookupType" Multiplicity="1" />
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_LookupItem">
+              <PropertyRef Name="LookupType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialCategoryTypeLookup">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialCategory" Role="Inv_MaterialCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialCategory">
+              <PropertyRef Name="Category_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Gen_LookupGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LookupType_Id" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsHidden" Type="Boolean" Nullable="false" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="User_Id" Type="Int32" Nullable="false" />
+          <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Gen_LookupGroup_Company" FromRole="Gen_LookupGroup" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.LookupGroup_LookupItem" FromRole="Gen_LookupGroup" ToRole="Gen_LookupItem" />
+        </EntityType>
+        <Association Name="FK_Gen_LookupGroup_Company">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Gen_LookupGroup" Role="Gen_LookupGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_LookupGroup">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LookupGroup_LookupItem">
+          <End Type="InspiredModel.Gen_LookupGroup" Role="Gen_LookupGroup" Multiplicity="0..1" />
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gen_LookupItem">
+              <PropertyRef Name="LookupGroup_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -3235,35 +3265,6 @@
                 <ScalarProperty Name="Company_Code" ColumnName="Company_Code" />
                 <ScalarProperty Name="Company_Description" ColumnName="Company_Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Gen_LookupGroup">
-            <EntityTypeMapping TypeName="InspiredModel.Gen_LookupGroup">
-              <MappingFragment StoreEntitySet="Gen_LookupGroup">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LookupType_Id" ColumnName="LookupType_Id" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
-                <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Gen_LookupItem">
-            <EntityTypeMapping TypeName="InspiredModel.Gen_LookupItem">
-              <MappingFragment StoreEntitySet="Gen_LookupItem">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LookupType_Id" ColumnName="LookupType_Id" />
-                <ScalarProperty Name="LookupGroup_Id" ColumnName="LookupGroup_Id" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Ordinal" ColumnName="Ordinal" />
-                <ScalarProperty Name="IsOther" ColumnName="IsOther" />
-                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
-                <ScalarProperty Name="Last_update" ColumnName="Last_update" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3476,22 +3477,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Inv_MaterialSpecification">
-            <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialSpecification">
-              <MappingFragment StoreEntitySet="Inv_MaterialSpecification">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="Spec_Group" ColumnName="Spec_Group" />
-                <ScalarProperty Name="Batch_Number" ColumnName="Batch_Number" />
-                <ScalarProperty Name="Spec_Code" ColumnName="Spec_Code" />
-                <ScalarProperty Name="Spec_Description" ColumnName="Spec_Description" />
-                <ScalarProperty Name="Spec_Value" ColumnName="Spec_Value" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
-                <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Inv_MaterialSupplier">
             <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialSupplier">
               <MappingFragment StoreEntitySet="Inv_MaterialSupplier">
@@ -3573,6 +3558,49 @@
                 <ScalarProperty Name="Category_Type" ColumnName="Category_Type" />
                 <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_MaterialSpecification">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialSpecification">
+              <MappingFragment StoreEntitySet="Inv_MaterialSpecification">
+                <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Spec_Value" ColumnName="Spec_Value" />
+                <ScalarProperty Name="Spec_Id" ColumnName="Spec_Id" />
+                <ScalarProperty Name="Batch_Number" ColumnName="Batch_Number" />
+                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gen_LookupItem">
+            <EntityTypeMapping TypeName="InspiredModel.Gen_LookupItem">
+              <MappingFragment StoreEntitySet="Gen_LookupItem">
+                <ScalarProperty Name="Last_update" ColumnName="Last_update" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+                <ScalarProperty Name="IsOther" ColumnName="IsOther" />
+                <ScalarProperty Name="Ordinal" ColumnName="Ordinal" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LookupGroup_Id" ColumnName="LookupGroup_Id" />
+                <ScalarProperty Name="LookupType_Id" ColumnName="LookupType_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gen_LookupGroup">
+            <EntityTypeMapping TypeName="InspiredModel.Gen_LookupGroup">
+              <MappingFragment StoreEntitySet="Gen_LookupGroup">
+                <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LookupType_Id" ColumnName="LookupType_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

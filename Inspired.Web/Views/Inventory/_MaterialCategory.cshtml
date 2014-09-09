@@ -9,15 +9,15 @@
                     @Html.ValidationMessageFor(m => m.CategoryTypes)
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    @Html.LabelFor(m => m.catCode, new { @class = "control-label" })
-                    @Html.HiddenFor(m => m.catId)
-                    @Html.TextBoxFor(m => m.catCode, new { @class = "form-control", @onblur = "fetchCategory();" })
-                    @Html.ValidationMessageFor(m => m.catCode)
+                    @Html.LabelFor(m => m.CatCode, new { @class = "control-label" })
+                    @Html.HiddenFor(m => m.CatId)
+                    @Html.TextBoxFor(m => m.CatCode, new { @class = "form-control", @onblur = "fetchCategory();" })
+                    @Html.ValidationMessageFor(m => m.CatCode)
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    @Html.LabelFor(m => m.catDescription, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.catDescription, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.catDescription)
+                    @Html.LabelFor(m => m.CatDescription, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.CatDescription, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.CatDescription)
                 </div>
                 <div class="col-md-1 col-sm-12">
                     <br />

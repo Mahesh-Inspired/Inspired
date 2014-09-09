@@ -1,0 +1,83 @@
+﻿@model Inspired.Web.ViewModel.MaterialViewModel
+<div class="row-fluid">
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                @*<div class="col-md-2">
+                    @Html.LabelFor(m => m.SpecGroup, new { @class = "control-label" })                    
+                    @Html.TextBoxFor(m => m.SpecGroup, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.SpecGroup)
+                </div>*@
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.SpecBatchNumber, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.SpecBatchNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SpecBatchNumber)
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Specifications, new { @class = "control-label" })                    
+                    @Html.DropDownListFor(model => model.Specifications, Model.Specifications, new { @class = "form-control", onblur="fetchSpec()"  })                    
+                    @Html.ValidationMessageFor(m => m.Specifications)
+                    @Html.HiddenFor(m=>m.SpecGroup)
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.SpecValue, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.SpecValue, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SpecValue)
+                </div>
+                <div class="col-md-1">
+                    <br />
+                    <input type="button" class="btn btn-success" value="Add" id="SpecAdd" onclick="AddSpecification()" />
+                </div>
+                <div class="col-md-1" id="divSpecDelete">
+                    <br />
+                    <input type="button" class="btn btn-warning" value="Delete" id="SpecDelete" onclick="ClearSpecification()" />
+                </div>
+            </div>
+            <div class="row-fluid">
+
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <table class="table" id="SpecificationTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.SpecGroup)</th>
+                                <th>@Html.LabelFor(m => m.SpecBatchNumber)</th>
+                                <th>@Html.LabelFor(m => m.SpecDescription)</th>
+                                <th>@Html.LabelFor(m => m.SpecValue)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Material != null)
+                            {
+                                foreach (var spec in Model.Material.Inv_MaterialSpecification)
+                                {
+                                    <tr>                                       
+                                        <td>
+                                            @Html.DisplayFor(modelItem => spec.Gen_LookupItem.Gen_LookupGroup.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => spec.Batch_Number)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => spec.Gen_LookupItem.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => spec.Spec_Value)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => spec.Spec_Id)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

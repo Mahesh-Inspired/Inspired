@@ -32,10 +32,10 @@ namespace Inspired.Data
     
         public virtual Gen_BranchMaster Gen_BranchMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
-        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
+        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
     }
 }

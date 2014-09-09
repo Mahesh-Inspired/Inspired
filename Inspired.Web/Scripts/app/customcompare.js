@@ -8,6 +8,8 @@
     var valueOther = $("[id*='" + propelename + "']").val();
     var val1 = (isNaN(value) ? Date.parse(value) : eval(value));
     var val2 = (isNaN(valueOther) ? Date.parse(valueOther) : eval(valueOther));
+    if (val1 == undefined || val2 == undefined) return true;
+
     if (operName == "GreaterThan")
         return val1 > val2;
     if (operName == "LessThan")

@@ -35,7 +35,6 @@ namespace Inspired.Data
         public System.DateTime Last_Updated { get; set; }
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
-        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount1 { get; set; }
@@ -43,5 +42,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount3 { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount4 { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount5 { get; set; }
+        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
     }
 }

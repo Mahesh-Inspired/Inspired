@@ -45,8 +45,9 @@ namespace Inspired.Web
             #region Material Master
 
             bundles.Add(new ScriptBundle("~/bundles/materialmaster").Include(
-                "~/Scripts/app/materialmaster.js",
-                "~/Scripts/app/materialcategory.js"));
+                "~/Scripts/app/inventory/materialmaster.js",
+                "~/Scripts/app/inventory/materialcategory.js",
+                "~/Scripts/app/inventory/materialspecification.js"));
 
 
             #endregion

@@ -32,8 +32,6 @@ namespace Inspired.Data
         public virtual DbSet<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual DbSet<Gen_BranchMaster> Gen_BranchMaster { get; set; }
         public virtual DbSet<Gen_CompanyMaster> Gen_CompanyMaster { get; set; }
-        public virtual DbSet<Gen_LookupGroup> Gen_LookupGroup { get; set; }
-        public virtual DbSet<Gen_LookupItem> Gen_LookupItem { get; set; }
         public virtual DbSet<Gen_LookupType> Gen_LookupType { get; set; }
         public virtual DbSet<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
         public virtual DbSet<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
@@ -46,11 +44,13 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual DbSet<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual DbSet<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
-        public virtual DbSet<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
         public virtual DbSet<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
         public virtual DbSet<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual DbSet<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
         public virtual DbSet<Gen_UserMaster> Gen_UserMaster { get; set; }
         public virtual DbSet<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
+        public virtual DbSet<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
+        public virtual DbSet<Gen_LookupItem> Gen_LookupItem { get; set; }
+        public virtual DbSet<Gen_LookupGroup> Gen_LookupGroup { get; set; }
     }
 }

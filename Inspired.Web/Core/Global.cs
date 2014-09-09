@@ -38,5 +38,13 @@ namespace Inspired.Web.Core
         public static Int32 LookupItem_No = 21;
 
         #endregion
+
+        #region Specification
+                
+        public static Int32 LookupType_Specification = 4;
+
+
+
+        #endregion
     }
 }

@@ -338,10 +338,11 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\antiforgerytoken.js" />
     <Content Include="Scripts\app\customcompare.js" />
-    <Content Include="Scripts\app\materialcategory.js" />
-    <Content Include="Scripts\app\materiallist.js" />
+    <Content Include="Scripts\app\inventory\materialspecification.js" />
+    <Content Include="Scripts\app\inventory\materialcategory.js" />
+    <Content Include="Scripts\app\inventory\materiallist.js" />
     <Content Include="Scripts\app\categorylist.js" />
-    <Content Include="Scripts\app\materialmaster.js" />
+    <Content Include="Scripts\app\inventory\materialmaster.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables-1.10.1\dataTables.autoFill.js" />
@@ -548,8 +549,9 @@
     <Content Include="Views\Inventory\CreateMaterial.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
     <Content Include="Views\Inventory\CreateMaterial - Copy.cshtml" />
-    <Content Include="Views\Inventory\_MaterialCategory.cshtml" />
+    <Content Include="Views\Inventory\_MaterialSpecification.cshtml" />
     <Content Include="Views\Inventory\_MaterialDetails.cshtml" />
+    <Content Include="Views\Inventory\_MaterialCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

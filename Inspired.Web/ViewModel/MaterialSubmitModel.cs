@@ -30,7 +30,7 @@ namespace Inspired.Web.ViewModel
         public Decimal? Sale_Price { get; set; }
         public Decimal? Cost_Price { get; set; }
       public virtual ICollection<MaterialCategory> ItemCategory { get; set; }
-
+      public virtual ICollection<MaterialSpecification> ItemSpecification { get; set; }
     }
 
 
@@ -42,6 +42,19 @@ namespace Inspired.Web.ViewModel
         public String CategoryDescription { get; set; }
 
         public Int32 CatId { get; set; }
+
+        public virtual MaterialSubmitModel material { get; set; }
+
+    }
+
+    public class MaterialSpecification
+    {
+        public Int32 ItemId { get; set; }
+        public String BatchNumber { get; set; }
+
+        public Int32 SpecId { get; set; }
+
+        public String SpecValue { get; set; }
 
         public virtual MaterialSubmitModel material { get; set; }
     }

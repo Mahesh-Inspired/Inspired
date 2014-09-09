@@ -26,12 +26,12 @@ namespace Inspired.Data
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSpares = new HashSet<Inv_MaterialSpares>();
             this.Inv_MaterialSpares1 = new HashSet<Inv_MaterialSpares>();
-            this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
             this.Inv_MaterialBOM = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBOM1 = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
+            this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
         }
     
         public int Id { get; set; }
@@ -69,7 +69,6 @@ namespace Inspired.Data
         public Nullable<System.DateTime> Last_Updated { get; set; }
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
-        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
@@ -80,11 +79,12 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSpares> Inv_MaterialSpares { get; set; }
         public virtual ICollection<Inv_MaterialSpares> Inv_MaterialSpares1 { get; set; }
-        public virtual ICollection<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM1 { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
+        public virtual ICollection<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
+        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace Inspired.Repository
         IGenericRepository<Inv_MaterialMaster> MaterialMasterRepository { get; }
 
         IGenericRepository<Inv_MaterialCategory> MaterialCategoryRepository { get; }
+        IGenericRepository<Inv_MaterialSpecification> MaterialSpecificationRepository { get; }
         void Save();
 
         void DisableChangeTracking();

@@ -111,6 +111,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"I Try to access the create category")]
         public void WhenITryToAccessTheCreateCategory()
         {
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });
             baseController.InvCategoryRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(null);        
             result = invController.CreateCategory();
         }
@@ -119,6 +120,7 @@ namespace Inspired.Web.Test.Controllers
         public void WhenITryToAccessTheEditCategory()
         {
             Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });
             baseController.InvCategoryRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
             result = invController.EditCategory(1);
         }
@@ -140,12 +142,14 @@ namespace Inspired.Web.Test.Controllers
 
         [When(@"I click the create button")]
         public void WhenIClickTheCreateButton()
-        {            
+        {
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });
             result = invController.CreateCategory(collection);
         }
         [When(@"I click the save button")]
         public void WhenIClickTheSaveButton()
         {
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test" } });   
             result = invController.EditCategory(collection);
         }
 
