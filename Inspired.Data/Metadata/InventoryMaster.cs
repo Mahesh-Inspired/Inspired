@@ -86,6 +86,19 @@ namespace Inspired.Data
             
             [Display(Name = "Cost Price")]
             public Nullable<decimal> Cost_Price { get; set; }
+
+            [Display(Name="Quantity")]
+            public Nullable<int> MCarton_Quantity { get; set; }
+            [Display(Name = "Length")]
+            public Nullable<decimal> MCarton_Length { get; set; }
+            [Display(Name = "Width")]
+            public Nullable<decimal> MCarton_Width { get; set; }
+            [Display(Name = "Height")]
+            public Nullable<decimal> MCarton_Height { get; set; }
+            [Display(Name = "Gross Weight")]
+            public Nullable<decimal> MCarton_Gross_Weight { get; set; }
+            [Display(Name = "NETT Weight")]
+            public Nullable<decimal> MCarton_NETT_Weight { get; set; }
         }
     }
 

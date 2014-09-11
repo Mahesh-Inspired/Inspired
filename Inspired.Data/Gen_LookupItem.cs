@@ -19,13 +19,13 @@ namespace Inspired.Data
             this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
             this.Inv_CategoryMaster = new HashSet<Inv_CategoryMaster>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
-            this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
             this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
             this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
+            this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
         }
     
         public int Id { get; set; }
@@ -43,7 +43,6 @@ namespace Inspired.Data
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual ICollection<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
-        public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
@@ -52,5 +51,6 @@ namespace Inspired.Data
         public virtual Gen_LookupType Gen_LookupType { get; set; }
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual Gen_LookupGroup Gen_LookupGroup { get; set; }
+        public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
     }
 }

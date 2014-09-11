@@ -21,7 +21,9 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_MaterialMaster> _materialMasterRepository;
         private IGenericRepository<Inv_MaterialCategory> _materialCategoryRepository;
         private IGenericRepository<Inv_MaterialSpecification> _materialSpecificationRepository;
-        
+        private IGenericRepository<Inv_MaterialPackaging> _materialPackagingRepository;
+        private IGenericRepository<Inv_MaterialSpares> _materialSparesRepository;
+
         #region Constructor
             public UnitOfWork()
             {
@@ -52,6 +54,11 @@ namespace Inspired.Repository
 
                     throw new DbEntityValidationException("Entity Validation Failed - errors follow:\n" + sb, ex);
                     // Add the original exception as the innerException
+                }
+                catch(Exception e)
+                {
+
+
                 }
             }
         #endregion
@@ -121,5 +128,14 @@ namespace Inspired.Repository
         {
             get { return _materialSpecificationRepository ?? (_materialSpecificationRepository = new GenericRepository<Inv_MaterialSpecification>(DbContext)); }
         }
+        public IGenericRepository<Data.Inv_MaterialPackaging> MaterialPackagingRepository
+        {
+            get { return _materialPackagingRepository ?? (_materialPackagingRepository = new GenericRepository<Inv_MaterialPackaging>(DbContext)); }
+        }
+        public IGenericRepository<Data.Inv_MaterialSpares> MaterialSparesRepository
+        {
+            get { return _materialSparesRepository ?? (_materialSparesRepository = new GenericRepository<Inv_MaterialSpares>(DbContext)); }
+        }
+        
     }
 }

@@ -257,6 +257,13 @@ namespace Inspired.Web.Controllers
                 material.NETT_Price = data.NETT_Price;
                 material.Sale_Price = data.Sale_Price;
                 material.Cost_Price = data.Cost_Price;
+                material.MCarton_Quantity = data.MCarton_Quantity;
+                material.MCarton_Length = data.MCarton_Length;
+                material.MCarton_Width = data.MCarton_Width;
+                material.MCarton_Height = data.MCarton_Height;
+                material.MCarton_Gross_Weight = data.MCarton_Gross_Weight;
+                material.MCarton_NETT_Weight = data.MCarton_NETT_Weight;
+
                 material.Company_Id = companyId;                            
             }
             else
@@ -270,10 +277,18 @@ namespace Inspired.Web.Controllers
                 };
             }
 
-            var materialCategoryFlg = SaveItemCategory(data.ItemCategory.ToList(), ref material, companyId);
-
-            var materialSpecFlg = SaveItemSpecification(data.ItemSpecification.ToList(), ref material, companyId);
-
+            Boolean materialCategoryFlg = true;
+            Boolean materialSpecFlg = true;
+            Boolean materialPackFlg = true;
+            Boolean materialSpareFlg = true;
+            if (data.ItemCategory != null)
+                materialCategoryFlg = SaveItemCategory(data.ItemCategory.ToList(), ref material, companyId);
+            if (data.ItemSpecification != null)
+                materialSpecFlg = SaveItemSpecification(data.ItemSpecification.ToList(), ref material, companyId);
+            if (data.ItemPackaging != null)
+                materialPackFlg = SaveItemPackaging(data.ItemPackaging.ToList(), ref material, companyId);
+            if (data.ItemSpare != null)
+                materialSpareFlg = SaveItemSpares(data.ItemSpare.ToList(), ref material, companyId);
             if (data.Id != 0)
                 UnitOfWork.MaterialMasterRepository.Update(material);
             else
@@ -331,6 +346,80 @@ namespace Inspired.Web.Controllers
             }
             return true;
         }
+
+        private Boolean SaveItemPackaging(List<MaterialPackaging> packagings, ref Inv_MaterialMaster material, Int32 companyId)
+        {
+            Inv_MaterialPackaging invMaterialPackaging;
+            // Delete the existing Inv_MaterialCategory details
+            foreach (Inv_MaterialPackaging tmpPack in material.Inv_MaterialPackaging.ToList())
+            {
+                UnitOfWork.MaterialPackagingRepository.Delete(tmpPack);
+            }
+
+            // Insert values in the data table into Inv_MaterialCategory table
+            foreach (MaterialPackaging itemPack in packagings)
+            {
+                invMaterialPackaging = new Inv_MaterialPackaging()
+                {
+                    Box_Number = itemPack.BoxNumber,
+                    Box_Width = itemPack.BoxWidth,
+                    Box_Height = itemPack.BoxHeight,
+                    Box_Length = itemPack.BoxLength,
+                    Box_Gross_Weight = itemPack.BoxGrossWeight,
+                    Box_NETT_Weight = itemPack.BoxNettWeight,
+                    Company_Id = companyId
+                };
+                UnitOfWork.MaterialPackagingRepository.Insert(invMaterialPackaging);
+                material.Inv_MaterialPackaging.Add(invMaterialPackaging);
+            }
+            return true;
+        }
+
+        private Boolean SaveItemSpares(List<MaterialSpare> spares, ref Inv_MaterialMaster material, Int32 companyId)
+        {
+            Inv_MaterialSpares invMaterialSpare;
+            Inv_MaterialMaster invSpareMaterial;
+            // Delete the existing Inv_MaterialCategory details
+            Int32 itemId = material.Id;            
+            foreach (Inv_MaterialSpares tmpSpare in material.MaterialSpares.ToList())
+            {
+                UnitOfWork.MaterialSparesRepository.Delete(tmpSpare);
+            }
+
+            // Insert values in the data table into Inv_MaterialCategory table
+            foreach (MaterialSpare itmSpare in spares)
+            {
+                invMaterialSpare = new Inv_MaterialSpares()
+                {
+                    Item_Id = material.Id,
+                    
+                    Quantity = itmSpare.SpareQuantity,
+                    Price = itmSpare.SparePrice,
+                    Overview = itmSpare.SpareOverview,
+                    Company_Id = companyId
+                };
+                if (itmSpare.SpareItemId == 0)
+                {
+                    invSpareMaterial = new Inv_MaterialMaster()
+                    {
+                        Code = itmSpare.SpareItemCode,
+                        Description = itmSpare.SpareItemDesc,
+                        Company_Id = companyId
+                    };
+                    UnitOfWork.MaterialMasterRepository.Insert(invSpareMaterial);
+                    invMaterialSpare.SpareItem = invSpareMaterial;
+                }
+                else
+                    invMaterialSpare.Spare_Id = itmSpare.SpareItemId;
+
+                UnitOfWork.MaterialSparesRepository.Insert(invMaterialSpare);
+                //material.MaterialSpares.Add(invMaterialSpare);
+            }
+            return true;
+        }
+
+
+
         [HttpPost]
         public JsonResult SaveMaterial(MaterialSubmitModel data)
         {
@@ -380,10 +469,24 @@ namespace Inspired.Web.Controllers
             else
                 return Json(new { success = false, Message = "Enter a valid specification" }, JsonRequestBehavior.AllowGet);
         }
-
    
-
-
         #endregion
+
+        public JsonResult fetchItemDescJSON(String itemcode)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            Int32 id = 0;
+            String itemDescription = String.Empty;
+            Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemcode).FirstOrDefault();
+            if (item != null)
+            {
+                id = item.Id;
+                itemDescription = item.Description;
+                return Json(new { success = true, id = id, ItemDescription = itemDescription }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { success = true, id = 0, ItemDescription = "" }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

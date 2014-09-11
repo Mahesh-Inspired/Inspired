@@ -24,7 +24,7 @@ namespace Inspired.Data
         public System.DateTime Last_Updated { get; set; }
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
-        public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
-        public virtual Inv_MaterialMaster Inv_MaterialMaster1 { get; set; }
+        public virtual Inv_MaterialMaster MaterialSpares { get; set; }
+        public virtual Inv_MaterialMaster SpareItem { get; set; }
     }
 }

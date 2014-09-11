@@ -1,0 +1,50 @@
+﻿@model Inspired.Web.ViewModel.MaterialViewModel
+<div class="row-fluid">
+    <div class="col-md-12"><p class="bg-info">Master Carton details</p></div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.MCarton_Quantity, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">        
+        @Html.TextBoxFor(m => m.Material.MCarton_Quantity, new { @class = "form-control", placeholder = "Master Carton Quantity" })
+        @Html.ValidationMessageFor(m => m.Material.MCarton_Quantity)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.MCarton_Length, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.MCarton_Length, new { @class = "form-control", placeholder = "Master Carton Length" })
+        @Html.ValidationMessageFor(m => m.Material.MCarton_Length)
+    </div>    
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.MCarton_Width, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.MCarton_Width, new { @class = "form-control", placeholder = "Master Carton Width" })
+        @Html.ValidationMessageFor(m => m.Material.MCarton_Width)
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.MCarton_Height, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.MCarton_Height, new { @class = "form-control", placeholder = "Master Carton Height" })
+        @Html.ValidationMessageFor(m => m.Material.MCarton_Height)
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="col-md-2">@Html.LabelFor(m=>m.Material.MCarton_Gross_Weight)</div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.MCarton_Gross_Weight, new { @class = "form-control", placeholder = "Master Carton Gross Weight" })
+        @Html.ValidationMessageFor(m => m.Material.MCarton_Gross_Weight)
+    </div>
+    <div class="col-md-2">@Html.LabelFor(m => m.Material.MCarton_NETT_Weight)</div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.Material.MCarton_NETT_Weight, new { @class = "form-control", placeholder = "Master Carton NETT Weight" })
+        @Html.ValidationMessageFor(m => m.Material.MCarton_NETT_Weight)
+    </div>
+</div>
+@Html.Partial("_MaterialBoxDetails")

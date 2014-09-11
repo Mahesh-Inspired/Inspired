@@ -16,31 +16,46 @@ namespace Inspired.Web.ViewModel
 
         public SelectList Specifications { get; set; }
         #region Category
-            [Display(Name = "Category Type")]
-            public SelectList CategoryTypes { get; set; }
+        [Display(Name = "Category Type")]
+        public SelectList CategoryTypes { get; set; }
 
-            public Int32 CatId { get; set; }
-            [Display(Name = "Category Code")]
-            public String CatCode { get; set; }
-            [Display(Name = "Category Description")]
-            public String CatDescription { get; set; }
+        public Int32 CatId { get; set; }
+        [Display(Name = "Category Code")]
+        public String CatCode { get; set; }
+        [Display(Name = "Category Description")]
+        public String CatDescription { get; set; }
 
         #endregion
 
-        #region Specification            
-            [Display(Name = "Group")]
-            public String SpecGroup { get; set; }
+        #region Specification
+        [Display(Name = "Group")]
+        public String SpecGroup { get; set; }
 
-            [Display(Name = "Batch Number")]
-            public String SpecBatchNumber { get; set; }
+        [Display(Name = "Batch Number")]
+        public String SpecBatchNumber { get; set; }
 
-            public Int32 SpecId { get; set; }
+        public Int32 SpecId { get; set; }
 
-            [Display(Name = "Description")]
-            public String SpecDescription { get; set; }
+        [Display(Name = "Description")]
+        public String SpecDescription { get; set; }
 
-            [Display(Name = "Value")]
-            public String SpecValue { get; set; }
+        [Display(Name = "Value")]
+        public String SpecValue { get; set; }
+        #endregion
+
+        #region Box Details
+        [Display(Name = "Box#")]
+        public Int32 BoxNumber { get; set; }
+        [Display(Name = "Length")]
+        public decimal? BoxLength { get; set; }
+        [Display(Name = "Width")]
+        public decimal? BoxWidth { get; set; }
+        [Display(Name = "Height")]
+        public decimal? BoxHeight { get; set; }
+        [Display(Name = "Gross Weight")]
+        public decimal? BoxGrossWeight { get; set; }
+        [Display(Name = "NETT Weight")]
+        public decimal? BoxNettWeight { get; set; }            
         #endregion
 
         #region Branches
@@ -71,6 +86,25 @@ namespace Inspired.Web.ViewModel
         public String BranchSpecificationDescription { get; set; }
         #endregion
 
+        #region Spares
+
+        public Int32 SpareItemId { get; set; }
+        [RegularExpression(@"^([A-Z0-9]{4}\-[A-Z0-9.]+)$", ErrorMessage = "Please enter a valid item code")]
+        [StringLength(50, ErrorMessage = "Item code is too long")]
+        [Display(Name = "Item Code")]
+        public String SpareItemCode { get; set; }
+        
+        [StringLength(500, ErrorMessage = "Item description is too long")]
+        [Display(Name = "Item Description")]
+        public string SpareItemDesc { get; set; }
+        [Display(Name = "Quantity")]
+        public int? SpareQuantity { get; set; }
+        [Display(Name = "Price")]
+        public decimal? SparePrice { get; set; }
+        [Display(Name = "Overview")]
+        public String SpareOverview { get; set; }
+
+        #endregion
 
         #region Constructor
         public MaterialViewModel()

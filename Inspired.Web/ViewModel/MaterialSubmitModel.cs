@@ -29,8 +29,17 @@ namespace Inspired.Web.ViewModel
         public Decimal? NETT_Price { get; set; }
         public Decimal? Sale_Price { get; set; }
         public Decimal? Cost_Price { get; set; }
+        public int? MCarton_Quantity { get; set; }
+        public decimal? MCarton_Length { get; set; }
+        public decimal? MCarton_Width { get; set; }
+        public decimal? MCarton_Height { get; set; }
+        public decimal? MCarton_Gross_Weight { get; set; }
+        public decimal? MCarton_NETT_Weight { get; set; }
       public virtual ICollection<MaterialCategory> ItemCategory { get; set; }
       public virtual ICollection<MaterialSpecification> ItemSpecification { get; set; }
+      public virtual ICollection<MaterialPackaging> ItemPackaging { get; set; }
+
+      public virtual ICollection<MaterialSpare> ItemSpare { get; set; }
     }
 
 
@@ -57,5 +66,30 @@ namespace Inspired.Web.ViewModel
         public String SpecValue { get; set; }
 
         public virtual MaterialSubmitModel material { get; set; }
+    }
+
+    public class MaterialPackaging
+    {
+        public Int32 ItemId { get; set; }
+        public Int32 BoxNumber { get; set; }        
+        public Decimal? BoxLength { get; set; }        
+        public Decimal? BoxWidth { get; set; }
+        public Decimal? BoxHeight { get; set; }
+        public Decimal? BoxGrossWeight { get; set; }
+        public Decimal? BoxNettWeight { get; set; }
+        public virtual MaterialSubmitModel material { get; set; }
+    }
+
+    public class MaterialSpare
+    {
+        public Int32 ItemId { get; set; }
+        public Int32 SpareItemId { get; set; }
+        public String SpareItemCode { get; set; }
+        public String SpareItemDesc { get; set; }
+        public Int32 SpareQuantity { get; set; }
+        public decimal SparePrice { get; set; }
+        public String SpareOverview { get; set; }
+        public virtual MaterialSubmitModel material { get; set; }
+
     }
 }

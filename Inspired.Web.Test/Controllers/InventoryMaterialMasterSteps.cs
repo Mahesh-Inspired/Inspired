@@ -89,7 +89,8 @@ namespace Inspired.Web.Test.Controllers
             Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST" };
             baseController.InvCategoryRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
             Inv_MaterialCategory invMatlCat = new Inv_MaterialCategory() { Category_Id = 12, Category_Type = 1, Id = 1, Item_Id = 1 };
-            Inv_MaterialMaster invMaterial = new Inv_MaterialMaster() { Id = 1, Code = "Item1", Description = "Description", Inv_MaterialCategory = new List<Inv_MaterialCategory> { invMatlCat } };
+            Inv_MaterialSpecification invSpecs = new Inv_MaterialSpecification() { Id = 1, Spec_Id = 1, Spec_Value = "Test" };
+            Inv_MaterialMaster invMaterial = new Inv_MaterialMaster() { Id = 1, Code = "Item1", Description = "Description", Inv_MaterialCategory = new List<Inv_MaterialCategory> { invMatlCat }, Inv_MaterialSpecification = new List<Inv_MaterialSpecification> { invSpecs } };
             baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster> { invMaterial });
             
             result = invController.EditMaterial(1);
@@ -169,6 +170,39 @@ namespace Inspired.Web.Test.Controllers
             var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
             Assert.IsTrue(jsonTopLevel["success"].ToString() == "True");
             Assert.IsTrue(jsonTopLevel["SpecGroup"].ToString() == "Test Group");
+        }
+        [When(@"I try to enter a valid item code")]
+        public void WhenITryToEnterAValidItemCode()
+        {
+            Inv_MaterialMaster invMatl = new Inv_MaterialMaster() { Id = 1, Code = "TEST", Description = "TEST Description" };
+            baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster>() { invMatl });
+            result = invController.fetchItemDescJSON("TEST");
+        }
+
+        [Then(@"The call succeeds and return description and id of the item")]
+        public void ThenTheCallSucceedsAndReturnDescriptionAndIdOfTheItem()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsTrue(jsonTopLevel["id"].ToString() == "1");
+            Assert.IsTrue(jsonTopLevel["ItemDescription"].ToString() == "TEST Description");
+        }
+        [When(@"I try to enter a invalid item code")]
+        public void WhenITryToEnterAInvalidItemCode()
+        {
+            baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster>() { });
+            result = invController.fetchItemDescJSON("TEST");
+        }
+
+        [Then(@"The call succeeds and returns id as zero and blank description of the item")]
+        public void ThenTheCallSucceedsAndReturnsIdAsZeroAndBlankDescriptionOfTheItem()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsTrue(jsonTopLevel["id"].ToString() == "0");
+            Assert.IsTrue(jsonTopLevel["ItemDescription"].ToString() == "");
         }
 
     }

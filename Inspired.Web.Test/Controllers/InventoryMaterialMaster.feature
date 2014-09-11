@@ -42,3 +42,13 @@ Scenario: Inventory - Material Master - The specification group is populated whe
 	Given I am logged in user
 	When I try to enter a valid specification
 	Then The call succeeds and return group details for the specification
+
+Scenario: Inventory - Material Master - The item description and id are returned when the item code is passed
+	Given I am logged in user
+	When I try to enter a valid item code
+	Then The call succeeds and return description and id of the item
+
+Scenario: Inventory - Material Master - The item description and id are blank and zero when invalid item code is passed
+	Given I am logged in user
+	When I try to enter a invalid item code
+	Then The call succeeds and returns id as zero and blank description of the item

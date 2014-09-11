@@ -95,8 +95,13 @@ namespace Utilities.Data
 
         public virtual void Delete(object id)
         {
-            TEntity entityToDelete = dbSet.Find(id);
-            Delete(entityToDelete);
+            try
+            {
+                TEntity entityToDelete = dbSet.Find(id);
+                Delete(entityToDelete);
+            }
+            catch(Exception e)
+            { }
         }
 
         public virtual void Delete(TEntity entityToDelete)

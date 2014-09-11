@@ -37,10 +37,11 @@ namespace Inspired.Data.Validation
 
             var valThis = (IComparable)value;
 
-            if ((operatorname == GenericCompareOperator.GreaterThan && valThis.CompareTo(valOther) <= 0) ||
+            if ((valThis != null && valOther != null) &&
+                ((operatorname == GenericCompareOperator.GreaterThan && valThis.CompareTo(valOther) <= 0) ||
                 (operatorname == GenericCompareOperator.GreaterThanOrEqual && valThis.CompareTo(valOther) < 0) ||
                 (operatorname == GenericCompareOperator.LessThan && valThis.CompareTo(valOther) >= 0) ||
-                (operatorname == GenericCompareOperator.LessThanOrEqual && valThis.CompareTo(valOther) > 0))
+                (operatorname == GenericCompareOperator.LessThanOrEqual && valThis.CompareTo(valOther) > 0)))
                 return new ValidationResult(base.ErrorMessage);
             return null;
         }

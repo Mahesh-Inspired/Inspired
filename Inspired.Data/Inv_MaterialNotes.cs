@@ -31,7 +31,7 @@ namespace Inspired.Data
     
         public virtual FAS_AccountMaster FAS_AccountMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
-        public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
+        public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
     }
 }

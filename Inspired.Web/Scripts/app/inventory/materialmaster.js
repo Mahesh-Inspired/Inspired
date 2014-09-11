@@ -1,10 +1,12 @@
-﻿var catTable, specTable;
+﻿var catTable, specTable, boxTable, spareTable;
 $(function () {
     $('#Material').addClass('active');
     $('#Category').addClass('inactive');
     $('#Specification').addClass('inactive');    
     LoadCategory();
     LoadSpecification();
+    LoadPackaging();
+    LoadSpares();
     $('form').submit(function (evt) {
         evt.preventDefault();
         var $form = $(this);
@@ -19,12 +21,18 @@ function Item_Save() {
     var Material = { "Item": "" };
     var ItemCategory = { "ItemId": "", "CatId": "", "CategoryType": "", "CategoryCode": "", "CategoryDescription": "" };
     var ItemSpecification = { "ItemId": "", "BatchNumber": "", "SpecId": "", "SpecValue": "" };
+    var ItemBoxDetails = { "ItemId": "", "BoxNumber": "", "BoxLength": "", "BoxWidth": "", "BoxHeight": "", "BoxGrossWeight": "", "BoxNettWeight": "" };
+    var ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
     var Item = {
         "Id": "", "Code": "", "Description": "", "SKU_Number": "", "Long_Description": "", "Overview": "", "UOM": "",
         "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Shelf_Life": "", "Barcode": "",
         "Max_Level": "", "Min_Level": "", "Re_order_level": "", "Lead_Time": "", "NETT_Price": "", "Sale_Price": "", "Cost_Price": "",
+        "MCarton_Quantity": "", "MCarton_Length": "", "MCarton_Width": "", "MCarton_Height": "",
+        "MCarton_Gross_Weight": "", "MCarton_NETT_Weight": "",
         "ItemCategory": [],
-        "ItemSpecification": []
+        "ItemSpecification": [],
+        "ItemPackaging": [],
+        "ItemSpare": []
     };
     // Material Master main details
     Item.Id = $("#Material_Id").val();
@@ -47,6 +55,12 @@ function Item_Save() {
     Item.NETT_Price = $("#Material_NETT_Price").val();
     Item.Sale_Price = $("#Material_Sale_Price").val();
     Item.Cost_Price = $("#Material_Cost_Price").val();
+    Item.MCarton_Quantity = $("#Material_MCarton_Quantity").val();
+    Item.MCarton_Length = $("#Material_MCarton_Length").val();
+    Item.MCarton_Width = $("#Material_MCarton_Width").val();
+    Item.MCarton_Height = $("#Material_MCarton_Height").val();
+    Item.MCarton_Gross_Weight = $("#Material_MCarton_Gross_Weight").val();
+    Item.MCarton_NETT_Weight = $("#Material_MCarton_NETT_Weight").val();
 
 
     // Category details
@@ -77,7 +91,35 @@ function Item_Save() {
         ItemSpecification = { "ItemId": "", "BatchNumber": "", "SpecId": "", "SpecValue": "" };
     }
 
+    // Box Packaging Details
+    var boxTable = $('#PackagingTable').dataTable().fnGetData();
 
+    for (var i = 0; i < boxTable.length; i++) {        
+        ItemBoxDetails.ItemId = Item.id;
+        ItemBoxDetails.BoxNumber = boxTable[i][0];
+        ItemBoxDetails.BoxLength = boxTable[i][1];
+        ItemBoxDetails.BoxWidth = boxTable[i][2];
+        ItemBoxDetails.BoxHeight = boxTable[i][3];
+        ItemBoxDetails.BoxGrossWeight = boxTable[i][4];
+        ItemBoxDetails.BoxNettWeight = boxTable[i][5];
+        
+        Item.ItemPackaging.push(ItemBoxDetails);
+        ItemBoxDetails = { "ItemId": "", "BoxNumber": "", "BoxLength": "", "BoxWidth": "", "BoxHeight": "", "BoxGrossWeight": "", "BoxNettWeight": "" };
+    }
+
+    // Spare Details
+    var spareTable = $('#SpareTable').dataTable().fnGetData();    
+    for (var i = 0; i < spareTable.length; i++) {
+        ItemSpares.ItemId = Item.id;
+        ItemSpares.SpareItemId = spareTable[i][0];
+        ItemSpares.SpareItemCode = spareTable[i][1];
+        ItemSpares.SpareItemDesc = spareTable[i][2];
+        ItemSpares.SpareQuantity = spareTable[i][3];
+        ItemSpares.SparePrice = spareTable[i][4];
+        ItemSpares.SpareOverview = spareTable[i][5];        
+        Item.ItemSpare.push(ItemSpares);
+        ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
+    }    
     Material.Item = Item;
     $.ajax({
         type: "POST",
