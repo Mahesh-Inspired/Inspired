@@ -26,6 +26,7 @@ namespace Inspired.Data
             this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
+            this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
         }
     
         public int Id { get; set; }
@@ -52,5 +53,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual Gen_LookupGroup Gen_LookupGroup { get; set; }
         public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
+        public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
     }
 }

@@ -44,6 +44,7 @@
                             <li><a href="#Specification" data-id="Specification" data-toggle="tab">Specification</a></li>
                             <li><a href="#Packaging" data-id="Packaging" data-toggle="tab">Packaging</a></li>
                             <li><a href="#Spares" data-id="Spares" data-toggle="tab">Spares</a></li>
+                            <li><a href="#Alternate" data-id="Alternate" data-toggle="tab">Alternate/Relative</a></li>
                             <li></li>
                         </ul>
                     </div>
@@ -65,6 +66,9 @@
             </div>
             <div class="tab-pane" id="Spares" data-id="Spares">
                 @Html.Partial("_MaterialSpares")
+            </div>
+            <div class="tab-pane" id="Alternate" data-id="Alternate">
+                @Html.Partial("_MaterialAlternates")
             </div>
         </div>
         <div class="row-fluid">

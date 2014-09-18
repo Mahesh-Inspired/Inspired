@@ -95,12 +95,12 @@ function AddSpare() {
     $("#divSpareDelete").hide("slow");
 }
 
-function fetchSpareItem() {
-    var spareitemcode = $("#SpareItemCode").val();    
+function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId) {
+    var spareitemcode = $("#" + CtrlItemCode).val();    
     if (spareitemcode == '') return;
     if (spareitemcode == $("#Material_Code").val()) {
-        alert("Spare Item code cannot be same as the Parent code");
-        $('#SpareItemCode').focus();
+        alert("Item code cannot be same as the Parent code");
+        $('#' + CtrlItemCode).focus();
         return false;
     }
     $.ajax({
@@ -109,11 +109,11 @@ function fetchSpareItem() {
         error: function (e) { alert(e.Message); },
         success: function (data) {
             if (data.success == true) {
-                $('#SpareItemDesc').val(data.ItemDescription);
-                $('#SpareItemId').val(data.id);
+                $('#' + CtrlItemDesc).val(data.ItemDescription);
+                $('#' + CtrlItemId).val(data.id);
             } else if (data.success == false) {
                 alert(data.Message);
-                $('#SpareItemCode').focus();
+                $('#' + CtrlItemCode).focus();
             }
         },
         type: 'POST',

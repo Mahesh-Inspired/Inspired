@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialPackaging" Width="2.125" PointX="32.5" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialPrice" Width="1.5" PointX="24.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_WarehouseMaster" Width="1.5" PointX="18.375" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialAlternateRelative" Width="1.5" PointX="32.5" PointY="9.875" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBranchSpec" Width="1.5" PointX="11.75" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialNotes" Width="1.5" PointX="17" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialSupplier" Width="1.5" PointX="24.25" PointY="0.5" IsExpanded="true" />
@@ -37,7 +36,6 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_WarehouseMaster_Gen_BranchMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Gen_LookupType_Company" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_CategoryMaster_Gen_CompanyMaster" ManuallyRouted="false" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranchSpec_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialDiscount_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialNotes_Gen_CompanyMaster" ManuallyRouted="false" />
@@ -47,7 +45,7 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_WarehouseMaster_Gen_CompanyMaster" ManuallyRouted="false" />
         <AssociationConnector Association="InspiredModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBOM" Width="2.25" PointX="29.5" PointY="11.875" />
-        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBranch" Width="1.75" PointX="29.5" PointY="6.125" />
+        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialBranch" Width="1.75" PointX="34.25" PointY="11.875" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranch_Gen_BranchMaster" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBOM_Gen_CompanyMaster" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranch_Gen_CompanyMaster" />
@@ -80,13 +78,11 @@
         <EntityTypeShape EntityType="InspiredModel.Gen_LookupGroup" Width="1.5" PointX="11.875" PointY="7.25" />
         <AssociationConnector Association="InspiredModel.FK_Gen_LookupGroup_Company" />
         <AssociationConnector Association="InspiredModel.LookupGroup_LookupItem" />
-        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialMaster" Width="1.5" PointX="27.375" PointY="0.75" />
         <EntityTypeShape EntityType="InspiredModel.Inv_MaterialSpares" Width="1.5" PointX="30" PointY="1.25" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialMaster_Gen_CompanyMaster" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSpares_Gen_CompanyMaster" />
+        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialMaster" Width="2.5" PointX="26.625" PointY="0.75" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialMaster_Gen_CompanyMaster" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialAlternateRelative_Inv_MaterialMaster" />
-        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialAlternateRelative_Inv_MaterialMaster1" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBOM_Child" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBOM_Parent" />
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialBranch_Inv_MaterialMaster" />
@@ -101,6 +97,11 @@
         <AssociationConnector Association="InspiredModel.FK_Inv_MaterialSupplier_Inv_MaterialMaster" />
         <AssociationConnector Association="InspiredModel.MaterialSpares" />
         <AssociationConnector Association="InspiredModel.SpareItem" />
+        <EntityTypeShape EntityType="InspiredModel.Inv_MaterialAlternateRelative" Width="2" PointX="29.875" PointY="5.875" />
+        <AssociationConnector Association="InspiredModel.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" />
+        <AssociationConnector Association="InspiredModel.MaterialAlternativeFlagLookup" />
+        <AssociationConnector Association="InspiredModel.AlternateRelativeItemCollection" />
+        <AssociationConnector Association="InspiredModel.AlternateRelativeItemId" />
         </Diagram>
       <Diagram DiagramId="e504ad272b3b491aa21f0a8d91b382e9" Name="Diagram2" />
     </edmx:Diagrams>

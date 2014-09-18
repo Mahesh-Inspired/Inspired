@@ -38,8 +38,8 @@ namespace Inspired.Web.ViewModel
       public virtual ICollection<MaterialCategory> ItemCategory { get; set; }
       public virtual ICollection<MaterialSpecification> ItemSpecification { get; set; }
       public virtual ICollection<MaterialPackaging> ItemPackaging { get; set; }
-
       public virtual ICollection<MaterialSpare> ItemSpare { get; set; }
+      public virtual ICollection<MaterialAltRelative> ItemAltRelative { get; set; }
     }
 
 
@@ -91,5 +91,14 @@ namespace Inspired.Web.ViewModel
         public String SpareOverview { get; set; }
         public virtual MaterialSubmitModel material { get; set; }
 
+    }
+
+    public class MaterialAltRelative
+    {
+        public Int32 ItemId { get; set; }
+        public Int32 AlternateItemId { get; set; }
+        public Int32 AlternateFlgId { get; set; }
+        public String AlternateNotes { get; set; }
+        public virtual MaterialSubmitModel material { get; set; }
     }
 }

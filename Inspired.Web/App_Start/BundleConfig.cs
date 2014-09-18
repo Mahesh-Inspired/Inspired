@@ -49,7 +49,8 @@ namespace Inspired.Web
                 "~/Scripts/app/inventory/materialcategory.js",
                 "~/Scripts/app/inventory/materialspecification.js",
                 "~/Scripts/app/inventory/materialpackaging.js",
-                "~/Scripts/app/inventory/materialspares.js"));
+                "~/Scripts/app/inventory/materialspares.js",
+                "~/Scripts/app/inventory/materialalternate.js"));
 
 
             #endregion

@@ -1,4 +1,4 @@
-﻿var catTable, specTable, boxTable, spareTable;
+﻿var catTable, specTable, boxTable, spareTable, alternateTable;
 $(function () {
     $('#Material').addClass('active');
     $('#Category').addClass('inactive');
@@ -7,6 +7,7 @@ $(function () {
     LoadSpecification();
     LoadPackaging();
     LoadSpares();
+    LoadAlternates();
     $('form').submit(function (evt) {
         evt.preventDefault();
         var $form = $(this);
@@ -23,6 +24,7 @@ function Item_Save() {
     var ItemSpecification = { "ItemId": "", "BatchNumber": "", "SpecId": "", "SpecValue": "" };
     var ItemBoxDetails = { "ItemId": "", "BoxNumber": "", "BoxLength": "", "BoxWidth": "", "BoxHeight": "", "BoxGrossWeight": "", "BoxNettWeight": "" };
     var ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
+    var ItemAltRelative = { "ItemId": "", "AlternateItemId": "", "AlternateFlgId": "", "AlternateNotes": "" };
     var Item = {
         "Id": "", "Code": "", "Description": "", "SKU_Number": "", "Long_Description": "", "Overview": "", "UOM": "",
         "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Shelf_Life": "", "Barcode": "",
@@ -32,7 +34,8 @@ function Item_Save() {
         "ItemCategory": [],
         "ItemSpecification": [],
         "ItemPackaging": [],
-        "ItemSpare": []
+        "ItemSpare": [],
+        "ItemAltRelative": []
     };
     // Material Master main details
     Item.Id = $("#Material_Id").val();
@@ -119,7 +122,19 @@ function Item_Save() {
         ItemSpares.SpareOverview = spareTable[i][5];        
         Item.ItemSpare.push(ItemSpares);
         ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
-    }    
+    }
+    alert("IN");
+    // Alternate Relative Items
+    var altTable = $('#AlternateTable').dataTable().fnGetData();
+    for (var i = 0; i < altTable.length; i++) {
+        ItemAltRelative.ItemId = Item.id;
+        ItemAltRelative.AlternateItemId = altTable[i][0];
+        ItemAltRelative.AlternateFlgId = altTable[i][5];
+        ItemAltRelative.AlternateNotes = altTable[i][4];
+        Item.ItemAltRelative.push(ItemAltRelative);
+        ItemAltRelative = { "ItemId": "", "AlternateItemId": "", "AlternateFlgId": "", "AlternateNotes": "" };
+    }
+
     Material.Item = Item;
     $.ajax({
         type: "POST",

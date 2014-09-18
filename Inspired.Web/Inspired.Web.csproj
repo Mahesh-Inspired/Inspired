@@ -338,6 +338,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\antiforgerytoken.js" />
     <Content Include="Scripts\app\customcompare.js" />
+    <Content Include="Scripts\app\inventory\materialalternate.js" />
     <Content Include="Scripts\app\inventory\materialspares.js" />
     <Content Include="Scripts\app\inventory\materialspecification.js" />
     <Content Include="Scripts\app\inventory\materialpackaging.js" />
@@ -556,6 +557,7 @@
     <Content Include="Views\Inventory\_MaterialPackaging.cshtml" />
     <Content Include="Views\Inventory\_MaterialBoxDetails.cshtml" />
     <Content Include="Views\Inventory\_MaterialSpares.cshtml" />
+    <Content Include="Views\Inventory\_MaterialAlternates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

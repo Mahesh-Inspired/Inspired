@@ -199,7 +199,8 @@ namespace Inspired.Web.Controllers
             IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
             IEnumerable<Gen_LookupItem> listYesNo = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_YesNo).ToList();
             IEnumerable<Gen_LookupItem> specifications = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Specification).ToList();
-            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, null);
+            IEnumerable<Gen_LookupItem> alternateRelative = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList();
+            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, null);
             return View(material);
         }
         #endregion
@@ -212,6 +213,7 @@ namespace Inspired.Web.Controllers
             IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
             IEnumerable<Gen_LookupItem> listYesNo = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_YesNo).ToList();
             List<Gen_LookupItem> specifications = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Specification).ToList();
+            IEnumerable<Gen_LookupItem> alternateRelative = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList();
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
 
             // Remove the Categories that already exist in Material Category
@@ -221,8 +223,8 @@ namespace Inspired.Web.Controllers
             // Remove the specification that already exist in Material Specification
             foreach (Inv_MaterialSpecification matSpec in item.Inv_MaterialSpecification)
                 specifications.Remove(specifications.Where(u => u.Id == matSpec.Spec_Id).First());
-            
-            MaterialViewModel material = new MaterialViewModel(catTypes, statuses,specifications,  item);
+
+            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, item);
             return View("CreateMaterial", material);
         }
         #endregion
@@ -281,6 +283,7 @@ namespace Inspired.Web.Controllers
             Boolean materialSpecFlg = true;
             Boolean materialPackFlg = true;
             Boolean materialSpareFlg = true;
+            Boolean materialAltFlag = true;
             if (data.ItemCategory != null)
                 materialCategoryFlg = SaveItemCategory(data.ItemCategory.ToList(), ref material, companyId);
             if (data.ItemSpecification != null)
@@ -289,6 +292,8 @@ namespace Inspired.Web.Controllers
                 materialPackFlg = SaveItemPackaging(data.ItemPackaging.ToList(), ref material, companyId);
             if (data.ItemSpare != null)
                 materialSpareFlg = SaveItemSpares(data.ItemSpare.ToList(), ref material, companyId);
+            if (data.ItemAltRelative != null)
+                materialAltFlag = SaveItemAlternateRelative(data.ItemAltRelative.ToList(), ref material, companyId);
             if (data.Id != 0)
                 UnitOfWork.MaterialMasterRepository.Update(material);
             else
@@ -325,13 +330,13 @@ namespace Inspired.Web.Controllers
         private Boolean SaveItemSpecification(List<MaterialSpecification> specifications, ref Inv_MaterialMaster material, Int32 companyId)
         {
             Inv_MaterialSpecification invMaterialSpec;
-            // Delete the existing Inv_MaterialCategory details
+            // Delete the existing Inv_MaterialSpecification details
             foreach (Inv_MaterialSpecification tmpSpec in material.Inv_MaterialSpecification.ToList())
             {
                 UnitOfWork.MaterialSpecificationRepository.Delete(tmpSpec);
             }
 
-            // Insert values in the data table into Inv_MaterialCategory table
+            // Insert values in the data table into Inv_MaterialSpecification table
             foreach (MaterialSpecification itemSpec in specifications)
             {
                 invMaterialSpec = new Inv_MaterialSpecification()
@@ -350,13 +355,13 @@ namespace Inspired.Web.Controllers
         private Boolean SaveItemPackaging(List<MaterialPackaging> packagings, ref Inv_MaterialMaster material, Int32 companyId)
         {
             Inv_MaterialPackaging invMaterialPackaging;
-            // Delete the existing Inv_MaterialCategory details
+            // Delete the existing Inv_MaterialPackaging details
             foreach (Inv_MaterialPackaging tmpPack in material.Inv_MaterialPackaging.ToList())
             {
                 UnitOfWork.MaterialPackagingRepository.Delete(tmpPack);
             }
 
-            // Insert values in the data table into Inv_MaterialCategory table
+            // Insert values in the data table into Inv_MaterialPackaging table
             foreach (MaterialPackaging itemPack in packagings)
             {
                 invMaterialPackaging = new Inv_MaterialPackaging()
@@ -379,14 +384,14 @@ namespace Inspired.Web.Controllers
         {
             Inv_MaterialSpares invMaterialSpare;
             Inv_MaterialMaster invSpareMaterial;
-            // Delete the existing Inv_MaterialCategory details
+            // Delete the existing Inv_MaterialSpares details
             Int32 itemId = material.Id;            
             foreach (Inv_MaterialSpares tmpSpare in material.MaterialSpares.ToList())
             {
                 UnitOfWork.MaterialSparesRepository.Delete(tmpSpare);
             }
 
-            // Insert values in the data table into Inv_MaterialCategory table
+            // Insert values in the data table into Inv_MaterialSpares table
             foreach (MaterialSpare itmSpare in spares)
             {
                 invMaterialSpare = new Inv_MaterialSpares()
@@ -418,6 +423,32 @@ namespace Inspired.Web.Controllers
             return true;
         }
 
+        private Boolean SaveItemAlternateRelative(List<MaterialAltRelative> altRelatives, ref Inv_MaterialMaster material, Int32 companyId)
+        {
+            Inv_MaterialAlternateRelative invMaterialAltRelative;            
+            // Delete the existing Inv_MaterialCategory details
+            Int32 itemId = material.Id;
+            foreach (Inv_MaterialAlternateRelative tmpAlt in material.AlternateRelativeItemCollection.ToList())
+            {
+                UnitOfWork.MaterialAltRelativeRepository.Delete(tmpAlt);
+            }
+
+            // Insert values in the data table into Inv_MaterialAlternateRelative table
+            foreach (MaterialAltRelative itmAlt in altRelatives)
+            {
+                invMaterialAltRelative = new Inv_MaterialAlternateRelative()
+                {
+                    Item_Id = material.Id,
+                    AR_Flag = itmAlt.AlternateFlgId,
+                    AR_Item_Id = itmAlt.AlternateItemId,
+                    Notes = itmAlt.AlternateNotes,
+                    Company_Id = companyId
+                };
+                UnitOfWork.MaterialAltRelativeRepository.Insert(invMaterialAltRelative);
+                material.AlternateRelativeItemCollection.Add(invMaterialAltRelative);                
+            }
+            return true;
+        }
 
 
         [HttpPost]

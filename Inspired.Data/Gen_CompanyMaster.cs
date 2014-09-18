@@ -20,7 +20,6 @@ namespace Inspired.Data
             this.Gen_BranchMaster = new HashSet<Gen_BranchMaster>();
             this.Gen_LookupType = new HashSet<Gen_LookupType>();
             this.Inv_CategoryMaster = new HashSet<Inv_CategoryMaster>();
-            this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
             this.Inv_MaterialBranchSpec = new HashSet<Inv_MaterialBranchSpec>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
@@ -35,8 +34,9 @@ namespace Inspired.Data
             this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
             this.Gen_LookupItem = new HashSet<Gen_LookupItem>();
             this.Gen_LookupGroup = new HashSet<Gen_LookupGroup>();
-            this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialSpares = new HashSet<Inv_MaterialSpares>();
+            this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
+            this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
         }
     
         public int Id { get; set; }
@@ -48,7 +48,6 @@ namespace Inspired.Data
         public virtual ICollection<Gen_BranchMaster> Gen_BranchMaster { get; set; }
         public virtual ICollection<Gen_LookupType> Gen_LookupType { get; set; }
         public virtual ICollection<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
-        public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual ICollection<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
@@ -63,7 +62,8 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
         public virtual ICollection<Gen_LookupItem> Gen_LookupItem { get; set; }
         public virtual ICollection<Gen_LookupGroup> Gen_LookupGroup { get; set; }
-        public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual ICollection<Inv_MaterialSpares> Inv_MaterialSpares { get; set; }
+        public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
+        public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
     }
 }

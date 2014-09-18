@@ -10,11 +10,14 @@ namespace Inspired.Web.ViewModel
 {
     public class MaterialViewModel
     {
-        public SelectList ListYesNo { get; set; }
-        public SelectList Statuses { get; set; }
         public Inv_MaterialMaster Material { get; set; }
 
+        public SelectList ListYesNo { get; set; }
+        public SelectList Statuses { get; set; }
         public SelectList Specifications { get; set; }
+        [Display(Name = "Alternate/Relative")]
+        public SelectList ListRelativeAlternate { get; set; }
+
         #region Category
         [Display(Name = "Category Type")]
         public SelectList CategoryTypes { get; set; }
@@ -105,19 +108,33 @@ namespace Inspired.Web.ViewModel
         public String SpareOverview { get; set; }
 
         #endregion
+        #region Alternate
 
+        public Int32 AlternateItemId { get; set; }
+        
+        [Display(Name = "Item Code")]
+        public String AlternateItemCode { get; set; }
+
+        [Display(Name = "Item Description")]
+        public string AlternateItemDesc { get; set; }
+
+        [Display(Name = "Overview")]
+        public String AlternateOverview { get; set; }
+
+        #endregion
         #region Constructor
         public MaterialViewModel()
         { }
-        public MaterialViewModel(IEnumerable<Gen_LookupItem> categoryTypes, IEnumerable<Gen_LookupItem> statuses, IEnumerable<Gen_LookupItem> specifications, Inv_MaterialMaster material)
+        public MaterialViewModel(IEnumerable<Gen_LookupItem> categoryTypes, IEnumerable<Gen_LookupItem> statuses, IEnumerable<Gen_LookupItem> specifications, IEnumerable<Gen_LookupItem> alternateRelative, Inv_MaterialMaster material)
         {
             if (categoryTypes == null || categoryTypes.Count() < 0) throw new ArgumentNullException("Categories");
             if (statuses == null || statuses.Count() <= 0) throw new ArgumentNullException("Statuses");
             CategoryTypes = new SelectList(categoryTypes.ToList(), "Id", "Description");
             Statuses = new SelectList(statuses.ToList(), "Id", "Description");
             Specifications = new SelectList(specifications.ToList(), "Id", "Description");
+            ListRelativeAlternate = new SelectList(alternateRelative.ToList(), "Id", "Description");
 
-            ListYesNo = new SelectList(new[] { new SelectListItem { Text = "Yes", Value = "true" }, new SelectListItem { Text = "No", Value = "false" } }, "Value", "Text");
+            ListYesNo = new SelectList(new[] { new SelectListItem { Text = "Yes", Value = "true" }, new SelectListItem { Text = "No", Value = "false" } }, "Value", "Text");            
             Material = material;
         }
         #endregion

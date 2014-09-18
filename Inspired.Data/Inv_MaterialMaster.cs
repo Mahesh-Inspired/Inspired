@@ -16,8 +16,6 @@ namespace Inspired.Data
     {
         public Inv_MaterialMaster()
         {
-            this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
-            this.Inv_MaterialAlternateRelative1 = new HashSet<Inv_MaterialAlternateRelative>();
             this.Inv_MaterialBOM = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBOM1 = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
@@ -32,6 +30,8 @@ namespace Inspired.Data
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
             this.MaterialSpares = new HashSet<Inv_MaterialSpares>();
             this.SpareItem = new HashSet<Inv_MaterialSpares>();
+            this.AlternateRelativeItemCollection = new HashSet<Inv_MaterialAlternateRelative>();
+            this.AlternateRelativeItemId = new HashSet<Inv_MaterialAlternateRelative>();
         }
     
         public int Id { get; set; }
@@ -70,8 +70,6 @@ namespace Inspired.Data
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
-        public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
-        public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative1 { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM1 { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
@@ -86,5 +84,7 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
         public virtual ICollection<Inv_MaterialSpares> MaterialSpares { get; set; }
         public virtual ICollection<Inv_MaterialSpares> SpareItem { get; set; }
+        public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemCollection { get; set; }
+        public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemId { get; set; }
     }
 }

@@ -30,7 +30,9 @@ insert into Gen_LookupGroup(Id, LookupType_Id, Description,Company_Id, User_Id,L
 insert into Gen_lookupItem (Id,LookupType_Id,LookupGroup_Id, Description, ordinal, Company_Id, User_Id, last_update) values (30,4,1, 'Specification 1',1,3,1,getdate())
 insert into Gen_lookupItem (Id,LookupType_Id,LookupGroup_Id, Description, ordinal, Company_Id, User_Id, last_update) values (31,4,2, 'Height',2,3,1,getdate())
 
-
+insert into Gen_LookupType values(5,'Alternate Relative','Active',3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (25,5,'Alternate',1,0,0,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (26,5,'Relative',1,0,0,3,1,getdate())
 
 
 

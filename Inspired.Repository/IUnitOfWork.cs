@@ -19,6 +19,7 @@ namespace Inspired.Repository
         IGenericRepository<Inv_MaterialPackaging> MaterialPackagingRepository { get; }
 
         IGenericRepository<Inv_MaterialSpares> MaterialSparesRepository { get; }
+        IGenericRepository<Inv_MaterialAlternateRelative> MaterialAltRelativeRepository { get; }
         void Save();
 
         void DisableChangeTracking();

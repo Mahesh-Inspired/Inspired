@@ -23,7 +23,7 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_MaterialSpecification> _materialSpecificationRepository;
         private IGenericRepository<Inv_MaterialPackaging> _materialPackagingRepository;
         private IGenericRepository<Inv_MaterialSpares> _materialSparesRepository;
-
+        private IGenericRepository<Inv_MaterialAlternateRelative> _materialAltRelativeRepository;
         #region Constructor
             public UnitOfWork()
             {
@@ -136,6 +136,9 @@ namespace Inspired.Repository
         {
             get { return _materialSparesRepository ?? (_materialSparesRepository = new GenericRepository<Inv_MaterialSpares>(DbContext)); }
         }
-        
+        public IGenericRepository<Data.Inv_MaterialAlternateRelative> MaterialAltRelativeRepository
+        {
+            get { return _materialAltRelativeRepository ?? (_materialAltRelativeRepository = new GenericRepository<Inv_MaterialAlternateRelative>(DbContext)); }
+        }
     }
 }

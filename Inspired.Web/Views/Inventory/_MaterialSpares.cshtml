@@ -5,8 +5,8 @@
             <div class="row-fluid">
                 <div class="col-md-3">
                     @Html.LabelFor(m => m.SpareItemCode, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.SpareItemCode, new { @class = "form-control", @onblur = "fetchSpareItem();" })
-                    @Html.ValidationMessageFor(m => m.SpareItemCode)
+                    @Html.TextBoxFor(m => m.SpareItemCode, new { @class = "form-control", @onblur = "fetchItemDetails('SpareItemCode','SpareItemDesc','SpareItemId');" })
+                @Html.ValidationMessageFor(m => m.SpareItemCode)
                 </div>
                 <div class="col-md-3 col-sm-12">
                     @Html.LabelFor(m => m.SpareItemDesc, new { @class = "control-label" })
