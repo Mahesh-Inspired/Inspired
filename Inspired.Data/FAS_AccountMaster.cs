@@ -25,17 +25,17 @@ namespace Inspired.Data
         public int Accd_Key { get; set; }
         public string Acc_Code { get; set; }
         public string Acc_Description { get; set; }
-        public int Acc_Type { get; set; }
+        public string Acc_Type { get; set; }
         public Nullable<int> Price_Type { get; set; }
         public int Company_Id { get; set; }
         public int Branch_Id { get; set; }
     
         public virtual Gen_BranchMaster Gen_BranchMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
+        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
-        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
     }
 }

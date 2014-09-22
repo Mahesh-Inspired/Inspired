@@ -16,7 +16,6 @@ namespace Inspired.Data
     {
         public Gen_CompanyMaster()
         {
-            this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
             this.Gen_BranchMaster = new HashSet<Gen_BranchMaster>();
             this.Gen_LookupType = new HashSet<Gen_LookupType>();
             this.Inv_CategoryMaster = new HashSet<Inv_CategoryMaster>();
@@ -37,6 +36,7 @@ namespace Inspired.Data
             this.Inv_MaterialSpares = new HashSet<Inv_MaterialSpares>();
             this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
+            this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
         }
     
         public int Id { get; set; }
@@ -44,7 +44,6 @@ namespace Inspired.Data
         public string Company_Description { get; set; }
         public string Status { get; set; }
     
-        public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual ICollection<Gen_BranchMaster> Gen_BranchMaster { get; set; }
         public virtual ICollection<Gen_LookupType> Gen_LookupType { get; set; }
         public virtual ICollection<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
@@ -65,5 +64,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialSpares> Inv_MaterialSpares { get; set; }
         public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
+        public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
     }
 }

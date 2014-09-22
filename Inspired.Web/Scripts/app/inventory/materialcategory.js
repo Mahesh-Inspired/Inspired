@@ -94,7 +94,7 @@ function fetchCategory() {
             }
         },
         type: 'POST',
-        url: 'fetchCategoryJSON'
+        url: 'FetchCategoryJSON'
     });
 }
 

@@ -24,6 +24,10 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_MaterialPackaging> _materialPackagingRepository;
         private IGenericRepository<Inv_MaterialSpares> _materialSparesRepository;
         private IGenericRepository<Inv_MaterialAlternateRelative> _materialAltRelativeRepository;
+        private IGenericRepository<Inv_MaterialSupplier> _materialSupplierRepository;
+
+
+        private IGenericRepository<FAS_AccountMaster> _accountMasterRepository;
         #region Constructor
             public UnitOfWork()
             {
@@ -139,6 +143,15 @@ namespace Inspired.Repository
         public IGenericRepository<Data.Inv_MaterialAlternateRelative> MaterialAltRelativeRepository
         {
             get { return _materialAltRelativeRepository ?? (_materialAltRelativeRepository = new GenericRepository<Inv_MaterialAlternateRelative>(DbContext)); }
+        }
+        public IGenericRepository<Data.Inv_MaterialSupplier> MaterialSupplierRepository
+        {
+            get { return _materialSupplierRepository ?? (_materialSupplierRepository = new GenericRepository<Inv_MaterialSupplier>(DbContext)); }
+        }
+
+        public IGenericRepository<Data.FAS_AccountMaster> AccountMasterRepository
+        {
+            get { return _accountMasterRepository ?? (_accountMasterRepository = new GenericRepository<FAS_AccountMaster>(DbContext)); }
         }
     }
 }

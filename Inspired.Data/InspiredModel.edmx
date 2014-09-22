@@ -56,7 +56,7 @@
           <Property Name="Accd_Key" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Acc_Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Acc_Description" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="Acc_Type" Type="int" Nullable="false" />
+          <Property Name="Acc_Type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Price_Type" Type="int" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
           <Property Name="Branch_Id" Type="int" Nullable="false" />
@@ -1608,25 +1608,6 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
-        <EntityType Name="FAS_AccountMaster">
-          <Key>
-            <PropertyRef Name="Accd_Key" />
-          </Key>
-          <Property Name="Accd_Key" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Acc_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Acc_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Acc_Type" Type="Int32" Nullable="false" />
-          <Property Name="Price_Type" Type="Int32" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <Property Name="Branch_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_BranchMaster" FromRole="FAS_AccountMaster" ToRole="Gen_BranchMaster" />
-          <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="FAS_AccountMaster" ToRole="Gen_CompanyMaster" />
-          <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialDiscount" />
-          <NavigationProperty Name="Inv_MaterialNotes" Relationship="Self.FK_Inv_MaterialNotes_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialNotes" />
-          <NavigationProperty Name="Inv_MaterialPrice" Relationship="Self.FK_Inv_MaterialPrice_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialPrice" />
-          <NavigationProperty Name="Inv_MaterialSupplier" Relationship="Self.FK_Inv_MaterialSupplier_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialSupplier" />
-          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="FAS_AccountMaster" ToRole="Gen_LookupItem" />
-        </EntityType>
         <EntityType Name="Gen_BranchMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -1634,13 +1615,13 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Gen_BranchMaster_Gen_CompanyMaster" FromRole="Gen_BranchMaster" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Inv_MaterialBranchSpec" Relationship="Self.FK_Inv_MaterialBranchSpec_Branch" FromRole="Gen_BranchMaster" ToRole="Inv_MaterialBranchSpec" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="Self.FK_Inv_MaterialDiscount_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="Inv_MaterialDiscount" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="Self.FK_Inv_WarehouseMaster_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="Inv_WarehouseMaster" />
           <NavigationProperty Name="Inv_MaterialBranch" Relationship="InspiredModel.FK_Inv_MaterialBranch_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="Inv_MaterialBranch" />
           <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.Branch" FromRole="Gen_BranchMaster" ToRole="Gen_UserMaster" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_BranchMaster" FromRole="Gen_BranchMaster" ToRole="FAS_AccountMaster" />
         </EntityType>
         <EntityType Name="Gen_CompanyMaster">
           <Key>
@@ -1650,7 +1631,6 @@
           <Property Name="Company_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Company_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_Gen_BranchMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_LookupType" Relationship="Self.FK_Gen_LookupType_Company" FromRole="Gen_CompanyMaster" ToRole="Gen_LookupType" />
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="Self.FK_Inv_CategoryMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_CategoryMaster" />
@@ -1671,6 +1651,7 @@
           <NavigationProperty Name="Inv_MaterialSpares" Relationship="InspiredModel.FK_Inv_MaterialSpares_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialSpares" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_MaterialAlternateRelative" Relationship="InspiredModel.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialAlternateRelative" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="FAS_AccountMaster" />
         </EntityType>
         <EntityType Name="Gen_LookupType">
           <Key>
@@ -1730,7 +1711,6 @@
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="Inv_MaterialDiscount" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_Inv_MaterialDiscount_Gen_BranchMaster" FromRole="Inv_MaterialDiscount" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialDiscount_Gen_CompanyMaster" FromRole="Inv_MaterialDiscount" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Category" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
@@ -1741,6 +1721,7 @@
           <NavigationProperty Name="Inv_CategoryMaster5" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Type" FromRole="Inv_MaterialDiscount" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Inv_MaterialDiscount" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialDiscount" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="Inv_MaterialDiscount" ToRole="FAS_AccountMaster" />
         </EntityType>
         <EntityType Name="Inv_MaterialDocument">
           <Key>
@@ -1786,10 +1767,10 @@
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialPrice_FAS_AccountMaster" FromRole="Inv_MaterialPrice" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialPrice_Gen_CompanyMaster" FromRole="Inv_MaterialPrice" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialPrice_Gen_LookupItem" FromRole="Inv_MaterialPrice" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialPrice_Inv_MaterialMaster" FromRole="Inv_MaterialPrice" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_Inv_MaterialPrice_FAS_AccountMaster" FromRole="Inv_MaterialPrice" ToRole="FAS_AccountMaster" />
         </EntityType>
         <EntityType Name="Inv_WarehouseMaster">
           <Key>
@@ -1839,11 +1820,11 @@
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialNotes_FAS_AccountMaster" FromRole="Inv_MaterialNotes" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialNotes_Gen_CompanyMaster" FromRole="Inv_MaterialNotes" ToRole="Gen_CompanyMaster" />
           <Property Name="Priority_Flg" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialNotes_Gen_LookupItem" FromRole="Inv_MaterialNotes" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialNotes_Inv_MaterialMaster" FromRole="Inv_MaterialNotes" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_Inv_MaterialNotes_FAS_AccountMaster" FromRole="Inv_MaterialNotes" ToRole="FAS_AccountMaster" />
         </EntityType>
         <EntityType Name="Inv_MaterialSupplier">
           <Key>
@@ -1860,10 +1841,10 @@
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="Self.FK_Inv_MaterialSupplier_FAS_AccountMaster" FromRole="Inv_MaterialSupplier" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialSupplier_Gen_CompanyMaster" FromRole="Inv_MaterialSupplier" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_Inv_MaterialSupplier_Gen_LookupItem" FromRole="Inv_MaterialSupplier" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialSupplier_Inv_MaterialMaster" FromRole="Inv_MaterialSupplier" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_Inv_MaterialSupplier_FAS_AccountMaster" FromRole="Inv_MaterialSupplier" ToRole="FAS_AccountMaster" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -1890,78 +1871,6 @@
             </Principal>
             <Dependent Role="AspNetUserLogins">
               <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FAS_AccountMaster_Gen_BranchMaster">
-          <End Role="Gen_BranchMaster" Type="Self.Gen_BranchMaster" Multiplicity="1" />
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_BranchMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FAS_AccountMaster">
-              <PropertyRef Name="Branch_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FAS_AccountMaster_Gen_CompanyMaster">
-          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_CompanyMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FAS_AccountMaster">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialDiscount_FAS_AccountMaster">
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="0..1" />
-          <End Role="Inv_MaterialDiscount" Type="Self.Inv_MaterialDiscount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FAS_AccountMaster">
-              <PropertyRef Name="Accd_Key" />
-            </Principal>
-            <Dependent Role="Inv_MaterialDiscount">
-              <PropertyRef Name="Customer_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialNotes_FAS_AccountMaster">
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialNotes" Type="Self.Inv_MaterialNotes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FAS_AccountMaster">
-              <PropertyRef Name="Accd_Key" />
-            </Principal>
-            <Dependent Role="Inv_MaterialNotes">
-              <PropertyRef Name="Accd_Key" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialPrice_FAS_AccountMaster">
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="0..1" />
-          <End Role="Inv_MaterialPrice" Type="Self.Inv_MaterialPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FAS_AccountMaster">
-              <PropertyRef Name="Accd_Key" />
-            </Principal>
-            <Dependent Role="Inv_MaterialPrice">
-              <PropertyRef Name="Account_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialSupplier_FAS_AccountMaster">
-          <End Role="FAS_AccountMaster" Type="Self.FAS_AccountMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialSupplier" Type="Self.Inv_MaterialSupplier" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FAS_AccountMaster">
-              <PropertyRef Name="Accd_Key" />
-            </Principal>
-            <Dependent Role="Inv_MaterialSupplier">
-              <PropertyRef Name="Supplier_Code" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2130,7 +2039,6 @@
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="FAS_AccountMaster" EntityType="Self.FAS_AccountMaster" />
           <EntitySet Name="Gen_BranchMaster" EntityType="Self.Gen_BranchMaster" />
           <EntitySet Name="Gen_CompanyMaster" EntityType="Self.Gen_CompanyMaster" />
           <EntitySet Name="Gen_LookupType" EntityType="Self.Gen_LookupType" />
@@ -2150,30 +2058,6 @@
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FAS_AccountMaster_Gen_BranchMaster" Association="Self.FK_FAS_AccountMaster_Gen_BranchMaster">
-            <End Role="Gen_BranchMaster" EntitySet="Gen_BranchMaster" />
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FAS_AccountMaster_Gen_CompanyMaster" Association="Self.FK_FAS_AccountMaster_Gen_CompanyMaster">
-            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialDiscount_FAS_AccountMaster" Association="Self.FK_Inv_MaterialDiscount_FAS_AccountMaster">
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialNotes_FAS_AccountMaster" Association="Self.FK_Inv_MaterialNotes_FAS_AccountMaster">
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-            <End Role="Inv_MaterialNotes" EntitySet="Inv_MaterialNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialPrice_FAS_AccountMaster" Association="Self.FK_Inv_MaterialPrice_FAS_AccountMaster">
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-            <End Role="Inv_MaterialPrice" EntitySet="Inv_MaterialPrice" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialSupplier_FAS_AccountMaster" Association="Self.FK_Inv_MaterialSupplier_FAS_AccountMaster">
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-            <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
           </AssociationSet>
           <AssociationSet Name="FK_Gen_BranchMaster_Gen_CompanyMaster" Association="Self.FK_Gen_BranchMaster_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
@@ -2293,10 +2177,6 @@
             <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
           </AssociationSet>
           <EntitySet Name="Gen_LookupItem" EntityType="InspiredModel.Gen_LookupItem" />
-          <AssociationSet Name="FK_FAS_AccountMaster_Gen_LookupItem" Association="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem">
-            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
-            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
-          </AssociationSet>
           <AssociationSet Name="FK_Gen_LookupItem_Company" Association="InspiredModel.FK_Gen_LookupItem_Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
@@ -2432,6 +2312,35 @@
           <AssociationSet Name="AlternateRelativeItemId" Association="InspiredModel.AlternateRelativeItemId">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialAlternateRelative" EntitySet="Inv_MaterialAlternateRelative" />
+          </AssociationSet>
+          <EntitySet Name="FAS_AccountMaster" EntityType="InspiredModel.FAS_AccountMaster" />
+          <AssociationSet Name="FK_FAS_AccountMaster_Gen_BranchMaster" Association="InspiredModel.FK_FAS_AccountMaster_Gen_BranchMaster">
+            <End Role="Gen_BranchMaster" EntitySet="Gen_BranchMaster" />
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_AccountMaster_Gen_CompanyMaster" Association="InspiredModel.FK_FAS_AccountMaster_Gen_CompanyMaster">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_AccountMaster_Gen_LookupItem" Association="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem">
+            <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDiscount_FAS_AccountMaster" Association="InspiredModel.FK_Inv_MaterialDiscount_FAS_AccountMaster">
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+            <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialNotes_FAS_AccountMaster" Association="InspiredModel.FK_Inv_MaterialNotes_FAS_AccountMaster">
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+            <End Role="Inv_MaterialNotes" EntitySet="Inv_MaterialNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialPrice_FAS_AccountMaster" Association="InspiredModel.FK_Inv_MaterialPrice_FAS_AccountMaster">
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+            <End Role="Inv_MaterialPrice" EntitySet="Inv_MaterialPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialSupplier_FAS_AccountMaster" Association="InspiredModel.FK_Inv_MaterialSupplier_FAS_AccountMaster">
+            <End Role="FAS_AccountMaster" EntitySet="FAS_AccountMaster" />
+            <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Inv_MaterialBOM">
@@ -2699,7 +2608,6 @@
           <Property Name="Company_Id" Type="Int32" Nullable="false" />
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_update" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Gen_LookupItem_Company" FromRole="Gen_LookupItem" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Inv_CategoryMaster" Relationship="InspiredModel.CategoryType_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_CategoryMaster" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="Inv_MaterialDiscount" />
@@ -2713,19 +2621,8 @@
           <NavigationProperty Name="Gen_LookupGroup" Relationship="InspiredModel.LookupGroup_LookupItem" FromRole="Gen_LookupItem" ToRole="Gen_LookupGroup" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialMaster_UOM_Lookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_MaterialAlternateRelative" Relationship="InspiredModel.MaterialAlternativeFlagLookup" FromRole="Gen_LookupItem" ToRole="Inv_MaterialAlternateRelative" />
+          <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="Gen_LookupItem" ToRole="FAS_AccountMaster" />
         </EntityType>
-        <Association Name="FK_FAS_AccountMaster_Gen_LookupItem">
-          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="0..1" />
-          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_LookupItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FAS_AccountMaster">
-              <PropertyRef Name="Price_Type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Gen_LookupItem_Company">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
           <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="*" />
@@ -3226,6 +3123,109 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="FAS_AccountMaster">
+          <Key>
+            <PropertyRef Name="Accd_Key" />
+          </Key>
+          <Property Name="Accd_Key" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Acc_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Acc_Description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Acc_Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Price_Type" Type="Int32" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="Branch_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Gen_BranchMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_BranchMaster" FromRole="FAS_AccountMaster" ToRole="Gen_BranchMaster" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="FAS_AccountMaster" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_LookupItem" FromRole="FAS_AccountMaster" ToRole="Gen_LookupItem" />
+          <NavigationProperty Name="Inv_MaterialDiscount" Relationship="InspiredModel.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialDiscount" />
+          <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialNotes" />
+          <NavigationProperty Name="Inv_MaterialPrice" Relationship="InspiredModel.FK_Inv_MaterialPrice_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialPrice" />
+          <NavigationProperty Name="Inv_MaterialSupplier" Relationship="InspiredModel.FK_Inv_MaterialSupplier_FAS_AccountMaster" FromRole="FAS_AccountMaster" ToRole="Inv_MaterialSupplier" />
+        </EntityType>
+        <Association Name="FK_FAS_AccountMaster_Gen_BranchMaster">
+          <End Type="InspiredModel.Gen_BranchMaster" Role="Gen_BranchMaster" Multiplicity="1" />
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_BranchMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAS_AccountMaster">
+              <PropertyRef Name="Branch_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_AccountMaster_Gen_CompanyMaster">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAS_AccountMaster">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_AccountMaster_Gen_LookupItem">
+          <End Type="InspiredModel.Gen_LookupItem" Role="Gen_LookupItem" Multiplicity="0..1" />
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_LookupItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAS_AccountMaster">
+              <PropertyRef Name="Price_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDiscount_FAS_AccountMaster">
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialDiscount" Role="Inv_MaterialDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_AccountMaster">
+              <PropertyRef Name="Accd_Key" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDiscount">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialNotes_FAS_AccountMaster">
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialNotes" Role="Inv_MaterialNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_AccountMaster">
+              <PropertyRef Name="Accd_Key" />
+            </Principal>
+            <Dependent Role="Inv_MaterialNotes">
+              <PropertyRef Name="Accd_Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialPrice_FAS_AccountMaster">
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_MaterialPrice" Role="Inv_MaterialPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_AccountMaster">
+              <PropertyRef Name="Accd_Key" />
+            </Principal>
+            <Dependent Role="Inv_MaterialPrice">
+              <PropertyRef Name="Account_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialSupplier_FAS_AccountMaster">
+          <End Type="InspiredModel.FAS_AccountMaster" Role="FAS_AccountMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialSupplier" Role="Inv_MaterialSupplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_AccountMaster">
+              <PropertyRef Name="Accd_Key" />
+            </Principal>
+            <Dependent Role="Inv_MaterialSupplier">
+              <PropertyRef Name="Supplier_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3267,19 +3267,6 @@
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
                 <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FAS_AccountMaster">
-            <EntityTypeMapping TypeName="InspiredModel.FAS_AccountMaster">
-              <MappingFragment StoreEntitySet="FAS_AccountMaster">
-                <ScalarProperty Name="Accd_Key" ColumnName="Accd_Key" />
-                <ScalarProperty Name="Acc_Code" ColumnName="Acc_Code" />
-                <ScalarProperty Name="Acc_Description" ColumnName="Acc_Description" />
-                <ScalarProperty Name="Acc_Type" ColumnName="Acc_Type" />
-                <ScalarProperty Name="Price_Type" ColumnName="Price_Type" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="Branch_Id" ColumnName="Branch_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3635,6 +3622,19 @@
                 <ScalarProperty Name="AR_Item_Id" ColumnName="AR_Item_Id" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_AccountMaster">
+            <EntityTypeMapping TypeName="InspiredModel.FAS_AccountMaster">
+              <MappingFragment StoreEntitySet="FAS_AccountMaster">
+                <ScalarProperty Name="Branch_Id" ColumnName="Branch_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Price_Type" ColumnName="Price_Type" />
+                <ScalarProperty Name="Acc_Type" ColumnName="Acc_Type" />
+                <ScalarProperty Name="Acc_Description" ColumnName="Acc_Description" />
+                <ScalarProperty Name="Acc_Code" ColumnName="Acc_Code" />
+                <ScalarProperty Name="Accd_Key" ColumnName="Accd_Key" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

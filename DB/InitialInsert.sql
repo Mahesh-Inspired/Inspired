@@ -31,9 +31,24 @@ insert into Gen_lookupItem (Id,LookupType_Id,LookupGroup_Id, Description, ordina
 insert into Gen_lookupItem (Id,LookupType_Id,LookupGroup_Id, Description, ordinal, Company_Id, User_Id, last_update) values (31,4,2, 'Height',2,3,1,getdate())
 
 insert into Gen_LookupType values(5,'Alternate Relative','Active',3,1,getdate())
-insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (25,5,'Alternate',1,0,0,3,1,getdate())
-insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (26,5,'Relative',1,0,0,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (25,5,'Alternate',1,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (26,5,'Relative',2,3,1,getdate())
+
+select * from Gen_Lookupitem
+insert into Gen_lookupType values (6,'Foreign Currency','Active',3,1,getdate())
+
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (50,6,'GBP',1,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (51,6,'EURO',2,3,1,getdate())
 
 
+
+select * from Gen_Lookupitem
+insert into Gen_lookupType values (7,'Account Type','Active',3,1,getdate())
+
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (60,7,'Cash',1,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (61,8,'Bank',2,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (61,8,'Creditors',2,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (61,8,'Debtors',2,3,1,getdate())
+insert into Gen_LookupItem (Id,LookupType_Id,Description, ordinal, Company_Id, User_Id, last_update) Values (61,8,'Trading Account',2,3,1,getdate())
 
 insert into Inv_CategoryMaster (Type, Code, Description, Status, Company_Id, User_Id, Last_Updated) values (1,'Group1','My Test Group of lights','A',3,1,GETDATE())

@@ -117,7 +117,7 @@ function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId) {
             }
         },
         type: 'POST',
-        url: 'fetchItemDescJSON'
+        url: 'FetchItemDescJSON'
     });
 }
 

@@ -99,7 +99,7 @@ function fetchSpec() {
             }
         },
         type: 'POST',
-        url: 'fetchSpecJSON'
+        url: 'FetchSpecJSON'
     });
 }
 

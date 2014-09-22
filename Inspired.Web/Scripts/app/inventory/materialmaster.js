@@ -1,4 +1,4 @@
-﻿var catTable, specTable, boxTable, spareTable, alternateTable;
+﻿var catTable, specTable, boxTable, spareTable, alternateTable,supplierTable;
 $(function () {
     $('#Material').addClass('active');
     $('#Category').addClass('inactive');
@@ -8,6 +8,7 @@ $(function () {
     LoadPackaging();
     LoadSpares();
     LoadAlternates();
+    LoadSupplier();
     $('form').submit(function (evt) {
         evt.preventDefault();
         var $form = $(this);
@@ -25,6 +26,7 @@ function Item_Save() {
     var ItemBoxDetails = { "ItemId": "", "BoxNumber": "", "BoxLength": "", "BoxWidth": "", "BoxHeight": "", "BoxGrossWeight": "", "BoxNettWeight": "" };
     var ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
     var ItemAltRelative = { "ItemId": "", "AlternateItemId": "", "AlternateFlgId": "", "AlternateNotes": "" };
+    var Supplier = { "ItemId": "", "SupplierId": "", "RefNumber": "", "MinOrderQty": "", "CurrencyId": "", "Notes": "", "Cost": "" };
     var Item = {
         "Id": "", "Code": "", "Description": "", "SKU_Number": "", "Long_Description": "", "Overview": "", "UOM": "",
         "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Shelf_Life": "", "Barcode": "",
@@ -35,7 +37,8 @@ function Item_Save() {
         "ItemSpecification": [],
         "ItemPackaging": [],
         "ItemSpare": [],
-        "ItemAltRelative": []
+        "ItemAltRelative": [],
+        "Suppliers":[]
     };
     // Material Master main details
     Item.Id = $("#Material_Id").val();
@@ -122,8 +125,7 @@ function Item_Save() {
         ItemSpares.SpareOverview = spareTable[i][5];        
         Item.ItemSpare.push(ItemSpares);
         ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
-    }
-    alert("IN");
+    }    
     // Alternate Relative Items
     var altTable = $('#AlternateTable').dataTable().fnGetData();
     for (var i = 0; i < altTable.length; i++) {
@@ -133,6 +135,20 @@ function Item_Save() {
         ItemAltRelative.AlternateNotes = altTable[i][4];
         Item.ItemAltRelative.push(ItemAltRelative);
         ItemAltRelative = { "ItemId": "", "AlternateItemId": "", "AlternateFlgId": "", "AlternateNotes": "" };
+    }
+    // Alternate Relative Items
+    var supplierTable = $('#SupplierTable').dataTable().fnGetData();
+    for (var i = 0; i < supplierTable.length; i++) {
+        Supplier.ItemId = Item.id;
+        Supplier.SupplierId = supplierTable[i][0];
+        Supplier.RefNumber = supplierTable[i][3];
+        Supplier.MinOrderQty = supplierTable[i][4];
+        Supplier.CurrencyId = supplierTable[i][6];        
+        Supplier.Cost = supplierTable[i][7];
+        Supplier.Notes = supplierTable[i][8];
+
+        Item.Suppliers.push(Supplier);
+        Supplier = { "ItemId": "", "SupplierId": "", "RefNumber": "", "MinOrderQty": "", "CurrencyId": "", "Notes": "", "Cost": "" };
     }
 
     Material.Item = Item;

@@ -200,7 +200,8 @@ namespace Inspired.Web.Controllers
             IEnumerable<Gen_LookupItem> listYesNo = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_YesNo).ToList();
             IEnumerable<Gen_LookupItem> specifications = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Specification).ToList();
             IEnumerable<Gen_LookupItem> alternateRelative = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList();
-            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, null);
+            IEnumerable<Gen_LookupItem> currency = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Currency).ToList();
+            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, currency, null);
             return View(material);
         }
         #endregion
@@ -214,6 +215,8 @@ namespace Inspired.Web.Controllers
             IEnumerable<Gen_LookupItem> listYesNo = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_YesNo).ToList();
             List<Gen_LookupItem> specifications = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Specification).ToList();
             IEnumerable<Gen_LookupItem> alternateRelative = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList();
+            IEnumerable<Gen_LookupItem> currency = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Currency).ToList();
+            
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
 
             // Remove the Categories that already exist in Material Category
@@ -224,7 +227,7 @@ namespace Inspired.Web.Controllers
             foreach (Inv_MaterialSpecification matSpec in item.Inv_MaterialSpecification)
                 specifications.Remove(specifications.Where(u => u.Id == matSpec.Spec_Id).First());
 
-            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, item);
+            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, currency, item);
             return View("CreateMaterial", material);
         }
         #endregion
@@ -283,7 +286,7 @@ namespace Inspired.Web.Controllers
             Boolean materialSpecFlg = true;
             Boolean materialPackFlg = true;
             Boolean materialSpareFlg = true;
-            Boolean materialAltFlag = true;
+            Boolean materialAltFlg = true, materialSuppFlg = true;
             if (data.ItemCategory != null)
                 materialCategoryFlg = SaveItemCategory(data.ItemCategory.ToList(), ref material, companyId);
             if (data.ItemSpecification != null)
@@ -293,7 +296,9 @@ namespace Inspired.Web.Controllers
             if (data.ItemSpare != null)
                 materialSpareFlg = SaveItemSpares(data.ItemSpare.ToList(), ref material, companyId);
             if (data.ItemAltRelative != null)
-                materialAltFlag = SaveItemAlternateRelative(data.ItemAltRelative.ToList(), ref material, companyId);
+                materialAltFlg = SaveItemAlternateRelative(data.ItemAltRelative.ToList(), ref material, companyId);
+            if (data.Suppliers != null)
+                materialSuppFlg = SaveItemSupplier(data.Suppliers.ToList(), ref material, companyId);
             if (data.Id != 0)
                 UnitOfWork.MaterialMasterRepository.Update(material);
             else
@@ -425,8 +430,8 @@ namespace Inspired.Web.Controllers
 
         private Boolean SaveItemAlternateRelative(List<MaterialAltRelative> altRelatives, ref Inv_MaterialMaster material, Int32 companyId)
         {
-            Inv_MaterialAlternateRelative invMaterialAltRelative;            
-            // Delete the existing Inv_MaterialCategory details
+            Inv_MaterialAlternateRelative invMaterialAltRelative;
+            // Delete the existing Inv_MaterialAlternateRelative details
             Int32 itemId = material.Id;
             foreach (Inv_MaterialAlternateRelative tmpAlt in material.AlternateRelativeItemCollection.ToList())
             {
@@ -449,7 +454,35 @@ namespace Inspired.Web.Controllers
             }
             return true;
         }
+        private Boolean SaveItemSupplier(List<MaterialSupplier> suppliers, ref Inv_MaterialMaster material, Int32 companyId)
+        {
+            Inv_MaterialSupplier matlSupplier;
+            // Delete the existing Inv_MaterialSupplier details
+            Int32 itemId = material.Id;
+            foreach (Inv_MaterialSupplier tmpSupp in material.Inv_MaterialSupplier.ToList())
+            {
+                UnitOfWork.MaterialSupplierRepository.Delete(tmpSupp);
+            }
 
+            // Insert values in the data table into Inv_MaterialSupplier table
+            foreach (MaterialSupplier supp in suppliers)
+            {
+                matlSupplier = new Inv_MaterialSupplier()
+                {
+                    Item_Id = material.Id,
+                    Supplier_Code = supp.SupplierId,
+                    Ref_Number = supp.RefNumber,
+                    Min_Order = supp.MinOrderQty,
+                    Currency = supp.CurrencyId,
+                    Notes = supp.Notes,
+                    Cost = supp.Cost,                    
+                    Company_Id = companyId
+                };
+                UnitOfWork.MaterialSupplierRepository.Insert(matlSupplier);
+                material.Inv_MaterialSupplier.Add(matlSupplier);
+            }
+            return true;
+        }
 
         [HttpPost]
         public JsonResult SaveMaterial(MaterialSubmitModel data)
@@ -464,7 +497,7 @@ namespace Inspired.Web.Controllers
         }
         #region JSon Fetch details
 
-        public JsonResult fetchCategoryJSON(Int32? catType, String catCode) 
+        public JsonResult FetchCategoryJSON(Int32? catType, String catCode) 
         {
             Int32 id =0;
             String catDescription = String.Empty;
@@ -483,7 +516,7 @@ namespace Inspired.Web.Controllers
         #endregion
 
         #region Specification
-        public JsonResult fetchSpecJSON(Int32 specid)
+        public JsonResult FetchSpecJSON(Int32 specid)
         {
             var companyId = UserIdentity.GetCompanyId();
 
@@ -503,7 +536,8 @@ namespace Inspired.Web.Controllers
    
         #endregion
 
-        public JsonResult fetchItemDescJSON(String itemcode)
+        #region JSON Fetch Item Details
+        public JsonResult FetchItemDescJSON(String itemcode)
         {
             var companyId = UserIdentity.GetCompanyId();
 
@@ -519,5 +553,33 @@ namespace Inspired.Web.Controllers
             else
                 return Json(new { success = true, id = 0, ItemDescription = "" }, JsonRequestBehavior.AllowGet);
         }
+       #endregion
+
+        #region JSON Fetch Account Details
+        public JsonResult FetchAccountDetails(String Name, String Code)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            Int32 id = 0;            
+            FAS_AccountMaster account ;
+            if (!String.IsNullOrEmpty(Code))
+                account = UnitOfWork.AccountMasterRepository.Get(u => u.Acc_Code == Code).FirstOrDefault();
+            else
+                account = UnitOfWork.AccountMasterRepository.Get(u => u.Acc_Description == Name).FirstOrDefault();
+
+            if (account != null)
+            {
+                id = account.Accd_Key;
+                Name = account.Acc_Description;
+                Code = account.Acc_Code;
+                return Json(new { success = true, id = id, name = Name, code = Code }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { success = true, id = 0, name = "", code = "" }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        #endregion
     }
 }

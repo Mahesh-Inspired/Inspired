@@ -108,7 +108,7 @@ namespace Inspired.Web.Test.Controllers
         {
             Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST Description", Code = "TEST" };
             baseController.InvCategoryRepository.Expect(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { invCat });
-            result = invController.fetchCategoryJSON(2, "TEST");
+            result = invController.FetchCategoryJSON(2, "TEST");
         }
 
         [Then(@"The category description is populated")]
@@ -126,7 +126,7 @@ namespace Inspired.Web.Test.Controllers
         {
             //Inv_CategoryMaster invCat = new Inv_CategoryMaster() { Id = 1, Type = 2, Description = "TEST Description", Code = "TEST" };
             baseController.InvCategoryRepository.Expect(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_CategoryMaster> { });
-            result = invController.fetchCategoryJSON(2, "TEST");
+            result = invController.FetchCategoryJSON(2, "TEST");
         }
 
         [Then(@"Enter a valid category code error should be displayed")]
@@ -143,7 +143,7 @@ namespace Inspired.Web.Test.Controllers
         public void WhenITryToEnterAnInvalidSpecification()
         {
             baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { } );
-            result = invController.fetchSpecJSON(1);
+            result = invController.FetchSpecJSON(1);
         }
 
         [Then(@"Enter a valid specification error message is displayed")]
@@ -159,7 +159,7 @@ namespace Inspired.Web.Test.Controllers
         {
             Gen_LookupGroup lookupGroup = new Gen_LookupGroup() { Id = 1, Description = "Test Group" };
             baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem> { new Gen_LookupItem { Id = 1, LookupType_Id = 2, Description = "Test", Gen_LookupGroup = lookupGroup } });
-            result = invController.fetchSpecJSON(1);
+            result = invController.FetchSpecJSON(1);
         }
 
         [Then(@"The call succeeds and return group details for the specification")]
@@ -176,7 +176,7 @@ namespace Inspired.Web.Test.Controllers
         {
             Inv_MaterialMaster invMatl = new Inv_MaterialMaster() { Id = 1, Code = "TEST", Description = "TEST Description" };
             baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster>() { invMatl });
-            result = invController.fetchItemDescJSON("TEST");
+            result = invController.FetchItemDescJSON("TEST");
         }
 
         [Then(@"The call succeeds and return description and id of the item")]
@@ -192,7 +192,7 @@ namespace Inspired.Web.Test.Controllers
         public void WhenITryToEnterAInvalidItemCode()
         {
             baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster>() { });
-            result = invController.fetchItemDescJSON("TEST");
+            result = invController.FetchItemDescJSON("TEST");
         }
 
         [Then(@"The call succeeds and returns id as zero and blank description of the item")]

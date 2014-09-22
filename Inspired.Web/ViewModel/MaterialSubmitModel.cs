@@ -40,6 +40,7 @@ namespace Inspired.Web.ViewModel
       public virtual ICollection<MaterialPackaging> ItemPackaging { get; set; }
       public virtual ICollection<MaterialSpare> ItemSpare { get; set; }
       public virtual ICollection<MaterialAltRelative> ItemAltRelative { get; set; }
+      public virtual ICollection<MaterialSupplier> Suppliers { get; set; }
     }
 
 
@@ -99,6 +100,18 @@ namespace Inspired.Web.ViewModel
         public Int32 AlternateItemId { get; set; }
         public Int32 AlternateFlgId { get; set; }
         public String AlternateNotes { get; set; }
+        public virtual MaterialSubmitModel material { get; set; }
+    }
+
+    public class MaterialSupplier
+    {
+        public Int32 ItemId { get; set; }
+        public Int32 SupplierId { get; set; }
+        public String RefNumber { get; set; }
+        public Int32 MinOrderQty { get; set; }
+        public Int32 CurrencyId { get; set; }
+        public String Notes { get; set; }
+        public decimal Cost { get; set; }
         public virtual MaterialSubmitModel material { get; set; }
     }
 }

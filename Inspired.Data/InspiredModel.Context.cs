@@ -29,7 +29,6 @@ namespace Inspired.Data
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual DbSet<Gen_BranchMaster> Gen_BranchMaster { get; set; }
         public virtual DbSet<Gen_CompanyMaster> Gen_CompanyMaster { get; set; }
         public virtual DbSet<Gen_LookupType> Gen_LookupType { get; set; }
@@ -39,7 +38,6 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual DbSet<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual DbSet<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
-        public virtual DbSet<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual DbSet<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual DbSet<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual DbSet<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
@@ -50,7 +48,9 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
         public virtual DbSet<Gen_LookupItem> Gen_LookupItem { get; set; }
         public virtual DbSet<Gen_LookupGroup> Gen_LookupGroup { get; set; }
-        public virtual DbSet<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual DbSet<Inv_MaterialSpares> Inv_MaterialSpares { get; set; }
+        public virtual DbSet<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
+        public virtual DbSet<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
+        public virtual DbSet<FAS_AccountMaster> FAS_AccountMaster { get; set; }
     }
 }

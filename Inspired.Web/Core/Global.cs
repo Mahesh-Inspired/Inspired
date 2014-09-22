@@ -51,5 +51,13 @@ namespace Inspired.Web.Core
         public static Int32 LookupItem_Alternate = 25;
         public static Int32 LookupItem_Relative = 26;
         #endregion
+
+        #region Currency
+        public static Int32 LookupType_Currency = 6;
+
+        public static Int32 LookupItem_GBP = 50;
+        public static Int32 LookupItem_EURO = 51;
+
+        #endregion
     }
 }

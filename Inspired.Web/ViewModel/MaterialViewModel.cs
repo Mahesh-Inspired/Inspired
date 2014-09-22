@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inspired.Data;
 using System.ComponentModel.DataAnnotations;
+using Inspired.Repository;
 
 namespace Inspired.Web.ViewModel
 {
@@ -108,6 +109,7 @@ namespace Inspired.Web.ViewModel
         public String SpareOverview { get; set; }
 
         #endregion
+
         #region Alternate
 
         public Int32 AlternateItemId { get; set; }
@@ -122,10 +124,35 @@ namespace Inspired.Web.ViewModel
         public String AlternateOverview { get; set; }
 
         #endregion
+
+        #region Supplier details
+        [Display(Name="Supplier Code")]
+        public String Supplier_Code { get; set; }
+        [Display(Name = "Supplier Name")]
+        public String Supplier_Name { get; set; }
+        public Int32 Supplier_Id { get; set; }
+        [Display(Name = "Supplier Item Reference")]
+        public String Supplier_RefNumber { get; set; }
+        [Display(Name = "Minimum order quantity")]
+        public Int32 Supplier_MinOrder { get; set; }
+        public Int32 Supplier_CurrencyId { get; set; }
+        [Display(Name = "Currency")]
+        public SelectList ListCurrency { get; set; }
+        [Display(Name = "Notes")]
+        public String Supplier_Notes { get; set; }
+        [Display(Name = "Cost")]
+        public double Supplier_Cost { get; set; }
+
+        #endregion
+
         #region Constructor
         public MaterialViewModel()
-        { }
-        public MaterialViewModel(IEnumerable<Gen_LookupItem> categoryTypes, IEnumerable<Gen_LookupItem> statuses, IEnumerable<Gen_LookupItem> specifications, IEnumerable<Gen_LookupItem> alternateRelative, Inv_MaterialMaster material)
+        { 
+        }        
+        public MaterialViewModel(IEnumerable<Gen_LookupItem> categoryTypes, IEnumerable<Gen_LookupItem> statuses, 
+            IEnumerable<Gen_LookupItem> specifications, IEnumerable<Gen_LookupItem> alternateRelative, 
+            IEnumerable<Gen_LookupItem> currency,
+            Inv_MaterialMaster material)
         {
             if (categoryTypes == null || categoryTypes.Count() < 0) throw new ArgumentNullException("Categories");
             if (statuses == null || statuses.Count() <= 0) throw new ArgumentNullException("Statuses");
@@ -133,7 +160,7 @@ namespace Inspired.Web.ViewModel
             Statuses = new SelectList(statuses.ToList(), "Id", "Description");
             Specifications = new SelectList(specifications.ToList(), "Id", "Description");
             ListRelativeAlternate = new SelectList(alternateRelative.ToList(), "Id", "Description");
-
+            ListCurrency = new SelectList(currency.ToList(), "Id", "Description");
             ListYesNo = new SelectList(new[] { new SelectListItem { Text = "Yes", Value = "true" }, new SelectListItem { Text = "No", Value = "false" } }, "Value", "Text");            
             Material = material;
         }

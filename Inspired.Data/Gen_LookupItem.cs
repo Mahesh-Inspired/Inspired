@@ -16,7 +16,6 @@ namespace Inspired.Data
     {
         public Gen_LookupItem()
         {
-            this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
             this.Inv_CategoryMaster = new HashSet<Inv_CategoryMaster>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
@@ -27,6 +26,7 @@ namespace Inspired.Data
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
+            this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
         }
     
         public int Id { get; set; }
@@ -40,7 +40,6 @@ namespace Inspired.Data
         public int User_Id { get; set; }
         public System.DateTime Last_update { get; set; }
     
-        public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual ICollection<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
@@ -54,5 +53,6 @@ namespace Inspired.Data
         public virtual Gen_LookupGroup Gen_LookupGroup { get; set; }
         public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
+        public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
     }
 }
