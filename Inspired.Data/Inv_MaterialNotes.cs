@@ -16,22 +16,25 @@ namespace Inspired.Data
     {
         public int Id { get; set; }
         public int Item_Id { get; set; }
-        public int Accd_Key { get; set; }
-        public string Taken_By { get; set; }
+        public Nullable<int> Accd_Key { get; set; }
+        public int Taken_By { get; set; }
         public System.DateTime Entry_date { get; set; }
         public string Notes { get; set; }
-        public string Type { get; set; }
+        public int Type { get; set; }
         public Nullable<System.DateTime> Expiry_Date { get; set; }
-        public string ToBe_Actioned_By { get; set; }
+        public Nullable<int> ToBe_Actioned_By { get; set; }
         public Nullable<System.DateTime> Action_Date { get; set; }
+        public int Priority_Flg { get; set; }
         public int Company_Id { get; set; }
         public int User_Id { get; set; }
         public System.DateTime Last_Updated { get; set; }
-        public int Priority_Flg { get; set; }
     
-        public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
-        public virtual Gen_LookupItem Gen_LookupItem { get; set; }
-        public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
         public virtual FAS_AccountMaster FAS_AccountMaster { get; set; }
+        public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
+        public virtual Gen_LookupItem LookupItem_NotesType { get; set; }
+        public virtual Gen_LookupItem LookupItem_PriorityFlag { get; set; }
+        public virtual Gen_UserMaster UserMaster_TakenBy { get; set; }
+        public virtual Gen_UserMaster UserMaster_ToBeActionedBy { get; set; }
+        public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
     }
 }

@@ -8,6 +8,7 @@
 
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables-1.10.1/jquery.dataTables.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <script src="~/Scripts/DataTables-1.10.1/dataTables.tableTools.js"></script>
 <h2>Create Material</h2>
 @using (Html.BeginForm())
@@ -46,6 +47,7 @@
                             <li><a href="#Spares" data-id="Spares" data-toggle="tab">Spares</a></li>
                             <li><a href="#Alternate" data-id="Alternate" data-toggle="tab">Alternate/Relative</a></li>
                             <li><a href="#Supplier" data-id="Supplier" data-toggle="tab">Supplier</a></li>
+                            <li><a href="#Notes" data-id="Notes" data-toggle="tab">Item Notes</a></li>
                             <li></li>
                         </ul>
                     </div>
@@ -74,6 +76,9 @@
             <div class="tab-pane" id="Supplier" data-id="Supplier">
                 @Html.Partial("_MaterialSupplier")
             </div>
+            <div class="tab-pane" id="Notes" data-id="Notes">
+                @Html.Partial("_MaterialNotes")
+            </div>
         </div>
         <div class="row-fluid">
             <div class="col-md-12">
@@ -84,6 +89,7 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/materialmaster")    
+    @Scripts.Render("~/bundles/datechecker")    
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/antiforgerytoken")
     @Scripts.Render("~/scripts/app/customcompare.js")

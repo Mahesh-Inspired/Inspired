@@ -14,6 +14,12 @@ namespace Inspired.Data
     
     public partial class Gen_UserMaster
     {
+        public Gen_UserMaster()
+        {
+            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
+            this.Inv_MaterialNotes1 = new HashSet<Inv_MaterialNotes>();
+        }
+    
         public int Id { get; set; }
         public string UserName { get; set; }
         public int Company_Id { get; set; }
@@ -22,5 +28,7 @@ namespace Inspired.Data
     
         public virtual Gen_BranchMaster Gen_BranchMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
+        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
+        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes1 { get; set; }
     }
 }

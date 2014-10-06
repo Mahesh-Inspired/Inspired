@@ -28,15 +28,11 @@ namespace Inspired.Web.Core
         public static Int32 LookupItem_Make = 14;
 
         #endregion
+        #region Alternate Relative
+        public static Int32 LookupType_AlternateRelative = 3;
 
-
-        #region YesNo
-
-        public static Int32 LookupType_YesNo = 3;
-
-        public static Int32 LookupItem_Yes = 20;
-        public static Int32 LookupItem_No = 21;
-
+        public static Int32 LookupItem_Alternate = 20;
+        public static Int32 LookupItem_Relative = 21;
         #endregion
 
         #region Specification
@@ -45,19 +41,33 @@ namespace Inspired.Web.Core
 
         #endregion
 
-        #region Alternate Relative
-        public static Int32 LookupType_AlternateRelative = 5;
+        #region Currency
+        
+        public static Int32 LookupType_Currency = 5;
 
-        public static Int32 LookupItem_Alternate = 25;
-        public static Int32 LookupItem_Relative = 26;
+        public static Int32 LookupItem_GBP = 25;
+        public static Int32 LookupItem_EURO = 26;
+
         #endregion
 
-        #region Currency
-        public static Int32 LookupType_Currency = 6;
+        #region Notes Type
 
-        public static Int32 LookupItem_GBP = 50;
-        public static Int32 LookupItem_EURO = 51;
+        public static Int32 LookupType_NotesType = 6;
 
+        public static Int32 LookupItem_Internal = 35;
+        public static Int32 LookupItem_External = 36;
+        public static Int32 LookupItem_Secretive = 37;
+
+        #endregion
+
+        #region Notes Priority
+
+        public static Int32 LookupType_NotesPriority = 7;
+
+
+        public static Int32 LookupItem_Critical = 45;
+        public static Int32 LookupItem_Information = 46;
+        public static Int32 LookupItem_GeneralNotes = 47;
         #endregion
     }
 }

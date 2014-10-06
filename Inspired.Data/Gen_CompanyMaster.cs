@@ -21,7 +21,6 @@ namespace Inspired.Data
             this.Inv_CategoryMaster = new HashSet<Inv_CategoryMaster>();
             this.Inv_MaterialBranchSpec = new HashSet<Inv_MaterialBranchSpec>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
-            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
             this.Inv_MaterialPackaging = new HashSet<Inv_MaterialPackaging>();
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
@@ -37,6 +36,7 @@ namespace Inspired.Data
             this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
             this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
+            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
         }
     
         public int Id { get; set; }
@@ -49,7 +49,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
         public virtual ICollection<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
-        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
@@ -65,5 +64,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialMaster> Inv_MaterialMaster { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
+        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
     }
 }

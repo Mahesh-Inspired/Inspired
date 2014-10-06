@@ -82,12 +82,10 @@ function AddSupplier() {
     $("#divSupplierDelete").hide("slow");
 }
 function FetchAccountDetails(txtAccCd, txtAccNm, txtAccId)
-{
-    
+{    
     var accCd = $('#' + txtAccCd).val();
     var accNm = $('#' + txtAccNm).val();
-    if (accCd == '' && accNm == '') return;
-    alert(accCd);
+    if (accCd == '' && accNm == '') return;    
     $.ajax({
         context: document.body,
         data: addAntiForgeryToken({ Name: accNm, Code: accCd}),

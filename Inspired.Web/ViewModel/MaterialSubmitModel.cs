@@ -41,7 +41,10 @@ namespace Inspired.Web.ViewModel
       public virtual ICollection<MaterialSpare> ItemSpare { get; set; }
       public virtual ICollection<MaterialAltRelative> ItemAltRelative { get; set; }
       public virtual ICollection<MaterialSupplier> Suppliers { get; set; }
+
+      public virtual ICollection<MaterialNotes> ItemNotes { get; set; }
     }
+
 
 
     public class MaterialCategory 
@@ -113,5 +116,23 @@ namespace Inspired.Web.ViewModel
         public String Notes { get; set; }
         public decimal Cost { get; set; }
         public virtual MaterialSubmitModel material { get; set; }
+    }
+
+    public class MaterialNotes
+    {
+        public Int32 ItemId { get; set; }
+        public Int32? SuppCustId { get; set; }
+        public Int32 TakenById { get; set; }
+        public DateTime EntryDate { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public String Notes { get; set; }
+
+        public Int32? ActionById { get; set; }
+        public DateTime? ActionByDate { get; set; }
+        public Int32 NotesTypeId { get; set; }
+        public Int32 PriorityFlagId { get; set; }
+
+        public virtual MaterialSubmitModel material { get; set; }
+
     }
 }

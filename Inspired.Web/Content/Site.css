@@ -44,3 +44,5 @@ input[type="checkbox"].input-validation-error {
 div {
     padding:2px;    
 }
+
+#sliderFrame { z-index: -50 }

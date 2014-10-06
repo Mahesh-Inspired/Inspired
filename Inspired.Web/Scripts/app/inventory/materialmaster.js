@@ -1,5 +1,7 @@
-﻿var catTable, specTable, boxTable, spareTable, alternateTable,supplierTable;
+﻿var catTable, specTable, boxTable, spareTable, alternateTable,supplierTable, notesTable;
 $(function () {
+    $('.datepicker').datepicker({ dateFormat: "dd/mm/yy" });
+    $('.datepicker').val(getCurrentDate());
     $('#Material').addClass('active');
     $('#Category').addClass('inactive');
     $('#Specification').addClass('inactive');    
@@ -9,6 +11,7 @@ $(function () {
     LoadSpares();
     LoadAlternates();
     LoadSupplier();
+    LoadNotes();
     $('form').submit(function (evt) {
         evt.preventDefault();
         var $form = $(this);
@@ -18,8 +21,21 @@ $(function () {
     });
 });
 
+function getCurrentDate()
+{
+    var fullDate = new Date();
+    console.log(fullDate);
+    //Thu May 19 2011 17:25:38 GMT+1000 {}
+  
+    //convert month to 2 digits
+    var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
+  
+    return fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+
+}
 
 function Item_Save() {
+    alert("IN");
     var Material = { "Item": "" };
     var ItemCategory = { "ItemId": "", "CatId": "", "CategoryType": "", "CategoryCode": "", "CategoryDescription": "" };
     var ItemSpecification = { "ItemId": "", "BatchNumber": "", "SpecId": "", "SpecValue": "" };
@@ -27,6 +43,7 @@ function Item_Save() {
     var ItemSpares = { "ItemId": "", "SpareItemId": "", "SpareItemCode": "", "SpareItemDesc": "", "SpareQuantity": "", "SparePrice": "", "SpareOverview": "" };
     var ItemAltRelative = { "ItemId": "", "AlternateItemId": "", "AlternateFlgId": "", "AlternateNotes": "" };
     var Supplier = { "ItemId": "", "SupplierId": "", "RefNumber": "", "MinOrderQty": "", "CurrencyId": "", "Notes": "", "Cost": "" };
+    var ItemNotes = { "ItemId": "", "SuppCustId": "", "TakenById": "", "EntryDate": "", "ExpiryDate": "", "Notes": "", "ActionById": "", "ActionByDate": "", "NotesTypeId": "", "PriorityFlagId": "" };
     var Item = {
         "Id": "", "Code": "", "Description": "", "SKU_Number": "", "Long_Description": "", "Overview": "", "UOM": "",
         "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Shelf_Life": "", "Barcode": "",
@@ -38,7 +55,8 @@ function Item_Save() {
         "ItemPackaging": [],
         "ItemSpare": [],
         "ItemAltRelative": [],
-        "Suppliers":[]
+        "Suppliers": [],
+        "ItemNotes": []
     };
     // Material Master main details
     Item.Id = $("#Material_Id").val();
@@ -136,7 +154,7 @@ function Item_Save() {
         Item.ItemAltRelative.push(ItemAltRelative);
         ItemAltRelative = { "ItemId": "", "AlternateItemId": "", "AlternateFlgId": "", "AlternateNotes": "" };
     }
-    // Alternate Relative Items
+    // Supplier details
     var supplierTable = $('#SupplierTable').dataTable().fnGetData();
     for (var i = 0; i < supplierTable.length; i++) {
         Supplier.ItemId = Item.id;
@@ -149,6 +167,26 @@ function Item_Save() {
 
         Item.Suppliers.push(Supplier);
         Supplier = { "ItemId": "", "SupplierId": "", "RefNumber": "", "MinOrderQty": "", "CurrencyId": "", "Notes": "", "Cost": "" };
+    }
+    alert("UNNN");
+    // Item Notes Details
+    var notesTable = $('#NotesTable').dataTable().fnGetData();
+    alert(notesTable.length);
+    for (var i = 0; i < notesTable.length; i++) {
+        ItemNotes.ItemId = Item.id;
+        alert(notesTable[i][0]);
+        alert(notesTable[i][0] <= 0 ? null : notesTable[i][0]);
+        ItemNotes.SuppCustId = notesTable[i][0] <= 0 ? null : notesTable[i][0];
+        ItemNotes.TakenById = notesTable[i][4];
+        ItemNotes.EntryDate = notesTable[i][5];
+        ItemNotes.ExpiryDate = notesTable[i][8] == "" ? null : notesTable[i][8];
+        ItemNotes.Notes = notesTable[i][7];
+        ItemNotes.ActionById = notesTable[i][11] <= 0 ? null : notesTable[i][11];
+        ItemNotes.NotesTypeId = notesTable[i][12];
+        ItemNotes.PriorityFlagId = notesTable[i][13];
+
+        Item.ItemNotes.push(ItemNotes);
+        ItemNotes = { "ItemId": "", "SuppCustId": "", "TakenById": "", "EntryDate": "", "ExpiryDate": "", "Notes": "", "ActionById": "", "ActionByDate": "", "NotesTypeId": "", "PriorityFlagId": "" };
     }
 
     Material.Item = Item;

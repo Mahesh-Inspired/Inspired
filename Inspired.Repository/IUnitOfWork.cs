@@ -20,8 +20,7 @@ namespace Inspired.Repository
         IGenericRepository<Inv_MaterialSpares> MaterialSparesRepository { get; }
         IGenericRepository<Inv_MaterialAlternateRelative> MaterialAltRelativeRepository { get; }
         IGenericRepository<Inv_MaterialSupplier> MaterialSupplierRepository { get; }
-
-
+        IGenericRepository<Inv_MaterialNotes> MaterialNotesRepository { get; }
         IGenericRepository<FAS_AccountMaster> AccountMasterRepository { get; }
         void Save();
 

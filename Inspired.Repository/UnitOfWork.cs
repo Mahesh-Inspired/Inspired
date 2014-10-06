@@ -25,7 +25,7 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_MaterialSpares> _materialSparesRepository;
         private IGenericRepository<Inv_MaterialAlternateRelative> _materialAltRelativeRepository;
         private IGenericRepository<Inv_MaterialSupplier> _materialSupplierRepository;
-
+        private IGenericRepository<Inv_MaterialNotes> _materialNotesRepository;  
 
         private IGenericRepository<FAS_AccountMaster> _accountMasterRepository;
         #region Constructor
@@ -149,9 +149,17 @@ namespace Inspired.Repository
             get { return _materialSupplierRepository ?? (_materialSupplierRepository = new GenericRepository<Inv_MaterialSupplier>(DbContext)); }
         }
 
+        public IGenericRepository<Data.Inv_MaterialNotes> MaterialNotesRepository
+        {
+            get { return _materialNotesRepository ?? (_materialNotesRepository = new GenericRepository<Inv_MaterialNotes>(DbContext)); }
+        }
+
         public IGenericRepository<Data.FAS_AccountMaster> AccountMasterRepository
         {
             get { return _accountMasterRepository ?? (_accountMasterRepository = new GenericRepository<FAS_AccountMaster>(DbContext)); }
         }
+
+        
+
     }
 }

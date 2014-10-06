@@ -1,0 +1,128 @@
+﻿@model Inspired.Web.ViewModel.MaterialViewModel
+<div class="row-fluid">
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.SuppCust_Code, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.SuppCust_Code, new { @class = "form-control", @onblur = "FetchAccountDetails('SuppCust_Code','SuppCust_Name','SuppCust_Id');" })
+                    @Html.ValidationMessageFor(m => m.SuppCust_Code)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.SuppCust_Name, new { @class = "control-label" })
+                    @Html.HiddenFor(m => m.SuppCust_Id)
+                    @Html.TextBoxFor(m => m.SuppCust_Name, new { @class = "form-control", @onblur = "FetchAccountDetails('SuppCust_Code','SuppCust_Name','SuppCust_Id');" })
+                    @Html.ValidationMessageFor(m => m.SuppCust_Name)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.User_Code, new { @class = "control-label" })
+                    @Html.HiddenFor(m=>m.User_Id)
+                    @Html.TextBoxFor(m => m.User_Code, new { @class = "form-control", @onblur="FetchUserDetails('User_Code','User_Id');" })
+                    @Html.ValidationMessageFor(m => m.User_Code)
+                </div>                
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Notes_EntryDate, new { @class = "control-label" })
+                     @{ Html.EnableClientValidation(false); }
+                        @Html.TextBoxFor(m => m.Notes_EntryDate, new { @class = "form-control datepicker", placeholder="Enter a valid Entry date" })
+                   @{ Html.EnableClientValidation(true); }
+                    @Html.ValidationMessageFor(m => m.Notes_EntryDate)
+                </div>             
+            </div>
+            <div class="row-fluid">                                                 
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.NotesType, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.NotesType, Model.NotesType, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.NotesType)
+                </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Item_Notes, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Item_Notes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Item_Notes)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Notes_ExpiryDate, new { @class = "control-label" })                    
+                    @{ Html.EnableClientValidation(false); }
+                    @Html.TextBoxFor(m => m.Notes_ExpiryDate, new { @class = "form-control datepicker", placeholder = "Enter a valid Expiry date" })
+                    @{ Html.EnableClientValidation(true); }
+                    @Html.ValidationMessageFor(m => m.Notes_ExpiryDate)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.NotesPriority, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.NotesPriority,Model.NotesPriority, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.NotesPriority)
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Action_UserCode, new { @class = "control-label" })
+                    @Html.HiddenFor(m => m.Action_UserId)
+                    @Html.TextBoxFor(m => m.Action_UserCode, new { @class = "form-control", @onblur = "FetchUserDetails('Action_UserCode','Action_UserId');" })
+                    @Html.ValidationMessageFor(m => m.Action_UserCode)
+                </div>
+                <div class="col-md-1 col-sm-12">
+                    <br />
+                    <input type="button" class="btn btn-success" id="btnAddNotes" value="Add" onclick="AddItemNotes()" />
+                </div>
+                <div class="col-md-2 col-sm-12" id="divNotesDelete">
+                    <br />
+                    <input type="button" class="btn btn-warning" id="btnDelNotes" value="Delete" onclick="ClearItemNotes()" />
+                </div>
+            </div>
+            <div class="row-fluid">
+
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <table class="table" id="NotesTable">
+                        <thead>
+                            <tr>
+                                <th>SuppCustomer Id</th>                        1
+                                <th>@Html.LabelFor(m => m.SuppCust_Code)</th>2
+                                <th>@Html.LabelFor(m => m.SuppCust_Name)</th>3
+                                <th>@Html.LabelFor(m => m.User_Code)</th>4
+                                <th>@Html.LabelFor(m => m.User_Id)</th>   5                             
+                                <th>@Html.LabelFor(m => m.Notes_EntryDate)</th>6
+                                <th>@Html.LabelFor(m => m.NotesType)</th>7
+                                <th>@Html.LabelFor(m => m.Item_Notes)</th>8
+                                <th>@Html.LabelFor(m => m.Notes_ExpiryDate)</th>9
+                                <th>@Html.LabelFor(m => m.NotesPriority)</th>10
+                                <th>@Html.LabelFor(m => m.Action_UserCode)</th>11
+                                <th>@Html.LabelFor(m => m.Action_UserId)</th>  12
+                                <th>Notes Type Id</th> 13
+                                <th>Notes Priority Id</th>                                                                                               14
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Material != null)
+                            {
+                                foreach (var note in Model.Material.Inv_MaterialNotes)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => note.FAS_AccountMaster.Accd_Key)</td>
+                                        <td>@Html.DisplayFor(modelItem => note.FAS_AccountMaster.Acc_Code)</td>
+                                        <td>@Html.DisplayFor(modelItem => note.FAS_AccountMaster.Acc_Description)</td>
+                                        <td>@Html.DisplayFor(modelItem => note.UserMaster_TakenBy.UserName )</td>
+                                        <td>@Html.DisplayFor(modelItem => note.UserMaster_TakenBy.Id)</td>
+                                        <td>@Html.DisplayFor(modelItem => note.Entry_date)</td>
+                                        <td>@Html.DisplayFor(modelItem => note.LookupItem_NotesType.Description)</td>                                        
+                                        <td>@Html.DisplayFor(modelItem => note.Notes)</td>    
+                                        <td>@Html.DisplayFor(modelItem => note.Expiry_Date)</td>                                    
+                                        <td>@Html.DisplayFor(modelItem => note.LookupItem_PriorityFlag.Description)</td>                                    
+                                        <td>@Html.DisplayFor(modelItem => note.UserMaster_ToBeActionedBy.UserName)</td>                                    
+                                        <td>@Html.DisplayFor(modelItem => note.UserMaster_ToBeActionedBy.Id)</td>   
+                                        <td>@Html.DisplayFor(modelItem => note.Type)</td>                                        
+                                        <td>@Html.DisplayFor(modelItem => note.Priority_Flg)</td>                                                                                                                 
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

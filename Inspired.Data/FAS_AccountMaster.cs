@@ -17,9 +17,9 @@ namespace Inspired.Data
         public FAS_AccountMaster()
         {
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
-            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
+            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
         }
     
         public int Accd_Key { get; set; }
@@ -34,8 +34,8 @@ namespace Inspired.Data
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
-        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
+        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
     }
 }

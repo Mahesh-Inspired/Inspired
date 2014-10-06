@@ -23,7 +23,6 @@ namespace Inspired.Data
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
             this.Inv_MaterialDocument = new HashSet<Inv_MaterialDocument>();
-            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
             this.Inv_MaterialPackaging = new HashSet<Inv_MaterialPackaging>();
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
@@ -32,6 +31,7 @@ namespace Inspired.Data
             this.SpareItem = new HashSet<Inv_MaterialSpares>();
             this.AlternateRelativeItemCollection = new HashSet<Inv_MaterialAlternateRelative>();
             this.AlternateRelativeItemId = new HashSet<Inv_MaterialAlternateRelative>();
+            this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
         }
     
         public int Id { get; set; }
@@ -77,7 +77,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
         public virtual ICollection<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
-        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
@@ -86,5 +85,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialSpares> SpareItem { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemCollection { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemId { get; set; }
+        public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
     }
 }

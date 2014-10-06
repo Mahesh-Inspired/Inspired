@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inspired.Data;
 using System.ComponentModel.DataAnnotations;
 using Inspired.Repository;
+using Inspired.Data.Validation;
 
 namespace Inspired.Web.ViewModel
 {
@@ -145,22 +146,56 @@ namespace Inspired.Web.ViewModel
 
         #endregion
 
+
+        #region Item Notes
+        [Display(Name = "Supplier/Customer Code")]
+        public String SuppCust_Code { get; set; }
+
+        [Display(Name = "Supplier/Customer Name")]
+        public String SuppCust_Name { get; set; }
+        public Int32 SuppCust_Id { get; set; }
+
+        [Display(Name = "Taken by")]
+        public String User_Code { get; set; }
+        public Int32 User_Id { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Notes_EntryDate { get; set; }
+        public String Item_Notes { get; set; }
+
+        public DateTime? Notes_ExpiryDate { get; set; }
+        
+        [Display(Name="To be Actioned by")]
+        public String Action_UserCode { get; set; }
+        public Int32 Action_UserId { get; set; }
+
+        [Display(Name = "Notes type")]
+        public SelectList NotesType { get; set; }
+
+        [Display(Name = "Priority")]
+        public SelectList NotesPriority { get; set; }
+        
+
+
+        #endregion
+
         #region Constructor
         public MaterialViewModel()
         { 
         }        
-        public MaterialViewModel(IEnumerable<Gen_LookupItem> categoryTypes, IEnumerable<Gen_LookupItem> statuses, 
-            IEnumerable<Gen_LookupItem> specifications, IEnumerable<Gen_LookupItem> alternateRelative, 
-            IEnumerable<Gen_LookupItem> currency,
+        public MaterialViewModel(IEnumerable<Gen_LookupItem> listLookupItems,
             Inv_MaterialMaster material)
         {
-            if (categoryTypes == null || categoryTypes.Count() < 0) throw new ArgumentNullException("Categories");
-            if (statuses == null || statuses.Count() <= 0) throw new ArgumentNullException("Statuses");
-            CategoryTypes = new SelectList(categoryTypes.ToList(), "Id", "Description");
-            Statuses = new SelectList(statuses.ToList(), "Id", "Description");
-            Specifications = new SelectList(specifications.ToList(), "Id", "Description");
-            ListRelativeAlternate = new SelectList(alternateRelative.ToList(), "Id", "Description");
-            ListCurrency = new SelectList(currency.ToList(), "Id", "Description");
+            CategoryTypes = new SelectList(listLookupItems.Where(u => u.LookupType_Id == Core.Global.LookupType_Category).ToList(), "Id", "Description");
+            Statuses = new SelectList(listLookupItems.Where(u => u.LookupType_Id == Core.Global.LookupType_Status).ToList(), "Id", "Description");
+            Specifications = new SelectList(listLookupItems.Where(u => u.LookupType_Id == Core.Global.LookupType_Specification).ToList(), "Id", "Description");
+            ListRelativeAlternate = new SelectList(listLookupItems.Where(u => u.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList(), "Id", "Description");
+            ListCurrency = new SelectList(listLookupItems.Where(u => u.LookupType_Id == Core.Global.LookupType_Currency).ToList(), "Id", "Description");
+            NotesType = new SelectList(listLookupItems.Where(u=>u.LookupType_Id==Core.Global.LookupType_NotesType).ToList(),"Id","Description");
+            NotesPriority = new SelectList(listLookupItems.Where(u => u.LookupType_Id == Core.Global.LookupType_NotesPriority).ToList(), "Id", "Description");
+
+            if (CategoryTypes == null || CategoryTypes.Count() < 0) throw new ArgumentNullException("Categories");
+            if (Statuses == null || Statuses.Count() <= 0) throw new ArgumentNullException("Statuses");            
             ListYesNo = new SelectList(new[] { new SelectListItem { Text = "Yes", Value = "true" }, new SelectListItem { Text = "No", Value = "false" } }, "Value", "Text");            
             Material = material;
         }

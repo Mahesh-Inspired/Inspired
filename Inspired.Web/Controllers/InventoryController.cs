@@ -195,13 +195,8 @@ namespace Inspired.Web.Controllers
         public ActionResult CreateMaterial()
         {
             Int32 companyId = UserIdentity.GetCompanyId();
-            IEnumerable<Gen_LookupItem> catTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_Category && u.Company_Id == companyId).ToList();
-            IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
-            IEnumerable<Gen_LookupItem> listYesNo = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_YesNo).ToList();
-            IEnumerable<Gen_LookupItem> specifications = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Specification).ToList();
-            IEnumerable<Gen_LookupItem> alternateRelative = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList();
-            IEnumerable<Gen_LookupItem> currency = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Currency).ToList();
-            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, currency, null);
+            List<Gen_LookupItem> lookupItems = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.IsHidden == false).ToList();
+            MaterialViewModel material = new MaterialViewModel(lookupItems, null);
             return View(material);
         }
         #endregion
@@ -210,24 +205,21 @@ namespace Inspired.Web.Controllers
         public ActionResult EditMaterial(Int32 itemId)
         {
             Int32 companyId = UserIdentity.GetCompanyId();
-            List<Gen_LookupItem> catTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_Category && u.Company_Id == companyId).ToList();
-            IEnumerable<Gen_LookupItem> statuses = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Status).ToList();
-            IEnumerable<Gen_LookupItem> listYesNo = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_YesNo).ToList();
-            List<Gen_LookupItem> specifications = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Specification).ToList();
-            IEnumerable<Gen_LookupItem> alternateRelative = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_AlternateRelative).ToList();
-            IEnumerable<Gen_LookupItem> currency = UnitOfWork.LookupItemRepository.Get(l => l.LookupType_Id == Core.Global.LookupType_Currency).ToList();
+            List<Gen_LookupItem> lookupItems = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.IsHidden == false).ToList();
             
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
 
             // Remove the Categories that already exist in Material Category
             foreach (Inv_MaterialCategory matCat in item.Inv_MaterialCategory)
-                catTypes.Remove(catTypes.Where(u => u.Id == matCat.Category_Type).First());
+                lookupItems.Remove(lookupItems.Where(u => u.Id == matCat.Category_Type).First());
 
             // Remove the specification that already exist in Material Specification
             foreach (Inv_MaterialSpecification matSpec in item.Inv_MaterialSpecification)
-                specifications.Remove(specifications.Where(u => u.Id == matSpec.Spec_Id).First());
+                lookupItems.Remove(lookupItems.Where(u => u.Id == matSpec.Spec_Id).First());
 
-            MaterialViewModel material = new MaterialViewModel(catTypes, statuses, specifications, alternateRelative, currency, item);
+            MaterialViewModel material = new MaterialViewModel(lookupItems, item);
+            material.User_Code = UserIdentity.GetUserName();
+            material.User_Id = UserIdentity.GetUserId();
             return View("CreateMaterial", material);
         }
         #endregion
@@ -286,7 +278,7 @@ namespace Inspired.Web.Controllers
             Boolean materialSpecFlg = true;
             Boolean materialPackFlg = true;
             Boolean materialSpareFlg = true;
-            Boolean materialAltFlg = true, materialSuppFlg = true;
+            Boolean materialAltFlg = true, materialSuppFlg = true, materialNotesFlg = true;
             if (data.ItemCategory != null)
                 materialCategoryFlg = SaveItemCategory(data.ItemCategory.ToList(), ref material, companyId);
             if (data.ItemSpecification != null)
@@ -299,6 +291,9 @@ namespace Inspired.Web.Controllers
                 materialAltFlg = SaveItemAlternateRelative(data.ItemAltRelative.ToList(), ref material, companyId);
             if (data.Suppliers != null)
                 materialSuppFlg = SaveItemSupplier(data.Suppliers.ToList(), ref material, companyId);
+            if (data.ItemNotes != null)
+                materialNotesFlg = SaveItemNotes(data.ItemNotes.ToList(), ref material, companyId);
+
             if (data.Id != 0)
                 UnitOfWork.MaterialMasterRepository.Update(material);
             else
@@ -484,6 +479,39 @@ namespace Inspired.Web.Controllers
             return true;
         }
 
+        private Boolean SaveItemNotes(List<MaterialNotes> itemNotes, ref Inv_MaterialMaster material, Int32 companyId)
+        {
+            Inv_MaterialNotes itemNote;
+            // Delete the existing Inv_MaterialNotes details
+            Int32 itemId = material.Id;
+            foreach (Inv_MaterialNotes tmpNotes in material.Inv_MaterialNotes.ToList())
+            {
+                UnitOfWork.MaterialNotesRepository.Delete(tmpNotes);
+            }
+
+            // Insert values in the data table into Inv_MaterialNotes table
+            foreach (MaterialNotes matlNotes in itemNotes)
+            {
+                itemNote = new Inv_MaterialNotes()
+                {
+                    Item_Id = material.Id,
+                    Accd_Key = matlNotes.SuppCustId ,
+                    Taken_By = matlNotes.TakenById,
+                    Entry_date = matlNotes.EntryDate,
+                    Expiry_Date = matlNotes.ExpiryDate,
+                    Notes = matlNotes.Notes,
+                    ToBe_Actioned_By = matlNotes.ActionById,
+                    Action_Date = matlNotes.ActionByDate,
+                    Type = matlNotes.NotesTypeId,
+                    Priority_Flg = matlNotes.PriorityFlagId,
+                    Company_Id = companyId
+                };
+                UnitOfWork.MaterialNotesRepository.Insert(itemNote);
+                material.Inv_MaterialNotes.Add(itemNote);
+            }
+            return true;
+        }
+
         [HttpPost]
         public JsonResult SaveMaterial(MaterialSubmitModel data)
         {
@@ -576,6 +604,28 @@ namespace Inspired.Web.Controllers
             }
             else
                 return Json(new { success = true, id = 0, name = "", code = "" }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        #endregion
+        #region JSON Fetch User Details
+        public JsonResult FetchUserDetails(String Code)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            Int32 id = 0;
+            Gen_UserMaster user;
+                user = UnitOfWork.UserMasterRepository.Get(u => u.UserName == Code).FirstOrDefault();
+            
+            if (user!= null)
+            {
+                id = user.Id;               
+                Code = user.UserName;
+                return Json(new { success = true, id = id, code = Code }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { success = true, id = 0, code = "" }, JsonRequestBehavior.AllowGet);
 
         }
 
