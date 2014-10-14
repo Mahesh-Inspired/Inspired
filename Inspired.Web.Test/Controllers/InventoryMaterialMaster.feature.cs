@@ -265,6 +265,160 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - The data is saved")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_TheDataIsSaved()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - The data is saved", ((string[])(null)));
+#line 56
+this.ScenarioSetup(scenarioInfo);
+#line 57
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 58
+ testRunner.When("I try to save the details entered in the material master", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 59
+ testRunner.Then("The material master save succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - New Item is created")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_NewItemIsCreated()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - New Item is created", ((string[])(null)));
+#line 61
+this.ScenarioSetup(scenarioInfo);
+#line 62
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 63
+ testRunner.When("I try to create a new material", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 64
+ testRunner.Then("The material master save succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - Modify an existing item")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_ModifyAnExistingItem()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - Modify an existing item", ((string[])(null)));
+#line 66
+this.ScenarioSetup(scenarioInfo);
+#line 67
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 68
+ testRunner.When("I try to edit the details and enter a new spare item which doesnt exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 69
+ testRunner.Then("The material master save succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - User details are populated when a valid user id is " +
+            "entered")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_UserDetailsArePopulatedWhenAValidUserIdIsEntered()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - User details are populated when a valid user id is " +
+                    "entered", ((string[])(null)));
+#line 71
+this.ScenarioSetup(scenarioInfo);
+#line 72
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 73
+ testRunner.When("I enter a valid user id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 74
+ testRunner.Then("The call succeeds and return the user details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - Blank user details are returned if the user id is i" +
+            "nvalid")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_BlankUserDetailsAreReturnedIfTheUserIdIsInvalid()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - Blank user details are returned if the user id is i" +
+                    "nvalid", ((string[])(null)));
+#line 76
+this.ScenarioSetup(scenarioInfo);
+#line 77
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 78
+ testRunner.When("I enter an invalid user id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 79
+ testRunner.Then("The call doen\'t succeed and return blank code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - Account details are populated when a valid account " +
+            "code is entered")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_AccountDetailsArePopulatedWhenAValidAccountCodeIsEntered()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - Account details are populated when a valid account " +
+                    "code is entered", ((string[])(null)));
+#line 81
+this.ScenarioSetup(scenarioInfo);
+#line 82
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 83
+ testRunner.When("I enter a valid account code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 84
+ testRunner.Then("The call succeeds and return the account details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - Account details are populated when a valid account " +
+            "description is entered")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_AccountDetailsArePopulatedWhenAValidAccountDescriptionIsEntered()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - Account details are populated when a valid account " +
+                    "description is entered", ((string[])(null)));
+#line 86
+this.ScenarioSetup(scenarioInfo);
+#line 87
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 88
+ testRunner.When("I enter a valid account description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 89
+ testRunner.Then("The call succeeds and return the account details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Inventory - Material Master - A blank account details is returned if an invalid a" +
+            "ccount is entered")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "InventoryMaterialMaster")]
+        public virtual void Inventory_MaterialMaster_ABlankAccountDetailsIsReturnedIfAnInvalidAccountIsEntered()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inventory - Material Master - A blank account details is returned if an invalid a" +
+                    "ccount is entered", ((string[])(null)));
+#line 91
+this.ScenarioSetup(scenarioInfo);
+#line 92
+ testRunner.Given("I am logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 93
+ testRunner.When("I enter an invalid account description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 94
+ testRunner.Then("The call doesn\'t succeed and return blank code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

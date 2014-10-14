@@ -121,6 +121,7 @@
       <DependentUpon>InventoryMaterialMaster.feature</DependentUpon>
     </Compile>
     <Compile Include="Controllers\InventoryMaterialMasterSteps.cs" />
+    <Compile Include="Model\MaterialMasterSubmit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

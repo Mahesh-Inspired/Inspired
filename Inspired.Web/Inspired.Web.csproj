@@ -564,6 +564,7 @@
     <Content Include="Views\Inventory\_MaterialSupplier.cshtml" />
     <Content Include="Views\Inventory\_MaterialNotes.cshtml" />
     <Content Include="Views\Shared\EditorTemplate\Date.cshtml" />
+    <Content Include="Views\Inventory\_MaterialDiscount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

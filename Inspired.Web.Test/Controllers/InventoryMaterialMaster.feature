@@ -52,3 +52,43 @@ Scenario: Inventory - Material Master - The item description and id are blank an
 	Given I am logged in user
 	When I try to enter a invalid item code
 	Then The call succeeds and returns id as zero and blank description of the item
+
+Scenario: Inventory - Material Master - The data is saved 
+	Given I am logged in user
+	When I try to save the details entered in the material master
+	Then The material master save succeeds
+
+Scenario: Inventory - Material Master - New Item is created
+	Given I am logged in user
+	When I try to create a new material
+	Then The material master save succeeds
+
+Scenario: Inventory - Material Master - Modify an existing item
+	Given I am logged in user
+	When I try to edit the details and enter a new spare item which doesnt exist
+	Then The material master save succeeds
+
+Scenario: Inventory - Material Master - User details are populated when a valid user id is entered
+	Given I am logged in user
+	When I enter a valid user id
+	Then The call succeeds and return the user details
+
+Scenario: Inventory - Material Master - Blank user details are returned if the user id is invalid
+	Given I am logged in user
+	When I enter an invalid user id
+	Then The call doen't succeed and return blank code
+
+Scenario: Inventory - Material Master - Account details are populated when a valid account code is entered
+	Given I am logged in user
+	When I enter a valid account code
+	Then The call succeeds and return the account details
+
+Scenario: Inventory - Material Master - Account details are populated when a valid account description is entered
+	Given I am logged in user
+	When I enter a valid account description
+	Then The call succeeds and return the account details
+
+Scenario: Inventory - Material Master - A blank account details is returned if an invalid account is entered
+	Given I am logged in user
+	When I enter an invalid account description
+	Then The call doesn't succeed and return blank code

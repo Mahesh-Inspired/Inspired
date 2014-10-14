@@ -168,7 +168,6 @@ function Item_Save() {
         Item.Suppliers.push(Supplier);
         Supplier = { "ItemId": "", "SupplierId": "", "RefNumber": "", "MinOrderQty": "", "CurrencyId": "", "Notes": "", "Cost": "" };
     }
-    alert("UNNN");
     // Item Notes Details
     var notesTable = $('#NotesTable').dataTable().fnGetData();
     alert(notesTable.length);

@@ -236,32 +236,7 @@ namespace Inspired.Web.Controllers
                 material = UnitOfWork.MaterialMasterRepository.Get(u => u.Id == data.Id).FirstOrDefault();            
                 material.Code = data.Code;
                 material.Description = data.Description;
-                material.Status = Resources.Inventory.MatlStatusTemp;
-                material.SKU_Number = data.SKU_Number;
-                material.Long_Description = data.Long_Description;
-                material.Overview = data.Overview;
-                material.UOM = data.UOM;
-                material.Margin_Percent = data.Margin_Percent;
-                material.Batch_YN = Convert.ToBoolean(data.Batch_YN);
-                material.Serial_YN = Convert.ToBoolean(data.Serial_YN );
-                material.Location_YN = Convert.ToBoolean(data.Location_YN);
-                material.Shelf_Life = data.Shelf_Life;
-                material.Barcode = data.Barcode;
-                material.Max_Level = data.Max_Level;
-                material.Min_Level = data.Min_Level;
-                material.Re_order_Level = data.Re_order_Level;
-                material.Lead_Time = data.Lead_Time;                
-                material.NETT_Price = data.NETT_Price;
-                material.Sale_Price = data.Sale_Price;
-                material.Cost_Price = data.Cost_Price;
-                material.MCarton_Quantity = data.MCarton_Quantity;
-                material.MCarton_Length = data.MCarton_Length;
-                material.MCarton_Width = data.MCarton_Width;
-                material.MCarton_Height = data.MCarton_Height;
-                material.MCarton_Gross_Weight = data.MCarton_Gross_Weight;
-                material.MCarton_NETT_Weight = data.MCarton_NETT_Weight;
-
-                material.Company_Id = companyId;                            
+                material.Status = Resources.Inventory.MatlStatusTemp;                
             }
             else
             {
@@ -273,6 +248,33 @@ namespace Inspired.Web.Controllers
                     Company_Id = companyId
                 };
             }
+
+            // update/insert material master details
+            material.SKU_Number = data.SKU_Number;
+            material.Long_Description = data.Long_Description;
+            material.Overview = data.Overview;
+            material.UOM = data.UOM;
+            material.Margin_Percent = data.Margin_Percent;
+            material.Batch_YN = Convert.ToBoolean(data.Batch_YN);
+            material.Serial_YN = Convert.ToBoolean(data.Serial_YN);
+            material.Location_YN = Convert.ToBoolean(data.Location_YN);
+            material.Shelf_Life = data.Shelf_Life;
+            material.Barcode = data.Barcode;
+            material.Max_Level = data.Max_Level;
+            material.Min_Level = data.Min_Level;
+            material.Re_order_Level = data.Re_order_Level;
+            material.Lead_Time = data.Lead_Time;
+            material.NETT_Price = data.NETT_Price;
+            material.Sale_Price = data.Sale_Price;
+            material.Cost_Price = data.Cost_Price;
+            material.MCarton_Quantity = data.MCarton_Quantity;
+            material.MCarton_Length = data.MCarton_Length;
+            material.MCarton_Width = data.MCarton_Width;
+            material.MCarton_Height = data.MCarton_Height;
+            material.MCarton_Gross_Weight = data.MCarton_Gross_Weight;
+            material.MCarton_NETT_Weight = data.MCarton_NETT_Weight;
+            material.Company_Id = companyId;    
+
 
             Boolean materialCategoryFlg = true;
             Boolean materialSpecFlg = true;
