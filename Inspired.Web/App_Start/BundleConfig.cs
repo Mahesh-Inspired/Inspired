@@ -54,6 +54,10 @@ namespace Inspired.Web
                 "~/Scripts/app/inventory/materialsupplier.js",
                 "~/Scripts/app/inventory/materialnotes.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/warehousemaster").Include(
+                "~/Scripts/app/inventory/warehousemaster.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/datechecker").Include(
                 "~/Scripts/app/DateChecker.js"
                 ));

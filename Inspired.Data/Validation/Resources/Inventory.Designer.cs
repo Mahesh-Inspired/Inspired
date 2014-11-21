@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inspired.Data.Resources {
+namespace Inspired.Data.Validation.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Inspired.Data.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Inspired.Data.Resources.Inventory", typeof(Inventory).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Inspired.Data.Validation.Resources.Inventory", typeof(Inventory).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

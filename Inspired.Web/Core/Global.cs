@@ -7,6 +7,12 @@ namespace Inspired.Web.Core
 {
     public class Global
     {
+        #region Please select
+
+        public static Int32 LookupType_PleaseSelect = 0;
+        public static Int32 LookupItem_PleaseSelect = -1;
+
+        #endregion
         #region Statuses lookup
 
         public static Int32 LookupType_Status = 1;
@@ -62,12 +68,16 @@ namespace Inspired.Web.Core
 
         #region Notes Priority
 
-        public static Int32 LookupType_NotesPriority = 7;
+            public static Int32 LookupType_NotesPriority = 7;
 
 
-        public static Int32 LookupItem_Critical = 45;
-        public static Int32 LookupItem_Information = 46;
-        public static Int32 LookupItem_GeneralNotes = 47;
+            public static Int32 LookupItem_Critical = 45;
+            public static Int32 LookupItem_Information = 46;
+            public static Int32 LookupItem_GeneralNotes = 47;
+        #endregion
+
+        #region Warehouse type
+            public static Int32 LookupType_WarehouseType = 8;
         #endregion
     }
 }

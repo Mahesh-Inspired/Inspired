@@ -1,0 +1,101 @@
+﻿@model Inspired.Web.ViewModel.MaterialViewModel
+<div class="row-fluid">
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Supplier_Code, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Supplier_Code, new { @class = "form-control", @onblur = "FetchAccountDetails('Supplier_Code','Supplier_Name','Supplier_Id');" })
+                    @Html.ValidationMessageFor(m => m.Supplier_Code)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Supplier_Name, new { @class = "control-label" })
+                    @Html.HiddenFor(m => m.Supplier_Id)
+                    @Html.TextBoxFor(m => m.Supplier_Name, new { @class = "form-control", @onblur = "FetchAccountDetails('Supplier_Code','Supplier_Name','Supplier_Id');" })
+                    @Html.ValidationMessageFor(m => m.AlternateItemCode)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Supplier_RefNumber, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Supplier_RefNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Supplier_RefNumber)
+                </div>                
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Supplier_MinOrder, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Supplier_MinOrder, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Supplier_MinOrder)
+                </div>             
+            </div>
+            <div class="row-fluid">                                                 
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.ListCurrency, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.ListCurrency, Model.ListCurrency, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ListCurrency)
+                </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Supplier_Cost, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Supplier_Cost, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Supplier_Cost)
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Supplier_Notes, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Supplier_Notes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Supplier_Notes)
+                </div>
+                <div class="col-md-1 col-sm-12">
+                    <br />
+                    <input type="button" class="btn btn-success" id="btnAddSupplier" value="Add" onclick="AddSupplier()" />
+                </div>
+                <div class="col-md-2 col-sm-12" id="divSupplierDelete">
+                    <br />
+                    <input type="button" class="btn btn-warning" id="btnDelSupplier" value="Delete" onclick="ClearSupplier()" />
+                </div>
+            </div>
+            <div class="row-fluid">
+
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <table class="table" id="SupplierTable">
+                        <thead>
+                            <tr>
+                                <th>Supplier Id</th>
+                                <th>@Html.LabelFor(m => m.Supplier_Code)</th>
+                                <th>@Html.LabelFor(m => m.Supplier_Name)</th>
+                                <th>@Html.LabelFor(m => m.Supplier_RefNumber)</th>
+                                <th>@Html.LabelFor(m => m.Supplier_MinOrder)</th>
+                                <th>@Html.LabelFor(m => m.ListCurrency)</th>
+                                <th>Currency id</th>
+                                <th>@Html.LabelFor(m => m.Supplier_Cost)</th>
+                                <th>@Html.LabelFor(m => m.Supplier_Notes)</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Material != null)
+                            {
+                                foreach (var supplier in Model.Material.Inv_MaterialSupplier)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => supplier.Supplier_Code)</td>
+                                        <td>@Html.DisplayFor(modelItem => supplier.FAS_AccountMaster.Acc_Code)</td>
+                                        <td>@Html.DisplayFor(modelItem => supplier.FAS_AccountMaster.Acc_Description)</td>
+                                        <td>@Html.DisplayFor(modelItem => supplier.Ref_Number)</td>
+                                        <td>@Html.DisplayFor(modelItem => supplier.Min_Order)</td>
+                                        <td>@Html.DisplayFor(modelItem => supplier.Gen_LookupItem.Description)</td>
+                                        <td>@Html.DisplayFor(modelItem => supplier.Currency)</td>                                        
+                                        <td>@Html.DisplayFor(modelItem => supplier.Cost)</td>    
+                                        <td>@Html.DisplayFor(modelItem => supplier.Notes)</td>                                    
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

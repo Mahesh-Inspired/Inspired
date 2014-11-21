@@ -37,7 +37,6 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
         public virtual DbSet<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual DbSet<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
-        public virtual DbSet<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
         public virtual DbSet<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual DbSet<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
         public virtual DbSet<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
@@ -52,5 +51,6 @@ namespace Inspired.Data
         public virtual DbSet<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual DbSet<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual DbSet<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
+        public virtual DbSet<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
     }
 }

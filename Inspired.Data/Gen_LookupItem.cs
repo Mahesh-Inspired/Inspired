@@ -21,13 +21,13 @@ namespace Inspired.Data
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
             this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
-            this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialMaster = new HashSet<Inv_MaterialMaster>();
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
             this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
             this.Inv_MaterialNotes1 = new HashSet<Inv_MaterialNotes>();
+            this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
         }
     
         public int Id { get; set; }
@@ -47,7 +47,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
         public virtual ICollection<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
-        public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
         public virtual Gen_LookupType Gen_LookupType { get; set; }
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual Gen_LookupGroup Gen_LookupGroup { get; set; }
@@ -56,5 +55,6 @@ namespace Inspired.Data
         public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes1 { get; set; }
+        public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
     }
 }

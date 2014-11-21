@@ -15,9 +15,12 @@ namespace Inspired.Repository
         private InspiredEntities DbContext { get; set; }
         private bool _disposed;
 
-        private IGenericRepository<Inv_CategoryMaster> _categoryMasterRepository;
+        
         private IGenericRepository<Gen_UserMaster> _userMasterRepository;
         private IGenericRepository<Gen_LookupItem> _lookupItemRepository;
+        private IGenericRepository<Gen_BranchMaster> _branchRepository;
+
+        private IGenericRepository<Inv_CategoryMaster> _categoryMasterRepository;
         private IGenericRepository<Inv_MaterialMaster> _materialMasterRepository;
         private IGenericRepository<Inv_MaterialCategory> _materialCategoryRepository;
         private IGenericRepository<Inv_MaterialSpecification> _materialSpecificationRepository;
@@ -25,7 +28,8 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_MaterialSpares> _materialSparesRepository;
         private IGenericRepository<Inv_MaterialAlternateRelative> _materialAltRelativeRepository;
         private IGenericRepository<Inv_MaterialSupplier> _materialSupplierRepository;
-        private IGenericRepository<Inv_MaterialNotes> _materialNotesRepository;  
+        private IGenericRepository<Inv_MaterialNotes> _materialNotesRepository;
+        private IGenericRepository<Inv_WarehouseMaster> _warehouseRepository;
 
         private IGenericRepository<FAS_AccountMaster> _accountMasterRepository;
         #region Constructor
@@ -111,6 +115,11 @@ namespace Inspired.Repository
             get { return _userMasterRepository ?? (_userMasterRepository = new GenericRepository<Gen_UserMaster>(DbContext)); }
         }
 
+        public IGenericRepository<Gen_BranchMaster> BranchRepository
+        {
+            get { return _branchRepository ?? (_branchRepository= new GenericRepository<Gen_BranchMaster>(DbContext)); }
+        }
+
         public IGenericRepository<Gen_LookupItem> LookupItemRepository
         {
             get { return _lookupItemRepository ?? (_lookupItemRepository = new GenericRepository<Gen_LookupItem>(DbContext)); }
@@ -159,7 +168,10 @@ namespace Inspired.Repository
             get { return _accountMasterRepository ?? (_accountMasterRepository = new GenericRepository<FAS_AccountMaster>(DbContext)); }
         }
 
-        
+        public IGenericRepository<Inv_WarehouseMaster> WarehouseRepository
+        {
+            get { return _warehouseRepository ?? (_warehouseRepository= new GenericRepository<Inv_WarehouseMaster>(DbContext)); }
+        }        
 
     }
 }

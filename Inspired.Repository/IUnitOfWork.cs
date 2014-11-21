@@ -10,9 +10,12 @@ namespace Inspired.Repository
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<Inv_CategoryMaster> CategoryMasterRepository { get; }
+        
         IGenericRepository<Gen_UserMaster> UserMasterRepository { get; }
         IGenericRepository<Gen_LookupItem> LookupItemRepository { get; }
+        IGenericRepository<Gen_BranchMaster> BranchRepository { get; }
+
+        IGenericRepository<Inv_CategoryMaster> CategoryMasterRepository { get; }
         IGenericRepository<Inv_MaterialMaster> MaterialMasterRepository { get; }
         IGenericRepository<Inv_MaterialCategory> MaterialCategoryRepository { get; }
         IGenericRepository<Inv_MaterialSpecification> MaterialSpecificationRepository { get; }
@@ -21,6 +24,8 @@ namespace Inspired.Repository
         IGenericRepository<Inv_MaterialAlternateRelative> MaterialAltRelativeRepository { get; }
         IGenericRepository<Inv_MaterialSupplier> MaterialSupplierRepository { get; }
         IGenericRepository<Inv_MaterialNotes> MaterialNotesRepository { get; }
+        IGenericRepository<Inv_WarehouseMaster> WarehouseRepository { get; }
+        
         IGenericRepository<FAS_AccountMaster> AccountMasterRepository { get; }
         void Save();
 

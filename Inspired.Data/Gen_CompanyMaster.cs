@@ -24,7 +24,6 @@ namespace Inspired.Data
             this.Inv_MaterialPackaging = new HashSet<Inv_MaterialPackaging>();
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSupplier = new HashSet<Inv_MaterialSupplier>();
-            this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
             this.Inv_MaterialBOM = new HashSet<Inv_MaterialBOM>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
             this.Gen_UserMaster = new HashSet<Gen_UserMaster>();
@@ -37,6 +36,7 @@ namespace Inspired.Data
             this.Inv_MaterialAlternateRelative = new HashSet<Inv_MaterialAlternateRelative>();
             this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
+            this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
         }
     
         public int Id { get; set; }
@@ -52,7 +52,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSupplier> Inv_MaterialSupplier { get; set; }
-        public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
         public virtual ICollection<Inv_MaterialBOM> Inv_MaterialBOM { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
         public virtual ICollection<Gen_UserMaster> Gen_UserMaster { get; set; }
@@ -65,5 +64,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialAlternateRelative> Inv_MaterialAlternateRelative { get; set; }
         public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
+        public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
     }
 }

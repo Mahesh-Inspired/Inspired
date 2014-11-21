@@ -53,7 +53,7 @@ namespace Inspired.Web.Controllers
             try
             {
                 var companyID = UserIdentity.GetCompanyId();
-                var catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == companyID )
+                var catList = UnitOfWork.CategoryMasterRepository.Get().Where(e => e.Company_Id == companyID)
                     .Select(c => new
                     {
                         Id = c.Id,
@@ -62,7 +62,7 @@ namespace Inspired.Web.Controllers
                         Description = c.Description,
                         Status = (c.Status == "A" ? "Active" : "Passive")
                     }).ToList();
-                int recordCount = catList.Count;                
+                int recordCount = catList.Count;
                 if (jtSorting != null)
                 {
                     catList = catList.OrderBy(jtSorting).ToList();
@@ -126,10 +126,10 @@ namespace Inspired.Web.Controllers
             if (String.IsNullOrEmpty(cat.Code))
                 ModelState.AddModelError("Category.Code", "Enter a valid Category code");
             if (String.IsNullOrEmpty(cat.Description))
-                ModelState.AddModelError("Category.Description", "Enter a valid Category description");   
-            if(isCreate && !String.IsNullOrEmpty(cat.Code) && 
-                UnitOfWork.CategoryMasterRepository.Get(u=>u.Company_Id == companyId && u.Code == cat.Code && u.Type == cat.Type).Count() > 0 )
-                ModelState.AddModelError("Category.Code", "Category code already exist");   
+                ModelState.AddModelError("Category.Description", "Enter a valid Category description");
+            if (isCreate && !String.IsNullOrEmpty(cat.Code) &&
+                UnitOfWork.CategoryMasterRepository.Get(u => u.Company_Id == companyId && u.Code == cat.Code && u.Type == cat.Type).Count() > 0)
+                ModelState.AddModelError("Category.Code", "Category code already exist");
         }
         #endregion
 
@@ -163,15 +163,15 @@ namespace Inspired.Web.Controllers
             cat.Description = catDescription;
 
             checkCategoryFields(cat, false, companyId);
-             if (ModelState.IsValid)
-             {
-                 UnitOfWork.CategoryMasterRepository.Update(cat);
-                 UnitOfWork.Save();
-                 return RedirectToAction("CategoryList");
-             }
-             var types = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId).OrderBy(u => u.Ordinal).ToList();
-             CategoryViewModel catViewModel = new CategoryViewModel(types, cat);
-             return View(catViewModel);
+            if (ModelState.IsValid)
+            {
+                UnitOfWork.CategoryMasterRepository.Update(cat);
+                UnitOfWork.Save();
+                return RedirectToAction("CategoryList");
+            }
+            var types = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId).OrderBy(u => u.Ordinal).ToList();
+            CategoryViewModel catViewModel = new CategoryViewModel(types, cat);
+            return View(catViewModel);
         }
         #endregion
 
@@ -187,11 +187,11 @@ namespace Inspired.Web.Controllers
             return View(matlList);
         }
 
-       
+
 
         #endregion
 
-        #region Create Material        
+        #region Create Material
         public ActionResult CreateMaterial()
         {
             Int32 companyId = UserIdentity.GetCompanyId();
@@ -206,7 +206,7 @@ namespace Inspired.Web.Controllers
         {
             Int32 companyId = UserIdentity.GetCompanyId();
             List<Gen_LookupItem> lookupItems = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.IsHidden == false).ToList();
-            
+
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(m => m.Id == itemId).FirstOrDefault();
 
             // Remove the Categories that already exist in Material Category
@@ -224,19 +224,20 @@ namespace Inspired.Web.Controllers
         }
         #endregion
 
+        #region Save Material
         private Boolean SaveMaterialDetails(MaterialSubmitModel data)
         {
-            
+
             var companyId = UserIdentity.GetCompanyId();
 
 
             Inv_MaterialMaster material;
             if (data.Id != 0)
             {
-                material = UnitOfWork.MaterialMasterRepository.Get(u => u.Id == data.Id).FirstOrDefault();            
+                material = UnitOfWork.MaterialMasterRepository.Get(u => u.Id == data.Id).FirstOrDefault();
                 material.Code = data.Code;
                 material.Description = data.Description;
-                material.Status = Resources.Inventory.MatlStatusTemp;                
+                material.Status = Resources.Inventory.MatlStatusTemp;
             }
             else
             {
@@ -273,7 +274,7 @@ namespace Inspired.Web.Controllers
             material.MCarton_Height = data.MCarton_Height;
             material.MCarton_Gross_Weight = data.MCarton_Gross_Weight;
             material.MCarton_NETT_Weight = data.MCarton_NETT_Weight;
-            material.Company_Id = companyId;    
+            material.Company_Id = companyId;
 
 
             Boolean materialCategoryFlg = true;
@@ -302,14 +303,14 @@ namespace Inspired.Web.Controllers
                 UnitOfWork.MaterialMasterRepository.Insert(material);
 
             UnitOfWork.Save();
-            return true;            
-            
-        }       
-        private Boolean SaveItemCategory(List<MaterialCategory> newCategories,ref Inv_MaterialMaster material, Int32 companyId)
+            return true;
+
+        }
+        private Boolean SaveItemCategory(List<MaterialCategory> newCategories, ref Inv_MaterialMaster material, Int32 companyId)
         {
             Inv_MaterialCategory invMaterialCategory;
             // Delete the existing Inv_MaterialCategory details
-            foreach(Inv_MaterialCategory tmpCat in material.Inv_MaterialCategory.ToList())
+            foreach (Inv_MaterialCategory tmpCat in material.Inv_MaterialCategory.ToList())
             {
                 UnitOfWork.MaterialCategoryRepository.Delete(tmpCat);
             }
@@ -342,7 +343,7 @@ namespace Inspired.Web.Controllers
             foreach (MaterialSpecification itemSpec in specifications)
             {
                 invMaterialSpec = new Inv_MaterialSpecification()
-                {                    
+                {
                     Batch_Number = itemSpec.BatchNumber,
                     Spec_Id = itemSpec.SpecId,
                     Spec_Value = itemSpec.SpecValue,
@@ -387,7 +388,7 @@ namespace Inspired.Web.Controllers
             Inv_MaterialSpares invMaterialSpare;
             Inv_MaterialMaster invSpareMaterial;
             // Delete the existing Inv_MaterialSpares details
-            Int32 itemId = material.Id;            
+            Int32 itemId = material.Id;
             foreach (Inv_MaterialSpares tmpSpare in material.MaterialSpares.ToList())
             {
                 UnitOfWork.MaterialSparesRepository.Delete(tmpSpare);
@@ -399,7 +400,7 @@ namespace Inspired.Web.Controllers
                 invMaterialSpare = new Inv_MaterialSpares()
                 {
                     Item_Id = material.Id,
-                    
+
                     Quantity = itmSpare.SpareQuantity,
                     Price = itmSpare.SparePrice,
                     Overview = itmSpare.SpareOverview,
@@ -447,7 +448,7 @@ namespace Inspired.Web.Controllers
                     Company_Id = companyId
                 };
                 UnitOfWork.MaterialAltRelativeRepository.Insert(invMaterialAltRelative);
-                material.AlternateRelativeItemCollection.Add(invMaterialAltRelative);                
+                material.AlternateRelativeItemCollection.Add(invMaterialAltRelative);
             }
             return true;
         }
@@ -472,7 +473,7 @@ namespace Inspired.Web.Controllers
                     Min_Order = supp.MinOrderQty,
                     Currency = supp.CurrencyId,
                     Notes = supp.Notes,
-                    Cost = supp.Cost,                    
+                    Cost = supp.Cost,
                     Company_Id = companyId
                 };
                 UnitOfWork.MaterialSupplierRepository.Insert(matlSupplier);
@@ -497,7 +498,7 @@ namespace Inspired.Web.Controllers
                 itemNote = new Inv_MaterialNotes()
                 {
                     Item_Id = material.Id,
-                    Accd_Key = matlNotes.SuppCustId ,
+                    Accd_Key = matlNotes.SuppCustId,
                     Taken_By = matlNotes.TakenById,
                     Entry_date = matlNotes.EntryDate,
                     Expiry_Date = matlNotes.ExpiryDate,
@@ -520,16 +521,18 @@ namespace Inspired.Web.Controllers
 
             Boolean canContinue = false;
 
-                canContinue = SaveMaterialDetails(data);
-            
-            
-            return Json(new { success = canContinue}, JsonRequestBehavior.AllowGet);
+            canContinue = SaveMaterialDetails(data);
+
+
+            return Json(new { success = canContinue }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
         #region JSon Fetch details
 
-        public JsonResult FetchCategoryJSON(Int32? catType, String catCode) 
+        public JsonResult FetchCategoryJSON(Int32? catType, String catCode)
         {
-            Int32 id =0;
+            Int32 id = 0;
             String catDescription = String.Empty;
             Inv_CategoryMaster cat = UnitOfWork.CategoryMasterRepository.Get(u => u.Code.ToLower() == catCode.ToLower() && u.Type == catType)
                 .FirstOrDefault();
@@ -563,7 +566,7 @@ namespace Inspired.Web.Controllers
             else
                 return Json(new { success = false, Message = "Enter a valid specification" }, JsonRequestBehavior.AllowGet);
         }
-   
+
         #endregion
 
         #region JSON Fetch Item Details
@@ -583,15 +586,15 @@ namespace Inspired.Web.Controllers
             else
                 return Json(new { success = true, id = 0, ItemDescription = "" }, JsonRequestBehavior.AllowGet);
         }
-       #endregion
+        #endregion
 
         #region JSON Fetch Account Details
         public JsonResult FetchAccountDetails(String Name, String Code)
         {
             var companyId = UserIdentity.GetCompanyId();
 
-            Int32 id = 0;            
-            FAS_AccountMaster account ;
+            Int32 id = 0;
+            FAS_AccountMaster account;
             if (!String.IsNullOrEmpty(Code))
                 account = UnitOfWork.AccountMasterRepository.Get(u => u.Acc_Code == Code).FirstOrDefault();
             else
@@ -611,6 +614,7 @@ namespace Inspired.Web.Controllers
 
 
         #endregion
+
         #region JSON Fetch User Details
         public JsonResult FetchUserDetails(String Code)
         {
@@ -618,11 +622,11 @@ namespace Inspired.Web.Controllers
 
             Int32 id = 0;
             Gen_UserMaster user;
-                user = UnitOfWork.UserMasterRepository.Get(u => u.UserName == Code).FirstOrDefault();
-            
-            if (user!= null)
+            user = UnitOfWork.UserMasterRepository.Get(u => u.UserName == Code).FirstOrDefault();
+
+            if (user != null)
             {
-                id = user.Id;               
+                id = user.Id;
                 Code = user.UserName;
                 return Json(new { success = true, id = id, code = Code }, JsonRequestBehavior.AllowGet);
             }
@@ -631,6 +635,70 @@ namespace Inspired.Web.Controllers
 
         }
 
+
+        #endregion
+
+        #region Warehouse master
+        public ActionResult WarehouseMaster()
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            List<Inv_WarehouseMaster> warehouses = UnitOfWork.WarehouseRepository.Get().ToList();
+            List<Gen_LookupItem> warehouseTypes = UnitOfWork.LookupItemRepository.Get(u => u.LookupType_Id == Core.Global.LookupType_WarehouseType).OrderBy(u => u.Ordinal).ToList();
+            List<Gen_BranchMaster> branches = new List<Gen_BranchMaster>();
+            branches.Add(new Gen_BranchMaster() { Id = -1, Description = "Please Select" });
+            branches.AddRange(UnitOfWork.BranchRepository.Get(u => u.Company_Id == companyId).ToList());
+            WarehouseViewModel warehouseView = new WarehouseViewModel(warehouseTypes, warehouses, branches);
+            return View(warehouseView);
+        }
+
+        public JsonResult AddUpdateWarehouse(Int32 whsId, String whsCode, String whsDesc, Int32 whsType, Int32 branchId)
+        {
+            try
+            {
+                Inv_WarehouseMaster warehouse = new Inv_WarehouseMaster();
+                if (whsId != 0)
+                    warehouse = UnitOfWork.WarehouseRepository.Get(u => u.Id == whsId).First();
+
+                warehouse.Code = whsCode;
+                warehouse.Description = whsDesc;
+                warehouse.Type = whsType;
+                warehouse.Company_Id = UserIdentity.GetCompanyId();
+                //warehouse.Branch_Id = branchId <= 0 ? DBNull.Value : branchId;
+                if (whsId != 0)
+                    UnitOfWork.WarehouseRepository.Update(warehouse);
+                else
+                    UnitOfWork.WarehouseRepository.Insert(warehouse);
+                UnitOfWork.Save();
+                return Json(new { success = true, id = warehouse.Id }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, Message = ex.InnerException }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+        public JsonResult DeleteWarehouse(Int32 whsId)
+        {
+            try
+            {
+                
+                Inv_WarehouseMaster warehouse= UnitOfWork.WarehouseRepository.Get(u => u.Id == whsId).First();
+                if (warehouse != null)
+                {
+                    UnitOfWork.WarehouseRepository.Delete(warehouse);
+                    UnitOfWork.Save();
+                    return Json(new { success = true}, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { success = false, Message="Invalid warehouse" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, Message = ex.InnerException }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         #endregion
     }

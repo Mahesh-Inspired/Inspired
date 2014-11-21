@@ -1,0 +1,116 @@
+﻿@model Inspired.Web.ViewModel.WarehouseViewModel
+@{
+    ViewBag.Title = "Warehouse master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- DataTables CSS -->
+<link href="~/Content/DataTables-1.10.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="~/Scripts/DataTables-1.10.1/jquery.dataTables.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/DataTables-1.10.1/dataTables.tableTools.js"></script>
+<h2>Warehouse Master</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.warehouseCode, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.warehouseCode, new { @class="form-control"})
+                            @Html.ValidationMessageFor(m => m.warehouseCode)
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            @Html.LabelFor(m => m.warehouseDescription, new { @class = "control-label" })
+                            @Html.HiddenFor(m => m.warehouseId)
+                            @Html.TextBoxFor(m => m.warehouseDescription, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.warehouseDescription)
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            @Html.LabelFor(m => m.WarehouseTypes, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.WarehouseTypes, Model.WarehouseTypes, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.WarehouseTypes)
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="col-md-4 col-sm-12">
+                            @Html.LabelFor(m => m.Branches, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Branches, Model.Branches, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Branches)
+                        </div>
+                        <div class="col-md-1 col-sm-12">
+                            <br />
+                            <input type="button" class="btn btn-success" value="Add" onclick="AddWarehouse()" />
+                        </div>
+                        <div class="col-md-1 col-sm-12" id="divWhsDelete">
+                            <br />
+                            <input type="button" class="btn btn-warning" value="Delete" onclick="DeleteWarehouse()" />
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+
+                    </div>
+                    <div class="row-fluid">
+                        <div class="col-md-12">
+                            <table class="table" id="WarehouseTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Warehouse Code</th>
+                                        <th>Description</th>
+                                        <th>Type</th>
+                                        <th></th>
+                                        <th>Branch</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.warehouseList != null)
+                            {
+                                foreach (var whs in Model.warehouseList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => whs.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => whs.Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => whs.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => whs.Gen_LookupItem.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => whs.Type)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelitem=>whs.Gen_BranchMaster.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelitem=>whs.Branch_Id)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/warehousemaster")
+    @Scripts.Render("~/bundles/antiforgerytoken")
+}
+

@@ -18,10 +18,10 @@ namespace Inspired.Data
         {
             this.Inv_MaterialBranchSpec = new HashSet<Inv_MaterialBranchSpec>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
-            this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
             this.Inv_MaterialBranch = new HashSet<Inv_MaterialBranch>();
             this.Gen_UserMaster = new HashSet<Gen_UserMaster>();
             this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
+            this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
         }
     
         public int Id { get; set; }
@@ -31,9 +31,9 @@ namespace Inspired.Data
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual ICollection<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
-        public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
         public virtual ICollection<Inv_MaterialBranch> Inv_MaterialBranch { get; set; }
         public virtual ICollection<Gen_UserMaster> Gen_UserMaster { get; set; }
         public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
+        public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
     }
 }
