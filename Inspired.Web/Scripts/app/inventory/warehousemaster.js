@@ -54,22 +54,22 @@ function LoadWarehouse() {
     $("#divWhsDelete").hide("slow");
 }
 function AddWarehouse() {
+    var errMsg = '';
     if ($('#warehouseCode').val() == null) {
-        alert("Enter a valid Warehouse code");
+        errMsg = "Enter a valid Warehouse code\n";
+    }
+    else if ($('#warehouseDescription').val() == '') {
+        errMsg = errMsg + "Enter a valid Warehouse Description\n";
+    }
+    else if ($('#warehouseTypes').val() == '') {
+        errMsg = errMsg + "Enter a valid warehouse type\n";
+    }
+    if (errMsg != '')
+    {
+        alert(errMsg);
         $('#warehouseCode').focus();
         return false;
     }
-    else if ($('#warehouseDescription').val() == '') {
-        alert("Enter a valid Warehouse Description");
-        $('#warehouseDescription').focus();
-        return false;
-    }
-    else if ($('#warehouseTypes').val() == '') {
-        alert("Enter a valid warehouse type");
-        $('#warehousetypes').focus();
-        return false;
-    }
-
     UpdateWarehouse();   
 }
 
@@ -89,7 +89,7 @@ function clearControls()
 }
 function UpdateWarehouse() {
     
-    if (warehousecode == '') return;
+    if ($("#warehouseCode").val() == '') return;
     $.ajax({
         context: document.body,
         data: addAntiForgeryToken({
@@ -103,10 +103,10 @@ function UpdateWarehouse() {
         url: 'AddUpdateWarehouse',
         error: function (e) { alert(e.Message); },
         success: function (data) {
-            alert("Inv");
-            alert(data.success);
+            console.log("Inv");
+            console.log(data.success);
             if (data.success == true) {
-                alert(data.id);
+                console.log(data.id);
                 $('#warehouseId').val(data.id);
                 addWarehouseToTable();
             } else if (data.success == false) {
