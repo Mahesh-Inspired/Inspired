@@ -20,6 +20,10 @@ namespace Inspired.Data
         public int Company_Id { get; set; }
         public int User_Id { get; set; }
         public System.DateTime Last_Updated { get; set; }
+        public string Description { get; set; }
+        public int version { get; set; }
+        public Nullable<System.DateTime> FromDT { get; set; }
+        public Nullable<System.DateTime> EndDT { get; set; }
     
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
     }

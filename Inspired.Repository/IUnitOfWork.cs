@@ -13,6 +13,8 @@ namespace Inspired.Repository
         
         IGenericRepository<Gen_UserMaster> UserMasterRepository { get; }
         IGenericRepository<Gen_LookupItem> LookupItemRepository { get; }
+        IGenericRepository<Gen_LookupType> LookupTypeRepository { get; }
+        IGenericRepository<Gen_LookupGroup> LookupGroupRepository { get; }
         IGenericRepository<Gen_BranchMaster> BranchRepository { get; }
 
         IGenericRepository<Inv_CategoryMaster> CategoryMasterRepository { get; }
@@ -27,6 +29,7 @@ namespace Inspired.Repository
         IGenericRepository<Inv_WarehouseMaster> WarehouseRepository { get; }
         
         IGenericRepository<FAS_AccountMaster> AccountMasterRepository { get; }
+        IGenericRepository<Inv_MaterialDocument> MaterialDocumentRepository { get; }
         void Save();
 
         void DisableChangeTracking();

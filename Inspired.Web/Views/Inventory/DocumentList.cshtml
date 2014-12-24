@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Inspired.Data.Inv_MaterialDocument>
+
+@{
+    ViewBag.Title = "Document List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Document List</h2>
+<script>
+    $(function () { $("tabs").tabs(); });
+</script>
+<div class="container-fluid">
+    <div class="span12">
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <p>
+                    @Html.ActionLink("Create New", "DocumentUpload")
+                </p>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            File
+                        </th>
+                        <th>
+                            Version
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Inv_MaterialMaster.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.version)
+                            </td>
+                            <td>
+                                <a href="@Html.DisplayFor(modelItem => item.Document_Path)">Download</a>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

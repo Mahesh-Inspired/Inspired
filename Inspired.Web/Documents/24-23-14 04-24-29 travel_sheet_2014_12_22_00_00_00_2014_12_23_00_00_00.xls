@@ -1,0 +1,198 @@
+pdf<style type="text/css">
+				html, body {
+				text-align: left; 
+				margin: 10px;
+				padding: 0px;
+				font: normal 11px Arial, Helvetica, sans-serif;
+				color: #000;
+				}
+				
+				h3 { 
+					font: normal 14px Arial, Helvetica, sans-serif;
+					font-weight: bold;
+				}
+				
+				hr {
+					border-color:#cccccc;
+					border-style:solid none none;
+					border-width:1px 0 0;
+					height:1px;
+					margin-left:1px;
+					margin-right:1px;
+				}
+				
+				a:link,
+				a:visited {
+					text-decoration: none;
+					color: #004c8c;
+				}
+				a:active {
+					color: #004c8c;
+				}
+				a:hover {
+					text-decoration: underline;
+					color: #004c8c;
+				}
+				
+				caption,
+				th,
+				td {
+					vertical-align: middle;
+					font: normal 11px Arial, Helvetica, sans-serif;
+				}
+				
+				table.report {
+					font-family: verdana,arial,sans-serif;
+					font-size:11px;
+					color:#333333;
+					border-width: 1px;
+					border-color: #eeeeee;
+					border-collapse: collapse;
+				}
+				
+				table.report th {
+					font-weight: bold;
+					border-width: 1px;
+					padding: 2px;
+					border-style: solid;
+					border-color: #eeeeee;
+					background-color: #eeeeee;
+				}
+				
+				table.report td {
+					border-width: 1px;
+					padding: 2px;
+					border-style: solid;
+					border-color: #eeeeee;
+				}
+				
+				table.report tr:hover {
+					background-color: #F6F6F6;
+				}
+			
+				td
+				{
+				    mso-number-format:"@";/*force text*/
+				}
+				</style></head><body><h3>Travel sheet</h3><table><tr>
+					<td><strong>Object:</strong></td>
+					<td>TN 18 AB 2733</td>
+					</tr><tr>
+					<td><strong>Period:</strong></td>
+					<td>2014-12-22 00:00:00 - 2014-12-23 00:00:00</td>
+					</tr></table><br/><table class="report" width="100%" >
+					<tr align="center">
+						<th>Date</th>
+						<th>Position A</th>
+						<th>Position B</th>
+						<th>Length</th>
+						<th>Fuel consumption</th>
+					</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.868335,78.108097&t=m" target="_blank">10.868335 &deg;, 78.108097 &deg;</a> - Karur Road, Vellianai North, Tamil Nadu 639005, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.929035,78.054575&t=m" target="_blank">10.929035 &deg;, 78.054575 &deg;</a> - Karur-Trichy Bypass Road, Sukkaliyur, Karur, Tamil Nadu 639003, India</td>
+				<td>10.32 </td>
+				<td>1.59 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.929035,78.054575&t=m" target="_blank">10.929035 &deg;, 78.054575 &deg;</a> - Karur-Trichy Bypass Road, Sukkaliyur, Karur, Tamil Nadu 639003, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.956482,77.994990&t=m" target="_blank">10.956482 &deg;, 77.994990 &deg;</a> - Nagapattinam - Coimbatore - Gundlupet Highway, Pavitiramedu, Tamil Nadu 639002, India</td>
+				<td>11.08 </td>
+				<td>1.68 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.956482,77.994990&t=m" target="_blank">10.956482 &deg;, 77.994990 &deg;</a> - Nagapattinam - Coimbatore - Gundlupet Highway, Pavitiramedu, Tamil Nadu 639002, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.032230,77.534110&t=m" target="_blank">11.032230 &deg;, 77.534110 &deg;</a> - Tiruppur-Kangayam Road, Sivanmalai, Tamil Nadu 638701, India</td>
+				<td>54.03 </td>
+				<td>8.31 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.032230,77.534110&t=m" target="_blank">11.032230 &deg;, 77.534110 &deg;</a> - Tiruppur-Kangayam Road, Sivanmalai, Tamil Nadu 638701, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.098662,77.393468&t=m" target="_blank">11.098662 &deg;, 77.393468 &deg;</a> - Tiruppur-Kangayam Road, Nallur, Tiruppur, Tamil Nadu 641606, India</td>
+				<td>17.44 </td>
+				<td>2.54 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.098662,77.393468&t=m" target="_blank">11.098662 &deg;, 77.393468 &deg;</a> - Tiruppur-Kangayam Road, Nallur, Tiruppur, Tamil Nadu 641606, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.114885,77.366122&t=m" target="_blank">11.114885 &deg;, 77.366122 &deg;</a> - pillayar kovil st, Uthukuli Road, Palayakadu, Tiruppur, Tamil Nadu 641607, India</td>
+				<td>6.70 </td>
+				<td>1.03 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.114885,77.366122&t=m" target="_blank">11.114885 &deg;, 77.366122 &deg;</a> - pillayar kovil st, Uthukuli Road, Palayakadu, Tiruppur, Tamil Nadu 641607, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.115328,77.365858&t=m" target="_blank">11.115328 &deg;, 77.365858 &deg;</a> - pillayar kovil st, Uthukuli Road, Palayakadu, Tiruppur, Tamil Nadu 641607, India</td>
+				<td>0.06 </td>
+				<td>0.00 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.115328,77.365858&t=m" target="_blank">11.115328 &deg;, 77.365858 &deg;</a> - pillayar kovil st, Uthukuli Road, Palayakadu, Tiruppur, Tamil Nadu 641607, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.111775,77.354595&t=m" target="_blank">11.111775 &deg;, 77.354595 &deg;</a> - 112, Eswaran Kovil Street, Kumaran Colony, KPN Colony, Valipalayam, Tiruppur, Tamil Nadu 641602, Ind</td>
+				<td>1.32 </td>
+				<td>0.06 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.111775,77.354595&t=m" target="_blank">11.111775 &deg;, 77.354595 &deg;</a> - 112, Eswaran Kovil Street, Kumaran Colony, KPN Colony, Valipalayam, Tiruppur, Tamil Nadu 641602, Ind</td>
+				<td><a href="http://maps.google.com/maps?q=11.017358,77.397757&t=m" target="_blank">11.017358 &deg;, 77.397757 &deg;</a> - Tiruppur - Dharapuram Road, Pollikali Palayam, Tamil Nadu 641665, India</td>
+				<td>12.78 </td>
+				<td>1.95 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.017358,77.397757&t=m" target="_blank">11.017358 &deg;, 77.397757 &deg;</a> - Tiruppur - Dharapuram Road, Pollikali Palayam, Tamil Nadu 641665, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.014967,77.387572&t=m" target="_blank">11.014967 &deg;, 77.387572 &deg;</a> - Ashram Road, Tamil Nadu 641605, India</td>
+				<td>1.15 </td>
+				<td>0.17 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.014967,77.387572&t=m" target="_blank">11.014967 &deg;, 77.387572 &deg;</a> - Ashram Road, Tamil Nadu 641605, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.015570,77.387357&t=m" target="_blank">11.015570 &deg;, 77.387357 &deg;</a> - Ashram Road, Tamil Nadu 641605, India</td>
+				<td>0.07 </td>
+				<td>0.01 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.015570,77.387357&t=m" target="_blank">11.015570 &deg;, 77.387357 &deg;</a> - Ashram Road, Tamil Nadu 641605, India</td>
+				<td><a href="http://maps.google.com/maps?q=11.061130,77.388783&t=m" target="_blank">11.061130 &deg;, 77.388783 &deg;</a> - Tiruppur - Dharapuram Road, Tiruppur, Tamil Nadu 641605, India</td>
+				<td>6.15 </td>
+				<td>0.87 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=11.061130,77.388783&t=m" target="_blank">11.061130 &deg;, 77.388783 &deg;</a> - Tiruppur - Dharapuram Road, Tiruppur, Tamil Nadu 641605, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.959748,77.921908&t=m" target="_blank">10.959748 &deg;, 77.921908 &deg;</a> - 23, Nagapattinam - Coimbatore - Gundlupet Highway, K.Paramathi, Tamil Nadu 639111, India</td>
+				<td>72.39 </td>
+				<td>10.88 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.959748,77.921908&t=m" target="_blank">10.959748 &deg;, 77.921908 &deg;</a> - 23, Nagapattinam - Coimbatore - Gundlupet Highway, K.Paramathi, Tamil Nadu 639111, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.959375,78.075472&t=m" target="_blank">10.959375 &deg;, 78.075472 &deg;</a> - 7, Nagapattinam - Coimbatore - Gundlupet Highway, Madavilagam, Karur, Tamil Nadu 639002, India</td>
+				<td>17.23 </td>
+				<td>2.62 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.959375,78.075472&t=m" target="_blank">10.959375 &deg;, 78.075472 &deg;</a> - 7, Nagapattinam - Coimbatore - Gundlupet Highway, Madavilagam, Karur, Tamil Nadu 639002, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.957465,78.077965&t=m" target="_blank">10.957465 &deg;, 78.077965 &deg;</a> - Brahmathertham Road, Jawahar Bazaar, Karur, Tamil Nadu 639001, India</td>
+				<td>0.47 </td>
+				<td>0.07 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.957465,78.077965&t=m" target="_blank">10.957465 &deg;, 78.077965 &deg;</a> - Brahmathertham Road, Jawahar Bazaar, Karur, Tamil Nadu 639001, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.899613,78.102410&t=m" target="_blank">10.899613 &deg;, 78.102410 &deg;</a> - 13/44,Jothinagar,Selvamnagar east,Manavadi, Karur Road, Tamil Nadu 639005, India</td>
+				<td>7.27 </td>
+				<td>1.11 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.899613,78.102410&t=m" target="_blank">10.899613 &deg;, 78.102410 &deg;</a> - 13/44,Jothinagar,Selvamnagar east,Manavadi, Karur Road, Tamil Nadu 639005, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.868155,78.107933&t=m" target="_blank">10.868155 &deg;, 78.107933 &deg;</a> - Karur Road, Vellianai North, Tamil Nadu 639005, India</td>
+				<td>4.02 </td>
+				<td>0.61 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.868155,78.107933&t=m" target="_blank">10.868155 &deg;, 78.107933 &deg;</a> - Karur Road, Vellianai North, Tamil Nadu 639005, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.867578,78.108138&t=m" target="_blank">10.867578 &deg;, 78.108138 &deg;</a> - Karur Road, Vellianai North, Tamil Nadu 639118, India</td>
+				<td>0.08 </td>
+				<td>0.00 litres</td>
+			</tr><tr align="center">
+				<td>2014-12-22</td>
+				<td><a href="http://maps.google.com/maps?q=10.867578,78.108138&t=m" target="_blank">10.867578 &deg;, 78.108138 &deg;</a> - Karur Road, Vellianai North, Tamil Nadu 639118, India</td>
+				<td><a href="http://maps.google.com/maps?q=10.867802,78.107905&t=m" target="_blank">10.867802 &deg;, 78.107905 &deg;</a> - Karur Road, Vellianai North, Tamil Nadu 639005, India</td>
+				<td>0.04 </td>
+				<td>0.00 litres</td>
+			</tr></table><br/><br/><hr/></body></html>

@@ -18,6 +18,8 @@ namespace Inspired.Repository
         
         private IGenericRepository<Gen_UserMaster> _userMasterRepository;
         private IGenericRepository<Gen_LookupItem> _lookupItemRepository;
+        private IGenericRepository<Gen_LookupType> _LookupTypeRepository;
+        private IGenericRepository<Gen_LookupGroup> _LookupGroupRepository;
         private IGenericRepository<Gen_BranchMaster> _branchRepository;
 
         private IGenericRepository<Inv_CategoryMaster> _categoryMasterRepository;
@@ -32,6 +34,7 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_WarehouseMaster> _warehouseRepository;
 
         private IGenericRepository<FAS_AccountMaster> _accountMasterRepository;
+        private IGenericRepository<Inv_MaterialDocument> _MaterialDocumentRepository;
         #region Constructor
             public UnitOfWork()
             {
@@ -171,7 +174,19 @@ namespace Inspired.Repository
         public IGenericRepository<Inv_WarehouseMaster> WarehouseRepository
         {
             get { return _warehouseRepository ?? (_warehouseRepository= new GenericRepository<Inv_WarehouseMaster>(DbContext)); }
-        }        
+        }
+        public IGenericRepository<Gen_LookupType> LookupTypeRepository
+        {
+            get { return _LookupTypeRepository ?? (_LookupTypeRepository = new GenericRepository<Gen_LookupType>(DbContext)); }
+        }
+        public IGenericRepository<Gen_LookupGroup> LookupGroupRepository
+        {
+            get { return _LookupGroupRepository ?? (_LookupGroupRepository = new GenericRepository<Gen_LookupGroup>(DbContext)); }
+        }
+        public IGenericRepository<Inv_MaterialDocument> MaterialDocumentRepository
+        {
+            get { return _MaterialDocumentRepository ?? (_MaterialDocumentRepository = new GenericRepository<Inv_MaterialDocument>(DbContext)); }
+        }
 
     }
 }

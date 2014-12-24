@@ -240,6 +240,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Item_Id" Type="int" Nullable="false" />
           <Property Name="Document_Path" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="nchar" MaxLength="10" />
+          <Property Name="version" Type="int" />
+          <Property Name="FromDT" Type="datetime" />
+          <Property Name="EndDT" Type="datetime" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
@@ -877,18 +881,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_MaterialDocument_Inv_MaterialMaster">
-          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
-          <End Role="Inv_MaterialDocument" Type="Self.Inv_MaterialDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_MaterialMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialDocument">
-              <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_MaterialMaster_Gen_CompanyMaster">
           <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
           <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="*" />
@@ -1474,10 +1466,6 @@
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialDocument_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialDocument_Inv_MaterialMaster">
-            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-            <End Role="Inv_MaterialDocument" EntitySet="Inv_MaterialDocument" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialMaster_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialMaster_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
@@ -1783,6 +1771,10 @@
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialDocument" ToRole="Inv_MaterialMaster" />
+          <Property Name="Description" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="FromDT" Type="DateTime" Precision="3" />
+          <Property Name="EndDT" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Inv_MaterialPackaging">
           <Key>
@@ -3447,6 +3439,10 @@
           <EntitySetMapping Name="Inv_MaterialDocument">
             <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialDocument">
               <MappingFragment StoreEntitySet="Inv_MaterialDocument">
+                <ScalarProperty Name="EndDT" ColumnName="EndDT" />
+                <ScalarProperty Name="FromDT" ColumnName="FromDT" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
                 <ScalarProperty Name="Document_Path" ColumnName="Document_Path" />

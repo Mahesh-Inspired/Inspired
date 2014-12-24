@@ -1,0 +1,62 @@
+﻿@model Inspired.Web.ViewModel.DocumentViewModel
+@{
+    ViewBag.Title = "DocumentUpload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>DocumentUpload</h2>
+@using (Html.BeginForm("DocumentUpload", "Inventory", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div class="col-md-2 col-sm-12 col-md-offset-2">
+            Item
+        </div>
+        <div class="col-md-8 col-sm-12">
+            @Html.DropDownListFor(model => model.Documents.Item_Id, Model.Items, new { @class = "form-control" })
+            <input type="text" id="tags" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 col-sm-12 col-md-offset-2">
+            Document Path
+        </div>
+        <div class="col-md-8 col-sm-12">
+            @Html.TextBoxFor(model => model.Documents.Document_Path, new { type = "file" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 col-sm-12 col-md-offset-2">
+            Description
+        </div>
+        <div class="col-md-8 col-sm-12">
+            @Html.TextBoxFor(model => model.Documents.Description, new { @class = "form-control", @placeholder = "Description" })
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-md-offset-4 col-md-8">
+            <br />
+            @Html.ActionLink("Cancel", "DocumentList", null, new { @class = "btn btn-default" })&nbsp;
+            <input type="submit" id="register" value="Upload" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/antiforgerytoken")
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tags').autocomplete(
+                {
+                    source: '@Url.Action("TagSearch", "Inventory")'
+                });
+        })
+    </script>
+}
+
+

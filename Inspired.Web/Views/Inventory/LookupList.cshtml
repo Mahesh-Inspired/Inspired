@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Inspired.Data.Gen_LookupItem>
+
+@{
+    ViewBag.Title = "LookupList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LookupList</h2>
+<script>
+    $(function () { $("tabs").tabs(); });
+</script>
+<div class="container-fluid">
+    <div class="span12">
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <p>
+                    @Html.ActionLink("Create New", "CreateLookup")
+                </p>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Group
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>Action</th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gen_LookupType.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gen_LookupGroup.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditLookup", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

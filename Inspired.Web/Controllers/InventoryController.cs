@@ -9,6 +9,7 @@ using Utilities.MVC;
 using Inspired.Web.ViewModel;
 using Utilities.Data;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Inspired.Web.Controllers
 {
@@ -701,5 +702,235 @@ namespace Inspired.Web.Controllers
         }
 
         #endregion
+
+        #region LookupList
+        public ActionResult LookupList()
+        {
+            if (UserIdentity.GetUserName() == null)
+                return RedirectToAction("Login", "Account");
+            var companyId = UserIdentity.GetCompanyId();
+            List<Gen_LookupItem> luplList = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId).ToList();
+            return View(luplList);
+        }
+        #endregion
+
+        #region Create Lookup
+        public ActionResult CreateLookup()
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            var types = UnitOfWork.LookupTypeRepository.Get(u => u.Company_Id == companyId).ToList();
+            var groups = UnitOfWork.LookupGroupRepository.Get(u => u.Company_Id == companyId).ToList();
+            LookupViewModel lupViewModel = new LookupViewModel(types, groups, null);
+            return View(lupViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult CreateLookup(FormCollection collection)
+        {
+            Int32 LookupType_Id;
+            Int32 LookupGroup_Id;
+            String Description;
+
+            Int32 companyId = UserIdentity.GetCompanyId();
+            LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
+            LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
+            Description = collection["Category.Description"].ToString();
+            Int32 LookupID = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.LookupType_Id == LookupType_Id).Select(c => c.Id).Last() + 1;
+
+            Gen_LookupItem lup;
+
+            lup = new Gen_LookupItem()
+            {
+                Id = LookupID,
+                LookupType_Id = LookupType_Id,
+                LookupGroup_Id = LookupGroup_Id,
+                Description = Description,
+                Company_Id = UserIdentity.GetCompanyId(),
+                User_Id = UserIdentity.GetUserId(),
+                Last_update = DateTime.Now
+            };
+
+            checkLookupFields(lup, true, companyId);
+
+            if (ModelState.IsValid)
+            {
+                UnitOfWork.LookupItemRepository.Insert(lup);
+                UnitOfWork.Save();
+                return RedirectToAction("LookupList");
+            }
+
+            var types = UnitOfWork.LookupTypeRepository.Get(u => u.Company_Id == companyId).ToList();
+            var groups = UnitOfWork.LookupGroupRepository.Get(u => u.Company_Id == companyId).ToList();
+            LookupViewModel lupViewModel = new LookupViewModel(types, groups, null);
+            return View(lupViewModel);
+        }
+
+
+        private void checkLookupFields(Gen_LookupItem lup, Boolean isCreate, Int32 companyId)
+        {
+
+        }
+        #endregion
+
+        #region Edit Lookup
+        public ActionResult EditLookup(Int32 id)
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            var types = UnitOfWork.LookupTypeRepository.Get(u => u.Company_Id == companyId).ToList();
+            var groups = UnitOfWork.LookupGroupRepository.Get(u => u.Company_Id == companyId).ToList();
+            var lup = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.Id == id).FirstOrDefault();
+            LookupViewModel lupViewModel = new LookupViewModel(types, groups, lup);
+            return View(lupViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditLookup(FormCollection collection)
+        {
+            Int32 LookupType_Id;
+            Int32 LookupGroup_Id;
+            String Description;
+            Int32 id;
+            Int32 companyId = UserIdentity.GetCompanyId();
+            LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
+            LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
+            id = Convert.ToInt32(collection["Category.Id"]);
+            Description = collection["Category.Description"].ToString();
+
+            Gen_LookupItem lup = UnitOfWork.LookupItemRepository.Get(u => u.Id == id && u.Company_Id == companyId).FirstOrDefault();
+
+            lup.LookupType_Id = LookupType_Id;
+            lup.LookupGroup_Id = LookupGroup_Id;
+            lup.Description = Description;
+
+            checkLookupFields_Edit(lup, true, companyId);
+
+            if (ModelState.IsValid)
+            {
+                UnitOfWork.LookupItemRepository.Update(lup);
+                UnitOfWork.Save();
+                return RedirectToAction("LookupList");
+            }
+
+            var types = UnitOfWork.LookupTypeRepository.Get(u => u.Company_Id == companyId).ToList();
+            var groups = UnitOfWork.LookupGroupRepository.Get(u => u.Company_Id == companyId).ToList();
+            LookupViewModel lupViewModel = new LookupViewModel(types, groups, null);
+            return View(lupViewModel);
+        }
+
+
+        private void checkLookupFields_Edit(Gen_LookupItem lup, Boolean isCreate, Int32 companyId)
+        {
+
+        }
+        #endregion
+
+        #region Document Upload
+        public ActionResult DocumentUpload()
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            var items = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList();
+            DocumentViewModel docViewModel = new DocumentViewModel(items, null);
+            return View(docViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult DocumentUpload(FormCollection collection)
+        {
+            Int32 ItemID;
+            String DocumentPath;
+            String Description;
+
+            Int32 companyId = UserIdentity.GetCompanyId();
+            ItemID = Convert.ToInt32(collection["Documents.Item_Id"]);
+            Description = collection["Documents.Description"].ToString();
+
+            Int32 ID;
+
+            try
+            {
+                Int32 preID = UnitOfWork.MaterialDocumentRepository.Get(u => u.Company_Id == companyId && u.Item_Id == ItemID).Select(c => c.version).Last();
+                ID = preID + 1;
+            }
+            catch
+            {
+                Int32 preID = 0;
+                ID = preID + 1;
+            }
+
+            //File Upload Begin
+            var file = Request.Files[0];
+            string path = AppDomain.CurrentDomain.BaseDirectory + "Documents/";
+            var fileName = Path.GetFileName(file.FileName);
+            var UploadfileName = Path.GetFileName(DateTime.Now.ToString("m-d-yy hh-mm-ss") + " " + fileName);
+            var Uploadpath = Path.Combine(path, UploadfileName);
+            file.SaveAs(Uploadpath);
+            //File Upload End
+
+            DocumentPath = "http://localhost:4204/Documents/" + UploadfileName;
+
+            Inv_MaterialDocument doc;
+
+            doc = new Inv_MaterialDocument()
+            {
+                Item_Id = ItemID,
+                Document_Path = DocumentPath,
+                Description = Description,
+                version = ID,
+                FromDT = DateTime.Now,
+                Company_Id = UserIdentity.GetCompanyId(),
+                User_Id = UserIdentity.GetUserId(),
+                Last_Updated = DateTime.Now
+            };
+
+            checkDocFields(doc, true, companyId);
+
+            if (ModelState.IsValid)
+            {
+                UnitOfWork.MaterialDocumentRepository.Insert(doc);
+                UnitOfWork.Save();
+
+                return RedirectToAction("DocumentList");
+            }
+
+            var items = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList();
+            DocumentViewModel docViewModel = new DocumentViewModel(items, null);
+            return View(docViewModel);
+        }
+
+        private void checkDocFields(Inv_MaterialDocument doc, Boolean isCreate, Int32 companyId)
+        {
+
+        }
+        #endregion
+
+        #region Document List
+        public ActionResult DocumentList()
+        {
+            if (UserIdentity.GetUserName() == null)
+                return RedirectToAction("Login", "Account");
+            var companyId = UserIdentity.GetCompanyId();
+            List<Inv_MaterialDocument> doclList = UnitOfWork.MaterialDocumentRepository.Get(u => u.Company_Id == companyId).ToList();
+            return View(doclList);
+        }
+        #endregion
+
+        public ActionResult TagSearch(string term)
+        {
+            term = term.ToUpper();
+            string[] tags = { "ASP.NET", "WebForms", 
+                    "MVC", "jQuery", "ActionResult", 
+                    "MangoDB", "Java", "Windows" };
+            List<string> tag = new string[] { }.ToList();
+            foreach (string s in tags)
+            {
+                if (s.StartsWith(term))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
     }
 }

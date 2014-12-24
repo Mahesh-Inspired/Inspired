@@ -1,0 +1,51 @@
+﻿@model Inspired.Web.ViewModel.LookupViewModel
+@{
+    ViewBag.Title = "Create Lookup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Lookup</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div class="col-md-2 col-sm-12 col-md-offset-2">
+            Lookup Type
+        </div>
+        <div class="col-md-8 col-sm-12">
+            @Html.DropDownListFor(model => model.Category.LookupType_Id, Model.Types, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 col-md-offset-2 ">
+            Lookup Group
+        </div>
+        <div class="col-md-8">
+            @Html.DropDownListFor(model => model.Category.LookupGroup_Id, Model.Groups, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-2">
+            Description
+        </div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(model => model.Category.Description, new { @class = "form-control", @placeholder = "Lookup Description" })
+            @Html.ValidationMessageFor(m => m.Category.Description)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-8">
+            <br />
+            @Html.ActionLink("Cancel", "LookupList", null, new { @class = "btn btn-default" })&nbsp;
+            <input type="submit" id="register" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/antiforgerytoken")
+}
