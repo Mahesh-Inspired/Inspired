@@ -917,10 +917,13 @@ namespace Inspired.Web.Controllers
         public ActionResult TagSearch(string term)
         {
             term = term.ToUpper();
-            string[] tags = { "ASP.NET", "WebForms", 
-                    "MVC", "jQuery", "ActionResult", 
-                    "MangoDB", "Java", "Windows" };
+
+            Int32 companyId = UserIdentity.GetCompanyId();
+            var tags = UnitOfWork.CategoryMasterRepository.Get(u => u.Company_Id == companyId).ToList()
+                .Select(i => i.Code).ToArray();
+
             List<string> tag = new string[] { }.ToList();
+
             foreach (string s in tags)
             {
                 if (s.StartsWith(term))
