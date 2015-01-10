@@ -102,9 +102,26 @@
                 {
                     source: '@Url.Action("TagSearch", "Inventory")'
                 });
+            $('#Material_UOM').autocomplete(
+                {
+                    source: '@Url.Action("uomSearch", "Inventory")'
+                });
+            $('#Supplier_Code').autocomplete(
+                {
+                    source: '@Url.Action("accSearch", "Inventory")'
+                });
+            $('#SuppCust_Code').autocomplete(
+                {
+                    source: '@Url.Action("supSearch", "Inventory")'
+                });
+            $('#AlternateItemCode').autocomplete(
+                {
+                    source: '@Url.Action("altSearch", "Inventory")'
+                });
+            $('#SpareItemCode').autocomplete(
+                {
+                    source: '@Url.Action("altSearch", "Inventory")'
+                });
         })
     </script>
 }
-<script language="javascript">
-
-</script>

@@ -79,5 +79,9 @@ namespace Inspired.Web.Core
         #region Warehouse type
             public static Int32 LookupType_WarehouseType = 8;
         #endregion
+
+        #region UOM
+            public static Int32 KG = 55;
+        #endregion
     }
 }

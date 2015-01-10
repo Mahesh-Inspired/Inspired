@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Inspired.Data.Gen_LookupItem>
-
-@{
+﻿@{
     ViewBag.Title = "LookupList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/Scripts/jtable/jquery.jtable.js"></script>
+<link href="~/Scripts/jtable/themes/metro/blue/jtable.css" rel="stylesheet" />
 
 <h2>LookupList</h2>
 <script>
@@ -18,41 +19,11 @@
                 </p>
             </div>
             <div class="col-md-12">
-                <table class="table">
-                    <tr>
-                        <th>
-                            Type
-                        </th>
-                        <th>
-                            Group
-                        </th>
-                        <th>
-                            Description
-                        </th>
-                        <th>Action</th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Gen_LookupType.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Gen_LookupGroup.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "EditLookup", new { id = item.Id })
-                            </td>
-                        </tr>
-                    }
-
-                </table>
+                <div id="lookupcontainer"></div>
             </div>
         </div>
     </div>
 </div>
-
+@section Scripts {
+    @Scripts.Render("~/bundles/lookuplist")
+}

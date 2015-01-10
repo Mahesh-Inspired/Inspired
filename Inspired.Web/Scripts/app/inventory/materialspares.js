@@ -120,4 +120,3 @@ function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId) {
         url: 'FetchItemDescJSON'
     });
 }
-
