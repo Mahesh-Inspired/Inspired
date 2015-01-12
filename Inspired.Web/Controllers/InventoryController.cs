@@ -771,15 +771,13 @@ namespace Inspired.Web.Controllers
             String Description;
             bool isOther;
             bool isHidden;
-            string a;
 
             Int32 companyId = UserIdentity.GetCompanyId();
             LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
             Description = collection["Category.Description"].ToString();
-            a = collection["Category.IsOther"].ToString();
-            isOther = Convert.ToBoolean(collection["Category.IsOther"]);
-            isHidden = Convert.ToBoolean(collection["Category.IsHidden"]);
+            isOther = collection["Category.IsOther"].IndexOf("true") != -1;
+            isHidden = collection["Category.IsHidden"].IndexOf("true") != -1;
 
 
             Int32 LookupID = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.LookupType_Id == LookupType_Id).Select(c => c.Id).Last() + 1;
@@ -838,18 +836,25 @@ namespace Inspired.Web.Controllers
             Int32 LookupType_Id;
             Int32 LookupGroup_Id;
             String Description;
+            bool isOther;
+            bool isHidden;
+
             Int32 id;
             Int32 companyId = UserIdentity.GetCompanyId();
             LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
             id = Convert.ToInt32(collection["Category.Id"]);
             Description = collection["Category.Description"].ToString();
+            isOther = collection["Category.IsOther"].IndexOf("true") != -1;
+            isHidden = collection["Category.IsHidden"].IndexOf("true") != -1;
 
             Gen_LookupItem lup = UnitOfWork.LookupItemRepository.Get(u => u.Id == id && u.Company_Id == companyId).FirstOrDefault();
 
             lup.LookupType_Id = LookupType_Id;
             lup.LookupGroup_Id = LookupGroup_Id;
             lup.Description = Description;
+            lup.IsOther = isOther;
+            lup.IsHidden = isHidden;
 
             checkLookupFields_Edit(lup, true, companyId);
 
