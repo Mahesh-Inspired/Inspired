@@ -39,6 +39,7 @@ namespace Inspired.Web
             #region Category Master
 
             bundles.Add(new ScriptBundle("~/bundles/categorylist").Include("~/Scripts/app/categorylist.js"));
+            bundles.Add(new ScriptBundle("~/bundles/lookuplist").Include("~/Scripts/app/lookuplist.js"));
 
             #endregion
 

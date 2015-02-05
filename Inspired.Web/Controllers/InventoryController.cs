@@ -176,8 +176,6 @@ namespace Inspired.Web.Controllers
         }
         #endregion
 
-
-
         #region Material Master list
         public ActionResult MaterialList()
         {
@@ -535,6 +533,10 @@ namespace Inspired.Web.Controllers
         {
             Int32 id = 0;
             String catDescription = String.Empty;
+            try {
+                catCode = catCode.Split(new char[] { '(', ')' })[1]; }
+            catch { }
+
             Inv_CategoryMaster cat = UnitOfWork.CategoryMasterRepository.Get(u => u.Code.ToLower() == catCode.ToLower() && u.Type == catType)
                 .FirstOrDefault();
             if (cat != null)
@@ -577,6 +579,11 @@ namespace Inspired.Web.Controllers
 
             Int32 id = 0;
             String itemDescription = String.Empty;
+            try
+            {
+                itemcode = itemcode.Split(new char[] { '(', ')' })[1];
+            }
+            catch { }
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemcode).FirstOrDefault();
             if (item != null)
             {
@@ -596,6 +603,10 @@ namespace Inspired.Web.Controllers
 
             Int32 id = 0;
             FAS_AccountMaster account;
+            try {
+                Code = Code.Split(new char[] { '(', ')' })[1];
+            }
+            catch { }
             if (!String.IsNullOrEmpty(Code))
                 account = UnitOfWork.AccountMasterRepository.Get(u => u.Acc_Code == Code).FirstOrDefault();
             else
@@ -708,10 +719,38 @@ namespace Inspired.Web.Controllers
         {
             if (UserIdentity.GetUserName() == null)
                 return RedirectToAction("Login", "Account");
-            var companyId = UserIdentity.GetCompanyId();
-            List<Gen_LookupItem> luplList = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId).ToList();
-            return View(luplList);
+            return View();
         }
+
+        [HttpPost]
+        public JsonResult lupList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
+        {
+
+            try
+            {
+                var companyID = UserIdentity.GetCompanyId();
+                var LupList = UnitOfWork.LookupItemRepository.Get().Where(e => e.Company_Id == companyID)
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        Type = c.Gen_LookupType.Description,
+                        Group = (c.Gen_LookupGroup != null ? c.Gen_LookupGroup.Description : ""),
+                        Description = c.Description
+                    }).ToList();
+                int recordCount = LupList.Count;
+                if (jtSorting != null)
+                {
+                    LupList = LupList.OrderBy(jtSorting).ToList();
+                }
+                LupList = LupList.Skip(jtStartIndex).Take(jtPageSize).ToList();
+                return Json(new { Result = "OK", Records = LupList, TotalRecordCount = recordCount });
+            }
+            catch (Exception e)
+            {
+                return Json(new { Result = "Error", Message = e.Message });
+            }
+        }
+
         #endregion
 
         #region Create Lookup
@@ -730,11 +769,17 @@ namespace Inspired.Web.Controllers
             Int32 LookupType_Id;
             Int32 LookupGroup_Id;
             String Description;
+            bool isOther;
+            bool isHidden;
 
             Int32 companyId = UserIdentity.GetCompanyId();
             LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
             Description = collection["Category.Description"].ToString();
+            isOther = collection["Category.IsOther"].IndexOf("true") != -1;
+            isHidden = collection["Category.IsHidden"].IndexOf("true") != -1;
+
+
             Int32 LookupID = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.LookupType_Id == LookupType_Id).Select(c => c.Id).Last() + 1;
 
             Gen_LookupItem lup;
@@ -745,6 +790,8 @@ namespace Inspired.Web.Controllers
                 LookupType_Id = LookupType_Id,
                 LookupGroup_Id = LookupGroup_Id,
                 Description = Description,
+                IsOther = isOther,
+                IsHidden = isHidden,
                 Company_Id = UserIdentity.GetCompanyId(),
                 User_Id = UserIdentity.GetUserId(),
                 Last_update = DateTime.Now
@@ -789,18 +836,25 @@ namespace Inspired.Web.Controllers
             Int32 LookupType_Id;
             Int32 LookupGroup_Id;
             String Description;
+            bool isOther;
+            bool isHidden;
+
             Int32 id;
             Int32 companyId = UserIdentity.GetCompanyId();
             LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
             id = Convert.ToInt32(collection["Category.Id"]);
             Description = collection["Category.Description"].ToString();
+            isOther = collection["Category.IsOther"].IndexOf("true") != -1;
+            isHidden = collection["Category.IsHidden"].IndexOf("true") != -1;
 
             Gen_LookupItem lup = UnitOfWork.LookupItemRepository.Get(u => u.Id == id && u.Company_Id == companyId).FirstOrDefault();
 
             lup.LookupType_Id = LookupType_Id;
             lup.LookupGroup_Id = LookupGroup_Id;
             lup.Description = Description;
+            lup.IsOther = isOther;
+            lup.IsHidden = isHidden;
 
             checkLookupFields_Edit(lup, true, companyId);
 
@@ -916,17 +970,145 @@ namespace Inspired.Web.Controllers
 
         public ActionResult TagSearch(string term)
         {
-            term = term.ToUpper();
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
 
-            Int32 companyId = UserIdentity.GetCompanyId();
-            var tags = UnitOfWork.CategoryMasterRepository.Get(u => u.Company_Id == companyId).ToList()
-                .Select(i => i.Code).ToArray();
+            t = (string[])Session["tags"];
+
+            if(t==null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.CategoryMasterRepository.Get(u => u.Company_Id == companyId).ToList()
+                    .Select(i => i.Description + " (" + i.Code + ")").ToArray();
+                Session["tags"] = tags;
+                t = (string[])Session["tags"];
+            }
 
             List<string> tag = new string[] { }.ToList();
 
-            foreach (string s in tags)
+            foreach (string s in t)
             {
-                if (s.StartsWith(term))
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult uomSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["uom"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.LookupType_Id == 9).ToList()
+                    .Select(i => i.Description).ToArray();
+                Session["uom"] = tags;
+                t = (string[])Session["uom"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult accSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["acc"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.AccountMasterRepository.Get(u => u.Company_Id == companyId).ToList()
+                    .Select(i => i.Acc_Description + " (" + i.Acc_Code + ")").ToArray();
+                Session["acc"] = tags;
+                t = (string[])Session["acc"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult supSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["sup"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.MaterialSupplierRepository.Get(u => u.Company_Id == companyId).ToList()
+                    .Select(i => i.Supplier_Code.ToString()).ToArray();
+                Session["sup"] = tags;
+                t = (string[])Session["sup"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult altSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["alt"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList()
+                    .Select(i => i.Description + "(" + i.Code + ")").ToArray();
+                Session["alt"] = tags;
+                t = (string[])Session["alt"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
                 {
                     tag.Add(s);
                 }
