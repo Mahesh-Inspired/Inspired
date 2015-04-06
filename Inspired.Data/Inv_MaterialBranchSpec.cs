@@ -25,5 +25,6 @@ namespace Inspired.Data
         public virtual Gen_BranchMaster Gen_BranchMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
+        public virtual Inv_MaterialSpecification Inv_MaterialSpecification { get; set; }
     }
 }

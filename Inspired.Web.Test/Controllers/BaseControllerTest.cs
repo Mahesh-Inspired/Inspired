@@ -26,6 +26,8 @@ namespace Inspired.Web.Test.Controllers
         public IUserIdentity UserIdentity { get; set; }
 
         public IGenericRepository<Gen_UserMaster> UserRepository { get; set; }
+        public IGenericRepository<Gen_LookupType> LookupTypeRepository { get; set; }
+        public IGenericRepository<Gen_LookupGroup> LookupGroupRepository { get; set; }
         public IGenericRepository<Gen_LookupItem> LookupItemRepository { get; set; }
 
         public IGenericRepository<Inv_CategoryMaster> InvCategoryRepository { get; set; }        
@@ -37,7 +39,8 @@ namespace Inspired.Web.Test.Controllers
         public IGenericRepository<Inv_MaterialAlternateRelative> MaterialAltRepository { get; set; }
         public IGenericRepository<Inv_MaterialSupplier> MaterialSupplierRepository { get; set; }
         public IGenericRepository<Inv_MaterialNotes> MaterialNotesRepository { get;set;}
-
+        public IGenericRepository<Inv_DocumentMaster> DocumentMastersRepository { get; set; }
+        public IGenericRepository<Inv_StockTran> StockTransRepository { get; set; }
 
         public IGenericRepository<FAS_AccountMaster> AccountMasterRepository { get; set; }
         #endregion
@@ -49,6 +52,8 @@ namespace Inspired.Web.Test.Controllers
             InvCategoryRepository = MockRepository.GenerateMock<IGenericRepository<Inv_CategoryMaster>>();
             
             UserRepository = MockRepository.GenerateMock<IGenericRepository<Gen_UserMaster>>();
+            LookupTypeRepository = MockRepository.GenerateMock<IGenericRepository<Gen_LookupType>>();
+            LookupGroupRepository = MockRepository.GenerateMock<IGenericRepository<Gen_LookupGroup>>();
             LookupItemRepository = MockRepository.GenerateMock<IGenericRepository<Gen_LookupItem>>();
 
             MaterialMasterRepository = MockRepository.GenerateMock<IGenericRepository<Inv_MaterialMaster>>();
@@ -61,6 +66,8 @@ namespace Inspired.Web.Test.Controllers
             MaterialNotesRepository = MockRepository.GenerateMock<IGenericRepository<Inv_MaterialNotes>>();
 
             AccountMasterRepository = MockRepository.GenerateMock<IGenericRepository<FAS_AccountMaster>>();
+            DocumentMastersRepository = MockRepository.GenerateMock<IGenericRepository<Inv_DocumentMaster>>();
+            StockTransRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockTran>>();
 
             userPrincipal = new FakePrincipal(new FakeIdentity("InventoryUser"), null);
 
@@ -69,6 +76,8 @@ namespace Inspired.Web.Test.Controllers
             UserIdentity = MockRepository.GenerateMock<IUserIdentity>();
 
             UnitOfWork.Stub(u => u.UserMasterRepository).Return(UserRepository);
+            UnitOfWork.Stub(u => u.LookupTypeRepository).Return(LookupTypeRepository);
+            UnitOfWork.Stub(u => u.LookupGroupRepository).Return(LookupGroupRepository);
             UnitOfWork.Stub(u => u.LookupItemRepository).Return(LookupItemRepository);
 
             UnitOfWork.Stub(u => u.CategoryMasterRepository).Return(InvCategoryRepository);            
@@ -82,6 +91,8 @@ namespace Inspired.Web.Test.Controllers
             UnitOfWork.Stub(u => u.MaterialNotesRepository).Return(MaterialNotesRepository);
 
             UnitOfWork.Stub(u => u.AccountMasterRepository).Return(AccountMasterRepository);
+            UnitOfWork.Stub(u => u.DocumentMasterRepository).Return(DocumentMastersRepository);
+            UnitOfWork.Stub(u => u.StockTransRepository).Return(StockTransRepository);
             //// Create controller
             //HttpContext = MockRepository.GenerateStub<HttpContextBase>();
             //HttpContext.Stub(c => c.Request).Return(MockRepository.GenerateMock<HttpRequestBase>());            

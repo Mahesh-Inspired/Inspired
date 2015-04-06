@@ -14,6 +14,11 @@ namespace Inspired.Data
     
     public partial class Inv_MaterialSpecification
     {
+        public Inv_MaterialSpecification()
+        {
+            this.Inv_MaterialBranchSpec = new HashSet<Inv_MaterialBranchSpec>();
+        }
+    
         public int Id { get; set; }
         public int Item_Id { get; set; }
         public string Batch_Number { get; set; }
@@ -26,5 +31,6 @@ namespace Inspired.Data
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
+        public virtual ICollection<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
     }
 }

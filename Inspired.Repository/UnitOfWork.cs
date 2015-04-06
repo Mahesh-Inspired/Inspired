@@ -35,8 +35,10 @@ namespace Inspired.Repository
 
         private IGenericRepository<FAS_AccountMaster> _accountMasterRepository;
         private IGenericRepository<Inv_MaterialDocument> _MaterialDocumentRepository;
+        private IGenericRepository<Inv_DocumentMaster> _DocumentMasterRepository;
+        private IGenericRepository<Inv_StockTran> _StockTransRepository;
         #region Constructor
-            public UnitOfWork()
+        public UnitOfWork()
             {
                 DbContext = new InspiredEntities();
                // this.DbContext.Configuration.LazyLoadingEnabled = false;
@@ -186,6 +188,15 @@ namespace Inspired.Repository
         public IGenericRepository<Inv_MaterialDocument> MaterialDocumentRepository
         {
             get { return _MaterialDocumentRepository ?? (_MaterialDocumentRepository = new GenericRepository<Inv_MaterialDocument>(DbContext)); }
+        }
+        public IGenericRepository<Inv_DocumentMaster> DocumentMasterRepository
+        {
+            get { return _DocumentMasterRepository ?? (_DocumentMasterRepository = new GenericRepository<Inv_DocumentMaster>(DbContext)); }
+        }
+
+        public IGenericRepository<Inv_StockTran> StockTransRepository
+        {
+            get { return _StockTransRepository ?? (_StockTransRepository = new GenericRepository<Inv_StockTran>(DbContext)); }
         }
 
     }

@@ -37,6 +37,8 @@ namespace Inspired.Data
             this.FAS_AccountMaster = new HashSet<FAS_AccountMaster>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
             this.Inv_WarehouseMaster = new HashSet<Inv_WarehouseMaster>();
+            this.Inv_DocumentMaster = new HashSet<Inv_DocumentMaster>();
+            this.Inv_StockMaster = new HashSet<Inv_StockMaster>();
         }
     
         public int Id { get; set; }
@@ -65,5 +67,7 @@ namespace Inspired.Data
         public virtual ICollection<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual ICollection<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
+        public virtual ICollection<Inv_DocumentMaster> Inv_DocumentMaster { get; set; }
+        public virtual ICollection<Inv_StockMaster> Inv_StockMaster { get; set; }
     }
 }

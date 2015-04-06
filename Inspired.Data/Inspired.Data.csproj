@@ -41,7 +41,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\System.Web.WebPages.dll</HintPath>
@@ -66,6 +69,9 @@
       <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="FAS_AccountMaster.cs">
       <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
@@ -103,6 +109,9 @@
       <DependentUpon>InspiredModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Inv_CategoryMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_DocumentMaster.cs">
       <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Inv_MaterialAlternateRelative.cs">
@@ -145,6 +154,18 @@
       <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Inv_MaterialSupplier.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_StockMaster.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_StockMasterSlNo.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_StockTran.cs">
+      <DependentUpon>InspiredModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inv_StockTranSlNo.cs">
       <DependentUpon>InspiredModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Inv_WarehouseMaster.cs">

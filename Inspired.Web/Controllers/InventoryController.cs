@@ -50,7 +50,6 @@ namespace Inspired.Web.Controllers
         [HttpPost]
         public JsonResult CatList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
         {
-
             try
             {
                 var companyID = UserIdentity.GetCompanyId();
@@ -589,7 +588,7 @@ namespace Inspired.Web.Controllers
             {
                 id = item.Id;
                 itemDescription = item.Description;
-                return Json(new { success = true, id = id, ItemDescription = itemDescription }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, id = id, ItemDescription = itemDescription, ItemCode = itemcode }, JsonRequestBehavior.AllowGet);
             }
             else
                 return Json(new { success = true, id = 0, ItemDescription = "" }, JsonRequestBehavior.AllowGet);
@@ -725,7 +724,6 @@ namespace Inspired.Web.Controllers
         [HttpPost]
         public JsonResult lupList(int jtStartIndex = 0, int jtPageSize = 0, String jtSorting = null)
         {
-
             try
             {
                 var companyID = UserIdentity.GetCompanyId();
@@ -772,15 +770,20 @@ namespace Inspired.Web.Controllers
             bool isOther;
             bool isHidden;
 
-            Int32 companyId = UserIdentity.GetCompanyId();
+            Int32 Company_Id = UserIdentity.GetCompanyId();
             LookupType_Id = Convert.ToInt32(collection["Category.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Category.LookupGroup_Id"]);
             Description = collection["Category.Description"].ToString();
             isOther = collection["Category.IsOther"].IndexOf("true") != -1;
             isHidden = collection["Category.IsHidden"].IndexOf("true") != -1;
 
+            Int32 LookupID = 0;
 
-            Int32 LookupID = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.LookupType_Id == LookupType_Id).Select(c => c.Id).Last() + 1;
+            try
+            {
+                LookupID = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == Company_Id && u.LookupType_Id == LookupType_Id).Select(c => c.Id).Last() + 1;
+            }
+            catch { }
 
             Gen_LookupItem lup;
 
@@ -797,7 +800,7 @@ namespace Inspired.Web.Controllers
                 Last_update = DateTime.Now
             };
 
-            checkLookupFields(lup, true, companyId);
+            checkLookupFields(lup, true, Company_Id);
 
             if (ModelState.IsValid)
             {
@@ -806,8 +809,8 @@ namespace Inspired.Web.Controllers
                 return RedirectToAction("LookupList");
             }
 
-            var types = UnitOfWork.LookupTypeRepository.Get(u => u.Company_Id == companyId).ToList();
-            var groups = UnitOfWork.LookupGroupRepository.Get(u => u.Company_Id == companyId).ToList();
+            var types = UnitOfWork.LookupTypeRepository.Get(u => u.Company_Id == Company_Id).ToList();
+            var groups = UnitOfWork.LookupGroupRepository.Get(u => u.Company_Id == Company_Id).ToList();
             LookupViewModel lupViewModel = new LookupViewModel(types, groups, null);
             return View(lupViewModel);
         }
@@ -815,7 +818,10 @@ namespace Inspired.Web.Controllers
 
         private void checkLookupFields(Gen_LookupItem lup, Boolean isCreate, Int32 companyId)
         {
-
+            if (lup.LookupType_Id == 0)
+                ModelState.AddModelError("Category.LookupType_Id", "Enter a valid Lookup type");
+            if (String.IsNullOrEmpty(lup.Description))
+                ModelState.AddModelError("Category.Description", "Enter a valid Lookup description");
         }
         #endregion
 
@@ -874,7 +880,10 @@ namespace Inspired.Web.Controllers
 
         private void checkLookupFields_Edit(Gen_LookupItem lup, Boolean isCreate, Int32 companyId)
         {
-
+            if (lup.LookupType_Id == 0)
+                ModelState.AddModelError("Category.LookupType_Id", "Enter a valid Lookup type");
+            if (String.IsNullOrEmpty(lup.Description))
+                ModelState.AddModelError("Category.Description", "Enter a valid Lookup description");
         }
         #endregion
 
@@ -1117,5 +1126,183 @@ namespace Inspired.Web.Controllers
             return this.Json(tag,
                     JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult itemSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["items"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList()
+                    .Select(i => i.Description + " (" + i.Code + ")").ToArray();
+                Session["items"] = tags;
+                t = (string[])Session["items"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult docSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["doc"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.DocumentMasterRepository.Get(u => u.COMPANY_ID == companyId).ToList()
+                    .Select(i => i.DOC_DESC + " (" + i.DOC_CODE + ")").ToArray();
+                Session["doc"] = tags;
+                t = (string[])Session["doc"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult wrhSearch(string term)
+        {
+            var tags = new string[] { }.ToArray();
+            string[] t = new string[] { }.ToArray();
+
+            t = (string[])Session["wrh"];
+
+            if (t == null)
+            {
+                Int32 companyId = UserIdentity.GetCompanyId();
+                tags = UnitOfWork.WarehouseRepository.Get(u => u.Company_Id == companyId).ToList()
+                    .Select(i => i.Description + " (" + i.Code + ")").ToArray();
+                Session["wrh"] = tags;
+                t = (string[])Session["wrh"];
+            }
+
+            List<string> tag = new string[] { }.ToList();
+
+            foreach (string s in t)
+            {
+                if (s.ToUpper().Contains(term.ToUpper()))
+                {
+                    tag.Add(s);
+                }
+            }
+
+            return this.Json(tag,
+                    JsonRequestBehavior.AllowGet);
+        }
+
+        #region Misc Receipt
+        public JsonResult FetchItemJSON(String itemcode)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            Int32 id = 0;
+            String itemDescription = String.Empty;
+            string BatchFlag = string.Empty;
+            try
+            {
+                itemcode = itemcode.Split(new char[] { '(', ')' })[1];
+            }
+            catch { }
+            Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemcode).FirstOrDefault();
+            if (item != null)
+            {
+                id = item.Id;
+                itemDescription = item.Description;
+                BatchFlag = item.Batch_YN.ToString();
+                return Json(new { success = true, id = id, ItemDescription = itemDescription, ItemCode = itemcode, f = BatchFlag }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { success = true, id = 0, ItemDescription = "", f = "true" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult FetchItemSNJSON(String itemcode)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            Int32 id = 0;
+            string SerialFlag = string.Empty;
+            try
+            {
+                itemcode = itemcode.Split(new char[] { '(', ')' })[1];
+            }
+            catch { }
+            Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemcode).FirstOrDefault();
+            if (item != null)
+            {
+                id = item.Id;
+                SerialFlag = item.Serial_YN.ToString();
+                return Json(new { success = true, f = SerialFlag }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { success = true, f = "true" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult FetchDocnoJSON(String doccode, string trans_type)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            Int32 id = 0;
+            decimal first_num = 0, last_num = 0;
+            decimal docno = 0;
+            decimal currno = 0;
+
+            Inv_DocumentMaster doc = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == doccode).FirstOrDefault();
+            Inv_StockTran tra = UnitOfWork.StockTransRepository.Get(u => u.TRANS_TYPE == trans_type).FirstOrDefault();
+
+            if (doc != null)
+            {
+                first_num = doc.START_NO;
+                last_num = doc.LAST_NO;
+            }
+
+            if (tra != null)
+            {
+                docno = tra.DOC_NUM;
+            }
+
+            if (docno + 1 <= last_num)
+            {
+                currno = docno + 1;
+            }
+
+            return Json(new { success = true, currno = currno }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult MiscReceipt()
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            var docs = UnitOfWork.DocumentMasterRepository.Get(u => u.COMPANY_ID == companyId).ToList();
+            MiscReceiptViewModel miscViewModel = new MiscReceiptViewModel(docs, null);
+            return View(miscViewModel);
+        }
+        #endregion
+
     }
 }

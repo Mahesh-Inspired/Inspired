@@ -1,0 +1,231 @@
+﻿@model Inspired.Web.ViewModel.MiscReceiptViewModel
+@{
+    ViewBag.Title = "Misc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTables CSS -->
+<link href="~/Content/DataTables-1.10.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="~/Scripts/DataTables-1.10.1/jquery.dataTables.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/DataTables-1.10.1/dataTables.tableTools.js"></script>
+
+<h2>Miscellaneous Receipt</h2>
+
+<div class="row-fluid">
+    <div class="col-md-12">
+        <div class="nav nav-tabs" id="itemTabs">
+            <div class="col-md-12">
+                <ul class="nav navbar-nav">
+                    <li><a href="#Receipt" data-id="Receipt" data-toggle="tab">Receipt</a></li>
+                    <li><a href="#Serial" data-id="Serial" data-toggle="tab">Serial Number</a></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab-content" id="tabs">
+    <div class="tab-pane" id="Receipt" data-id="Receipt">
+        <div class="container-fluid box">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        Transaction Code
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.Stock.DOC_CODE, Model.doc_code, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','doc_num', 'misc');" })
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" id="doc_num" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        Reference Number
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ref_num, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ref_num)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        Transaction Date
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.doc_date, new { @class = "form-control datepicker" })
+                        @Html.ValidationMessageFor(m => m.doc_date)
+                    </div>
+                    <div class="col-md-2">
+                        Reference Date
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ref_date, new { @class = "form-control datepicker" })
+                        @Html.ValidationMessageFor(m => m.ref_date)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <table class="table">
+                    <tr>
+                        <td>
+                            Item Code
+                        </td>
+                        <td>
+                            Item Description
+                        </td>
+                        <td>
+                            Warehouse
+                        </td>
+                        <td>
+                            Batch Number
+                        </td>
+                        <td>
+                            Quantity
+                        </td>
+                        <td>
+                            Notes
+                        </td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(model => model.item_code, new { @class = "form-control", @onblur = "fetchItemDetails('item_code','item_desc','item_id','batch_num');" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.item_desc, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.ware_house, new { @class = "form-control", @onblur = "fetchWarehouse('ware_house');" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.batch_num, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.quantity, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success" value="Add Notes" id="add_notes" /><br />
+                            @Html.TextAreaFor(model => model.notes)
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success" value="Add" onclick="AddItem()" />
+                            <input type="button" class="btn btn-warning" id="delItem" value="Delete" onclick="clearItem()" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+                <table class="table" id="ItemsTable">
+                    <thead>
+                        <tr>
+                            <th>Item Code</th>
+                            <th>Description</th>
+                            <th>Location</th>
+                            <th>Batch Number</th>
+                            <th>Quantity</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.item_code != null)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => m.item_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.item_desc)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.ware_house)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.batch_num)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.notes)
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <input type="submit" class="btn btn-primary" id="btnSubmit" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="Serial" data-id="Serial">
+        <div class="text-right"><label>Selected Item:&nbsp;</label><label id="selItem"></label></div>
+        <table class="table" id="SerialTable">
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (Model.item_code != null)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => m.item_code)
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="col-md-12">
+            <input type="button" class="btn btn-success" value="save" onclick="Addserials()" />
+            <input type="submit" class="btn btn-primary" value="Clear" onclick="Clrserials()" />
+            <input type="submit" class="btn btn-primary" value="Cancel" onclick="Cancelserials()" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/miscreceipt")
+    @Scripts.Render("~/bundles/datechecker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/antiforgerytoken")
+    @Scripts.Render("~/scripts/app/customcompare.js")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#item_code').autocomplete(
+                {
+                    source: '@Url.Action("itemSearch", "Inventory")'
+                });
+            $('#ware_house').autocomplete(
+                {
+                    source: '@Url.Action("wrhSearch", "Inventory")'
+                });
+
+            $('#add_notes').click(function () {
+                $('#notes').animate({ "width": '200px', "height": '100px', "border-color": "#999999", "margin": "5px" });
+                $('#notes').focus();
+            });
+
+            $('#notes').focusout(function () {
+                $('#notes').animate({ "width": '0px', "height": '0px', "border-color": "white", "margin": "0px" });
+            });
+        });
+    </script>
+}
+
+    

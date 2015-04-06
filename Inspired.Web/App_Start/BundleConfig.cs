@@ -58,12 +58,21 @@ namespace Inspired.Web
             bundles.Add(new ScriptBundle("~/bundles/warehousemaster").Include(
                 "~/Scripts/app/inventory/warehousemaster.js"));
 
-
-            bundles.Add(new ScriptBundle("~/bundles/datechecker").Include(
-                "~/Scripts/app/DateChecker.js"
-                ));
             #endregion
 
+            #region Misc
+
+            bundles.Add(new ScriptBundle("~/bundles/miscreceipt").Include(
+                "~/Scripts/app/inventory/miscreceipt.js"));
+
+            #endregion
+
+            #region Stock
+
+            bundles.Add(new ScriptBundle("~/bundles/stock").Include(
+                "~/Scripts/app/inventory/MiscReceipt.js"));
+
+            #endregion
 
             #region Bootstrap, JTable Stylesheets
 

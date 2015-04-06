@@ -22,7 +22,6 @@ namespace Inspired.Data
             this.Inv_MaterialBranchSpec = new HashSet<Inv_MaterialBranchSpec>();
             this.Inv_MaterialCategory = new HashSet<Inv_MaterialCategory>();
             this.Inv_MaterialDiscount = new HashSet<Inv_MaterialDiscount>();
-            this.Inv_MaterialDocument = new HashSet<Inv_MaterialDocument>();
             this.Inv_MaterialPackaging = new HashSet<Inv_MaterialPackaging>();
             this.Inv_MaterialPrice = new HashSet<Inv_MaterialPrice>();
             this.Inv_MaterialSpecification = new HashSet<Inv_MaterialSpecification>();
@@ -32,6 +31,11 @@ namespace Inspired.Data
             this.AlternateRelativeItemCollection = new HashSet<Inv_MaterialAlternateRelative>();
             this.AlternateRelativeItemId = new HashSet<Inv_MaterialAlternateRelative>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
+            this.Inv_StockTran = new HashSet<Inv_StockTran>();
+            this.Inv_StockTranSlNo = new HashSet<Inv_StockTranSlNo>();
+            this.Inv_StockMaster = new HashSet<Inv_StockMaster>();
+            this.Inv_StockMasterSlNo = new HashSet<Inv_StockMasterSlNo>();
+            this.Inv_MaterialDocument = new HashSet<Inv_MaterialDocument>();
         }
     
         public int Id { get; set; }
@@ -76,7 +80,6 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
         public virtual ICollection<Inv_MaterialCategory> Inv_MaterialCategory { get; set; }
         public virtual ICollection<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
-        public virtual ICollection<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
         public virtual ICollection<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual ICollection<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual ICollection<Inv_MaterialSpecification> Inv_MaterialSpecification { get; set; }
@@ -86,5 +89,10 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemCollection { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemId { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
+        public virtual ICollection<Inv_StockTran> Inv_StockTran { get; set; }
+        public virtual ICollection<Inv_StockTranSlNo> Inv_StockTranSlNo { get; set; }
+        public virtual ICollection<Inv_StockMaster> Inv_StockMaster { get; set; }
+        public virtual ICollection<Inv_StockMasterSlNo> Inv_StockMasterSlNo { get; set; }
+        public virtual ICollection<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
     }
 }

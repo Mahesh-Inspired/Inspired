@@ -60,7 +60,6 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,6 +99,9 @@
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -204,6 +206,7 @@
     <Compile Include="ViewModel\DocumentViewModel.cs" />
     <Compile Include="ViewModel\DownloadViewModel.cs" />
     <Compile Include="ViewModel\LookupViewModel.cs" />
+    <Compile Include="ViewModel\MiscReceiptViewModel.cs" />
     <Compile Include="ViewModel\WarehouseViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\MaterialSubmitModel.cs" />
@@ -268,6 +271,10 @@
     <Content Include="Content\DataTables-1.10.1\images\xls_hover.png" />
     <Content Include="Content\DataTables-1.10.1\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables-1.10.1\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
+    <Content Include="Content\sweetalert\docs.css" />
+    <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -340,10 +347,16 @@
     <Content Include="Content\DataTables-1.10.1\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables-1.10.1\css\dataTables.jqueryui.scss" />
     <Content Include="packages.config" />
+    <Content Include="Content\sweetalert\sweet-alert-combine.less" />
+    <Content Include="Content\sweetalert\sweet-alert-animations.less" />
+    <Content Include="Content\sweetalert\sweet-alert.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\antiforgerytoken.js" />
     <Content Include="Scripts\app\customcompare.js" />
     <Content Include="Scripts\app\DateChecker.js" />
+    <Content Include="Scripts\app\inventory\miscreceipt.js" />
     <Content Include="Scripts\app\inventory\warehousemaster.js" />
     <Content Include="Scripts\app\inventory\materialnotes.js" />
     <Content Include="Scripts\app\inventory\materialsupplier.js" />
@@ -578,6 +591,7 @@
     <Content Include="Views\Inventory\EditLookup.cshtml" />
     <Content Include="Views\Inventory\DocumentUpload.cshtml" />
     <Content Include="Views\Inventory\DocumentList.cshtml" />
+    <Content Include="Views\Inventory\MiscReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -34,7 +34,6 @@ namespace Inspired.Data
         public virtual DbSet<Gen_LookupType> Gen_LookupType { get; set; }
         public virtual DbSet<Inv_CategoryMaster> Inv_CategoryMaster { get; set; }
         public virtual DbSet<Inv_MaterialDiscount> Inv_MaterialDiscount { get; set; }
-        public virtual DbSet<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
         public virtual DbSet<Inv_MaterialPackaging> Inv_MaterialPackaging { get; set; }
         public virtual DbSet<Inv_MaterialPrice> Inv_MaterialPrice { get; set; }
         public virtual DbSet<Inv_MaterialBranchSpec> Inv_MaterialBranchSpec { get; set; }
@@ -52,5 +51,12 @@ namespace Inspired.Data
         public virtual DbSet<FAS_AccountMaster> FAS_AccountMaster { get; set; }
         public virtual DbSet<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
         public virtual DbSet<Inv_WarehouseMaster> Inv_WarehouseMaster { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<Inv_DocumentMaster> Inv_DocumentMaster { get; set; }
+        public virtual DbSet<Inv_StockMaster> Inv_StockMaster { get; set; }
+        public virtual DbSet<Inv_StockMasterSlNo> Inv_StockMasterSlNo { get; set; }
+        public virtual DbSet<Inv_StockTran> Inv_StockTran { get; set; }
+        public virtual DbSet<Inv_StockTranSlNo> Inv_StockTranSlNo { get; set; }
+        public virtual DbSet<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
     }
 }

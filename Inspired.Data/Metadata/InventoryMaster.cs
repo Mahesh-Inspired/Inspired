@@ -114,4 +114,18 @@ namespace Inspired.Data
             public string Description { get; set; }
         }
     }
+
+    [MetadataType(typeof(Gen_LookupItem.Metadata))]
+    public partial class Gen_LookupItem
+    {
+        private sealed class Metadata
+        {
+            [Required(ErrorMessage = "Select a valid type")]
+            [Range(1, 10000, ErrorMessage = "Select a valid type")]
+            public string LookupType_Id { get; set; }
+
+            [Required(ErrorMessage = "Enter a valid description")]
+            public string Description { get; set; }
+        }
+    }
 }

@@ -14,6 +14,14 @@ namespace Inspired.Data
     
     public partial class Inv_WarehouseMaster
     {
+        public Inv_WarehouseMaster()
+        {
+            this.Inv_StockMaster = new HashSet<Inv_StockMaster>();
+            this.Inv_StockMasterSlNo = new HashSet<Inv_StockMasterSlNo>();
+            this.Inv_StockTran = new HashSet<Inv_StockTran>();
+            this.Inv_StockTranSlNo = new HashSet<Inv_StockTranSlNo>();
+        }
+    
         public int Id { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
@@ -27,5 +35,9 @@ namespace Inspired.Data
         public virtual Gen_BranchMaster Gen_BranchMaster { get; set; }
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }
+        public virtual ICollection<Inv_StockMaster> Inv_StockMaster { get; set; }
+        public virtual ICollection<Inv_StockMasterSlNo> Inv_StockMasterSlNo { get; set; }
+        public virtual ICollection<Inv_StockTran> Inv_StockTran { get; set; }
+        public virtual ICollection<Inv_StockTranSlNo> Inv_StockTranSlNo { get; set; }
     }
 }

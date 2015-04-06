@@ -22,7 +22,7 @@ namespace Inspired.Web.Test.Controllers
 
         [BeforeScenario()]
         public void Setup()
-        {
+        {   
             baseController = new BaseControllerTest();
             baseController.InitializeBase();
           
@@ -33,8 +33,8 @@ namespace Inspired.Web.Test.Controllers
         [Given(@"I am not logged in")]
         public void GivenIAmNotLoggedIn()
         {
-            //baseController.UserIdentity.Expect(u => u.GetUserName()).IgnoreArguments().Return(null);
-           //baseController.UnitOfWork.UserMasterRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Gen_UserMaster> { });
+            baseController.UserIdentity.Expect(u => u.GetUserName()).IgnoreArguments().Return(null);
+            baseController.UnitOfWork.UserMasterRepository.Expect(u => u.Get()).IgnoreArguments().Return(new List<Gen_UserMaster> { });
         }
 
         [Given(@"I am logged in user")]
@@ -160,6 +160,7 @@ namespace Inspired.Web.Test.Controllers
             var redirect = (RedirectToRouteResult)result;
             Assert.IsTrue(redirect.RouteValues.ContainsValue("CategoryList"));
         }
+
         [Given(@"I enter incomplete details of the category")]
         public void GivenIEnterIncompleteDetailsOfTheCategory()
         {

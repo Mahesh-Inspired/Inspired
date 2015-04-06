@@ -63,9 +63,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\Inspired.Web\bin\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
@@ -115,12 +115,24 @@
       <DependentUpon>InventoryCategoryMaster.feature</DependentUpon>
     </Compile>
     <Compile Include="Controllers\InventoryCategoryMasterSteps.cs" />
+    <Compile Include="Controllers\InventoryLookupMaster.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventoryLookupMaster.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\InventoryLookupMasterSteps.cs" />
     <Compile Include="Controllers\InventoryMaterialMaster.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InventoryMaterialMaster.feature</DependentUpon>
     </Compile>
     <Compile Include="Controllers\InventoryMaterialMasterSteps.cs" />
+    <Compile Include="Controllers\InventoryMiscReceiptSteps.cs" />
+    <Compile Include="Controllers\InventoryMiscReceipt.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventoryMiscReceipt.feature</DependentUpon>
+    </Compile>
     <Compile Include="Model\MaterialMasterSubmit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -144,9 +156,17 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>InventoryCategoryMaster.feature.cs</LastGenOutput>
     </None>
+    <None Include="Controllers\InventoryLookupMaster.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>InventoryLookupMaster.feature.cs</LastGenOutput>
+    </None>
     <None Include="Controllers\InventoryMaterialMaster.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>InventoryMaterialMaster.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Controllers\InventoryMiscReceipt.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>InventoryMiscReceipt.feature.cs</LastGenOutput>
     </None>
     <None Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />

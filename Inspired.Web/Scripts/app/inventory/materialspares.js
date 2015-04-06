@@ -98,19 +98,16 @@ function AddSpare() {
 function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId) {
     var spareitemcode = $("#" + CtrlItemCode).val();    
     if (spareitemcode == '') return;
-    if (spareitemcode == $("#Material_Code").val()) {
-        alert("Item code cannot be same as the Parent code");
-        $('#' + CtrlItemCode).focus();
-        return false;
-    }
     $.ajax({
         context: document.body,
         data: addAntiForgeryToken({ itemcode: spareitemcode }),
         error: function (e) { alert(e.Message); },
         success: function (data) {
-            if (data.success == true) {
+            if (data.success == true) {              
                 $('#' + CtrlItemDesc).val(data.ItemDescription);
                 $('#' + CtrlItemId).val(data.id);
+                $('#' + CtrlItemCode).val(data.ItemCode);
+
             } else if (data.success == false) {
                 alert(data.Message);
                 $('#' + CtrlItemCode).focus();

@@ -4,7 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="InspiredModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="InspiredModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -139,6 +149,21 @@
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="Inv_DocumentMaster">
+          <Key>
+            <PropertyRef Name="TRANS_TYPE" />
+            <PropertyRef Name="DOC_CODE" />
+          </Key>
+          <Property Name="TRANS_TYPE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DOC_CODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DOC_DESC" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="START_NO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LAST_NO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="STATUS" Type="bit" Nullable="false" />
+          <Property Name="COMPANY_ID" Type="int" Nullable="false" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="LAST_UPDATE" Type="datetime" />
+        </EntityType>
         <EntityType Name="Inv_MaterialAlternateRelative">
           <Key>
             <PropertyRef Name="Id" />
@@ -240,13 +265,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Item_Id" Type="int" Nullable="false" />
           <Property Name="Document_Path" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="Description" Type="nchar" MaxLength="10" />
-          <Property Name="version" Type="int" />
-          <Property Name="FromDT" Type="datetime" />
-          <Property Name="EndDT" Type="datetime" />
           <Property Name="Company_Id" Type="int" Nullable="false" />
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="version" Type="int" />
+          <Property Name="FromDT" Type="datetime" />
+          <Property Name="EndDT" Type="datetime" />
         </EntityType>
         <EntityType Name="Inv_MaterialMaster">
           <Key>
@@ -379,6 +404,89 @@
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="Inv_StockMaster">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+          </Key>
+          <Property Name="ITEM_ID" Type="int" Nullable="false" />
+          <Property Name="WHS_ID" Type="int" Nullable="false" />
+          <Property Name="BATCH_NO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OB_DT" Type="date" />
+          <Property Name="OB_QTY" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CB_QTY" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="NOTES" Type="text" />
+          <Property Name="WA_PRC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FIFO_PRC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LIFO_PRC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="COMPANY_ID" Type="int" Nullable="false" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="LAST_UPDATED" Type="date" />
+        </EntityType>
+        <EntityType Name="Inv_StockMasterSlNo">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+            <PropertyRef Name="SERIAL_NO" />
+          </Key>
+          <Property Name="ITEM_ID" Type="int" Nullable="false" />
+          <Property Name="WHS_ID" Type="int" Nullable="false" />
+          <Property Name="BATCH_NO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SERIAL_NO" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="CB_QTY" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Inspired.dbo.Inv_StockTran' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Inv_StockTran">
+          <Key>
+            <PropertyRef Name="DOC_CODE" />
+            <PropertyRef Name="DOC_NUM" />
+            <PropertyRef Name="DOC_DATE" />
+            <PropertyRef Name="TRANS_TYPE" />
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+          </Key>
+          <Property Name="DOC_CODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DOC_NUM" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DOC_DATE" Type="date" Nullable="false" />
+          <Property Name="TRANS_TYPE" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="REF_NO" Type="varchar" MaxLength="250" />
+          <Property Name="REF_DT" Type="datetime" />
+          <Property Name="NOTES" Type="varchar" MaxLength="5000" />
+          <Property Name="ITEM_ID" Type="int" Nullable="false" />
+          <Property Name="WHS_ID" Type="int" Nullable="false" />
+          <Property Name="BATCH_NO" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="REC_QTY" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ISS_QTY" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TRANS_VALUE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="LAST_UPDATED" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Inspired.dbo.Inv_StockTranSlNo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Inv_StockTranSlNo">
+          <Key>
+            <PropertyRef Name="DOC_CODE" />
+            <PropertyRef Name="DOC_NUM" />
+            <PropertyRef Name="DOC_DATE" />
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+            <PropertyRef Name="SERIAL_NO" />
+          </Key>
+          <Property Name="DOC_CODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DOC_NUM" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DOC_DATE" Type="date" Nullable="false" />
+          <Property Name="ITEM_ID" Type="int" Nullable="false" />
+          <Property Name="WHS_ID" Type="int" Nullable="false" />
+          <Property Name="BATCH_NO" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="SERIAL_NO" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="REC_QTY" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ISS_QTY" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
         <EntityType Name="Inv_WarehouseMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -417,6 +525,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'AspNetUser' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="AspNetUser" />-->
         <Association Name="Branch">
           <End Role="Gen_BranchMaster" Type="Self.Gen_BranchMaster" Multiplicity="0..1" />
           <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="*" />
@@ -593,6 +704,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Inv_DocMas_Company">
+          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
+          <End Role="Inv_DocumentMaster" Type="Self.Inv_DocumentMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_DocumentMaster">
+              <PropertyRef Name="COMPANY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_DocMas_User">
+          <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="0..1" />
+          <End Role="Inv_DocumentMaster" Type="Self.Inv_DocumentMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_DocumentMaster">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster">
           <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
           <End Role="Inv_MaterialAlternateRelative" Type="Self.Inv_MaterialAlternateRelative" Multiplicity="*" />
@@ -710,6 +845,18 @@
             </Principal>
             <Dependent Role="Inv_MaterialBranchSpec">
               <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialBranchSpec_Specification">
+          <End Role="Inv_MaterialSpecification" Type="Self.Inv_MaterialSpecification" Multiplicity="1" />
+          <End Role="Inv_MaterialBranchSpec" Type="Self.Inv_MaterialBranchSpec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialSpecification">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialBranchSpec">
+              <PropertyRef Name="Spec_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -878,6 +1025,18 @@
             </Principal>
             <Dependent Role="Inv_MaterialDiscount">
               <PropertyRef Name="Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialDocument_Inv_MaterialMaster">
+          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
+          <End Role="Inv_MaterialDocument" Type="Self.Inv_MaterialDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDocument">
+              <PropertyRef Name="Item_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1145,6 +1304,114 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_INV_STOCKMASTER_COMPANY">
+          <End Role="Gen_CompanyMaster" Type="Self.Gen_CompanyMaster" Multiplicity="1" />
+          <End Role="Inv_StockMaster" Type="Self.Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="COMPANY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTER_USER">
+          <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="0..1" />
+          <End Role="Inv_StockMaster" Type="Self.Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTER_WAREHOUSEMASTER">
+          <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="1" />
+          <End Role="Inv_StockMaster" Type="Self.Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER">
+          <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="1" />
+          <End Role="Inv_StockMasterSlNo" Type="Self.Inv_StockMasterSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMasterSlNo">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_Item">
+          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
+          <End Role="Inv_StockTran" Type="Self.Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_User">
+          <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="0..1" />
+          <End Role="Inv_StockTran" Type="Self.Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_Warehouse">
+          <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="1" />
+          <End Role="Inv_StockTran" Type="Self.Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTranSlNo_Item">
+          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
+          <End Role="Inv_StockTranSlNo" Type="Self.Inv_StockTranSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTranSlNo">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTranSlNo_Warehouse">
+          <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="1" />
+          <End Role="Inv_StockTranSlNo" Type="Self.Inv_StockTranSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTranSlNo">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Inv_WarehouseMaster_Gen_BranchMaster">
           <End Role="Gen_BranchMaster" Type="Self.Gen_BranchMaster" Multiplicity="0..1" />
           <End Role="Inv_WarehouseMaster" Type="Self.Inv_WarehouseMaster" Multiplicity="*" />
@@ -1166,6 +1433,30 @@
             </Principal>
             <Dependent Role="Inv_WarehouseMaster">
               <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVSTOCKMASTER_MATERIALMASTER">
+          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
+          <End Role="Inv_StockMaster" Type="Self.Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVSTOCKMASTERSLNO_MATERIALMASTER">
+          <End Role="Inv_MaterialMaster" Type="Self.Inv_MaterialMaster" Multiplicity="1" />
+          <End Role="Inv_StockMasterSlNo" Type="Self.Inv_StockMasterSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMasterSlNo">
+              <PropertyRef Name="ITEM_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1278,6 +1569,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="InspiredModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -1291,6 +1583,7 @@
           <EntitySet Name="Gen_LookupType" EntityType="Self.Gen_LookupType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gen_UserMaster" EntityType="Self.Gen_UserMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_CategoryMaster" EntityType="Self.Inv_CategoryMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_DocumentMaster" EntityType="Self.Inv_DocumentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialAlternateRelative" EntityType="Self.Inv_MaterialAlternateRelative" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialBOM" EntityType="Self.Inv_MaterialBOM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialBranch" EntityType="Self.Inv_MaterialBranch" Schema="dbo" store:Type="Tables" />
@@ -1305,7 +1598,41 @@
           <EntitySet Name="Inv_MaterialSpares" EntityType="Self.Inv_MaterialSpares" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialSpecification" EntityType="Self.Inv_MaterialSpecification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_MaterialSupplier" EntityType="Self.Inv_MaterialSupplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_StockMaster" EntityType="Self.Inv_StockMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_StockMasterSlNo" EntityType="Self.Inv_StockMasterSlNo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_WarehouseMaster" EntityType="Self.Inv_WarehouseMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_StockTran" EntityType="Self.Inv_StockTran" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Inv_StockTran].[DOC_CODE] AS [DOC_CODE], 
+    [Inv_StockTran].[DOC_NUM] AS [DOC_NUM], 
+    [Inv_StockTran].[DOC_DATE] AS [DOC_DATE], 
+    [Inv_StockTran].[TRANS_TYPE] AS [TRANS_TYPE], 
+    [Inv_StockTran].[REF_NO] AS [REF_NO], 
+    [Inv_StockTran].[REF_DT] AS [REF_DT], 
+    [Inv_StockTran].[NOTES] AS [NOTES], 
+    [Inv_StockTran].[ITEM_ID] AS [ITEM_ID], 
+    [Inv_StockTran].[WHS_ID] AS [WHS_ID], 
+    [Inv_StockTran].[BATCH_NO] AS [BATCH_NO], 
+    [Inv_StockTran].[REC_QTY] AS [REC_QTY], 
+    [Inv_StockTran].[ISS_QTY] AS [ISS_QTY], 
+    [Inv_StockTran].[TRANS_VALUE] AS [TRANS_VALUE], 
+    [Inv_StockTran].[USER_ID] AS [USER_ID], 
+    [Inv_StockTran].[LAST_UPDATED] AS [LAST_UPDATED]
+    FROM [dbo].[Inv_StockTran] AS [Inv_StockTran]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Inv_StockTranSlNo" EntityType="Self.Inv_StockTranSlNo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Inv_StockTranSlNo].[DOC_CODE] AS [DOC_CODE], 
+    [Inv_StockTranSlNo].[DOC_NUM] AS [DOC_NUM], 
+    [Inv_StockTranSlNo].[DOC_DATE] AS [DOC_DATE], 
+    [Inv_StockTranSlNo].[ITEM_ID] AS [ITEM_ID], 
+    [Inv_StockTranSlNo].[WHS_ID] AS [WHS_ID], 
+    [Inv_StockTranSlNo].[BATCH_NO] AS [BATCH_NO], 
+    [Inv_StockTranSlNo].[SERIAL_NO] AS [SERIAL_NO], 
+    [Inv_StockTranSlNo].[REC_QTY] AS [REC_QTY], 
+    [Inv_StockTranSlNo].[ISS_QTY] AS [ISS_QTY]
+    FROM [dbo].[Inv_StockTranSlNo] AS [Inv_StockTranSlNo]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="AlternateRelativeItemCollection" Association="Self.AlternateRelativeItemCollection">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialAlternateRelative" EntitySet="Inv_MaterialAlternateRelative" />
@@ -1370,6 +1697,14 @@
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Gen_LookupType" EntitySet="Gen_LookupType" />
           </AssociationSet>
+          <AssociationSet Name="FK_Inv_DocMas_Company" Association="Self.FK_Inv_DocMas_Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_DocumentMaster" EntitySet="Inv_DocumentMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_DocMas_User" Association="Self.FK_Inv_DocMas_User">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_DocumentMaster" EntitySet="Inv_DocumentMaster" />
+          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialAlternateRelative_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_MaterialAlternateRelative" EntitySet="Inv_MaterialAlternateRelative" />
@@ -1408,6 +1743,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialBranchSpec_Material" Association="Self.FK_Inv_MaterialBranchSpec_Material">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialBranchSpec_Specification" Association="Self.FK_Inv_MaterialBranchSpec_Specification">
+            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
             <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialCategory_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialCategory_Gen_CompanyMaster">
@@ -1465,6 +1804,10 @@
           <AssociationSet Name="FK_Inv_MaterialDiscount_Type" Association="Self.FK_Inv_MaterialDiscount_Type">
             <End Role="Inv_CategoryMaster" EntitySet="Inv_CategoryMaster" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialDocument_Inv_MaterialMaster" Association="Self.FK_Inv_MaterialDocument_Inv_MaterialMaster">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_MaterialDocument" EntitySet="Inv_MaterialDocument" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialMaster_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialMaster_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
@@ -1554,6 +1897,42 @@
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialSupplier" EntitySet="Inv_MaterialSupplier" />
           </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTER_COMPANY" Association="Self.FK_INV_STOCKMASTER_COMPANY">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTER_USER" Association="Self.FK_INV_STOCKMASTER_USER">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTER_WAREHOUSEMASTER" Association="Self.FK_INV_STOCKMASTER_WAREHOUSEMASTER">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER" Association="Self.FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockMasterSlNo" EntitySet="Inv_StockMasterSlNo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_Item" Association="Self.FK_Inv_StockTran_Item">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_User" Association="Self.FK_Inv_StockTran_User">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_Warehouse" Association="Self.FK_Inv_StockTran_Warehouse">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTranSlNo_Item" Association="Self.FK_Inv_StockTranSlNo_Item">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockTranSlNo" EntitySet="Inv_StockTranSlNo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTranSlNo_Warehouse" Association="Self.FK_Inv_StockTranSlNo_Warehouse">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockTranSlNo" EntitySet="Inv_StockTranSlNo" />
+          </AssociationSet>
           <AssociationSet Name="FK_Inv_WarehouseMaster_Gen_BranchMaster" Association="Self.FK_Inv_WarehouseMaster_Gen_BranchMaster">
             <End Role="Gen_BranchMaster" EntitySet="Gen_BranchMaster" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
@@ -1561,6 +1940,14 @@
           <AssociationSet Name="FK_Inv_WarehouseMaster_Gen_CompanyMaster" Association="Self.FK_Inv_WarehouseMaster_Gen_CompanyMaster">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVSTOCKMASTER_MATERIALMASTER" Association="Self.FK_INVSTOCKMASTER_MATERIALMASTER">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVSTOCKMASTERSLNO_MATERIALMASTER" Association="Self.FK_INVSTOCKMASTERSLNO_MATERIALMASTER">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockMasterSlNo" EntitySet="Inv_StockMasterSlNo" />
           </AssociationSet>
           <AssociationSet Name="FK_MaterialSpecIdLookup" Association="Self.FK_MaterialSpecIdLookup">
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
@@ -1689,6 +2076,8 @@
           <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_FAS_AccountMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="FAS_AccountMaster" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_MaterialNotes" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_Inv_WarehouseMaster_Gen_CompanyMaster" FromRole="Gen_CompanyMaster" ToRole="Inv_WarehouseMaster" />
+          <NavigationProperty Name="Inv_DocumentMaster" Relationship="InspiredModel.FK_Inv_DocMas_Company" FromRole="Gen_CompanyMaster" ToRole="Inv_DocumentMaster" />
+          <NavigationProperty Name="Inv_StockMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_COMPANY" FromRole="Gen_CompanyMaster" ToRole="Inv_StockMaster" />
         </EntityType>
         <EntityType Name="Gen_LookupType">
           <Key>
@@ -1760,22 +2149,6 @@
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialDiscount" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="FAS_AccountMaster" Relationship="InspiredModel.FK_Inv_MaterialDiscount_FAS_AccountMaster" FromRole="Inv_MaterialDiscount" ToRole="FAS_AccountMaster" />
         </EntityType>
-        <EntityType Name="Inv_MaterialDocument">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Item_Id" Type="Int32" Nullable="false" />
-          <Property Name="Document_Path" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <Property Name="User_Id" Type="Int32" Nullable="false" />
-          <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialDocument" ToRole="Inv_MaterialMaster" />
-          <Property Name="Description" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="FromDT" Type="DateTime" Precision="3" />
-          <Property Name="EndDT" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Inv_MaterialPackaging">
           <Key>
             <PropertyRef Name="Item_Id" />
@@ -1827,6 +2200,7 @@
           <NavigationProperty Name="Gen_BranchMaster" Relationship="Self.FK_Inv_MaterialBranchSpec_Branch" FromRole="Inv_MaterialBranchSpec" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="Self.FK_Inv_MaterialBranchSpec_Gen_CompanyMaster" FromRole="Inv_MaterialBranchSpec" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialBranchSpec_Material" FromRole="Inv_MaterialBranchSpec" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_MaterialSpecification" Relationship="InspiredModel.FK_Inv_MaterialBranchSpec_Specification" FromRole="Inv_MaterialBranchSpec" ToRole="Inv_MaterialSpecification" />
         </EntityType>
         <EntityType Name="Inv_MaterialSupplier">
           <Key>
@@ -2010,7 +2384,6 @@
           <EntitySet Name="Gen_LookupType" EntityType="Self.Gen_LookupType" />
           <EntitySet Name="Inv_CategoryMaster" EntityType="Self.Inv_CategoryMaster" />
           <EntitySet Name="Inv_MaterialDiscount" EntityType="Self.Inv_MaterialDiscount" />
-          <EntitySet Name="Inv_MaterialDocument" EntityType="Self.Inv_MaterialDocument" />
           <EntitySet Name="Inv_MaterialPackaging" EntityType="Self.Inv_MaterialPackaging" />
           <EntitySet Name="Inv_MaterialPrice" EntityType="Self.Inv_MaterialPrice" />
           <EntitySet Name="Inv_MaterialBranchSpec" EntityType="Self.Inv_MaterialBranchSpec" />
@@ -2208,10 +2581,6 @@
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialDiscount" EntitySet="Inv_MaterialDiscount" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialDocument_Inv_MaterialMaster" Association="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster">
-            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-            <End Role="Inv_MaterialDocument" EntitySet="Inv_MaterialDocument" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialPackaging_Material" Association="InspiredModel.FK_Inv_MaterialPackaging_Material">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialPackaging" EntitySet="Inv_MaterialPackaging" />
@@ -2320,6 +2689,73 @@
             <End Role="Gen_LookupItem" EntitySet="Gen_LookupItem" />
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
           </AssociationSet>
+          <EntitySet Name="C__MigrationHistory" EntityType="InspiredModel.C__MigrationHistory" />
+          <EntitySet Name="Inv_DocumentMaster" EntityType="InspiredModel.Inv_DocumentMaster" />
+          <EntitySet Name="Inv_StockMaster" EntityType="InspiredModel.Inv_StockMaster" />
+          <EntitySet Name="Inv_StockMasterSlNo" EntityType="InspiredModel.Inv_StockMasterSlNo" />
+          <EntitySet Name="Inv_StockTran" EntityType="InspiredModel.Inv_StockTran" />
+          <EntitySet Name="Inv_StockTranSlNo" EntityType="InspiredModel.Inv_StockTranSlNo" />
+          <AssociationSet Name="FK_Inv_DocMas_Company" Association="InspiredModel.FK_Inv_DocMas_Company">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_DocumentMaster" EntitySet="Inv_DocumentMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTER_COMPANY" Association="InspiredModel.FK_INV_STOCKMASTER_COMPANY">
+            <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_DocMas_User" Association="InspiredModel.FK_Inv_DocMas_User">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_DocumentMaster" EntitySet="Inv_DocumentMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTER_USER" Association="InspiredModel.FK_INV_STOCKMASTER_USER">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_User" Association="InspiredModel.FK_Inv_StockTran_User">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_MaterialBranchSpec_Specification" Association="InspiredModel.FK_Inv_MaterialBranchSpec_Specification">
+            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
+            <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_Item" Association="InspiredModel.FK_Inv_StockTran_Item">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTranSlNo_Item" Association="InspiredModel.FK_Inv_StockTranSlNo_Item">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockTranSlNo" EntitySet="Inv_StockTranSlNo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVSTOCKMASTER_MATERIALMASTER" Association="InspiredModel.FK_INVSTOCKMASTER_MATERIALMASTER">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVSTOCKMASTERSLNO_MATERIALMASTER" Association="InspiredModel.FK_INVSTOCKMASTERSLNO_MATERIALMASTER">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockMasterSlNo" EntitySet="Inv_StockMasterSlNo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTER_WAREHOUSEMASTER" Association="InspiredModel.FK_INV_STOCKMASTER_WAREHOUSEMASTER">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER" Association="InspiredModel.FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockMasterSlNo" EntitySet="Inv_StockMasterSlNo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_Warehouse" Association="InspiredModel.FK_Inv_StockTran_Warehouse">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTranSlNo_Warehouse" Association="InspiredModel.FK_Inv_StockTranSlNo_Warehouse">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockTranSlNo" EntitySet="Inv_StockTranSlNo" />
+          </AssociationSet>
+          <EntitySet Name="Inv_MaterialDocument" EntityType="InspiredModel.Inv_MaterialDocument" />
+          <AssociationSet Name="FK_Inv_MaterialDocument_Inv_MaterialMaster" Association="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_MaterialDocument" EntitySet="Inv_MaterialDocument" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Inv_MaterialBOM">
           <Key>
@@ -2411,6 +2847,9 @@
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.Company" FromRole="Gen_UserMaster" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_TakenBy" FromRole="Gen_UserMaster" ToRole="Inv_MaterialNotes" />
           <NavigationProperty Name="Inv_MaterialNotes1" Relationship="InspiredModel.FK_Inv_MaterialNotes_ToBeActionedBy" FromRole="Gen_UserMaster" ToRole="Inv_MaterialNotes" />
+          <NavigationProperty Name="Inv_DocumentMaster" Relationship="InspiredModel.FK_Inv_DocMas_User" FromRole="Gen_UserMaster" ToRole="Inv_DocumentMaster" />
+          <NavigationProperty Name="Inv_StockMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_USER" FromRole="Gen_UserMaster" ToRole="Inv_StockMaster" />
+          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_User" FromRole="Gen_UserMaster" ToRole="Inv_StockTran" />
           </EntityType>
         <Association Name="Branch">
           <End Type="InspiredModel.Gen_BranchMaster" Role="Gen_BranchMaster" Multiplicity="0..1" />
@@ -2561,6 +3000,7 @@
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Gen_CompanyMaster" FromRole="Inv_MaterialSpecification" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_MaterialSpecIdLookup" FromRole="Inv_MaterialSpecification" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Material" FromRole="Inv_MaterialSpecification" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_MaterialBranchSpec" Relationship="InspiredModel.FK_Inv_MaterialBranchSpec_Specification" FromRole="Inv_MaterialSpecification" ToRole="Inv_MaterialBranchSpec" />
         </EntityType>
         <Association Name="FK_Inv_MaterialSpecification_Gen_CompanyMaster">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
@@ -2812,7 +3252,6 @@
           <NavigationProperty Name="Inv_MaterialBranchSpec" Relationship="InspiredModel.FK_Inv_MaterialBranchSpec_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialBranchSpec" />
           <NavigationProperty Name="Inv_MaterialCategory" Relationship="InspiredModel.FK_Inv_MaterialCategory_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialCategory" />
           <NavigationProperty Name="Inv_MaterialDiscount" Relationship="InspiredModel.FK_Inv_MaterialDiscount_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDiscount" />
-          <NavigationProperty Name="Inv_MaterialDocument" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDocument" />
           <NavigationProperty Name="Inv_MaterialPackaging" Relationship="InspiredModel.FK_Inv_MaterialPackaging_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialPackaging" />
           <NavigationProperty Name="Inv_MaterialPrice" Relationship="InspiredModel.FK_Inv_MaterialPrice_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialPrice" />
           <NavigationProperty Name="Inv_MaterialSpecification" Relationship="InspiredModel.FK_Inv_MaterialSpecification_Material" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialSpecification" />
@@ -2822,6 +3261,11 @@
           <NavigationProperty Name="AlternateRelativeItemCollection" Relationship="InspiredModel.AlternateRelativeItemCollection" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialAlternateRelative" />
           <NavigationProperty Name="AlternateRelativeItemId" Relationship="InspiredModel.AlternateRelativeItemId" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialAlternateRelative" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialNotes" />
+          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_MaterialMaster" ToRole="Inv_StockTran" />
+          <NavigationProperty Name="Inv_StockTranSlNo" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Item" FromRole="Inv_MaterialMaster" ToRole="Inv_StockTranSlNo" />
+          <NavigationProperty Name="Inv_StockMaster" Relationship="InspiredModel.FK_INVSTOCKMASTER_MATERIALMASTER" FromRole="Inv_MaterialMaster" ToRole="Inv_StockMaster" />
+          <NavigationProperty Name="Inv_StockMasterSlNo" Relationship="InspiredModel.FK_INVSTOCKMASTERSLNO_MATERIALMASTER" FromRole="Inv_MaterialMaster" ToRole="Inv_StockMasterSlNo" />
+          <NavigationProperty Name="Inv_MaterialDocument" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDocument" />
         </EntityType>
         <Association Name="FK_Inv_MaterialMaster_Gen_CompanyMaster">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
@@ -2915,18 +3359,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Inv_MaterialDiscount">
-              <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialDocument_Inv_MaterialMaster">
-          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
-          <End Type="InspiredModel.Inv_MaterialDocument" Role="Inv_MaterialDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_MaterialMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialDocument">
               <PropertyRef Name="Item_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -3285,6 +3717,10 @@
           <NavigationProperty Name="Gen_BranchMaster" Relationship="InspiredModel.FK_Inv_WarehouseMaster_Gen_BranchMaster" FromRole="Inv_WarehouseMaster" ToRole="Gen_BranchMaster" />
           <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Inv_WarehouseMaster_Gen_CompanyMaster" FromRole="Inv_WarehouseMaster" ToRole="Gen_CompanyMaster" />
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_WarehouseType_Lookup" FromRole="Inv_WarehouseMaster" ToRole="Gen_LookupItem" />
+          <NavigationProperty Name="Inv_StockMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_WAREHOUSEMASTER" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockMaster" />
+          <NavigationProperty Name="Inv_StockMasterSlNo" Relationship="InspiredModel.FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockMasterSlNo" />
+          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Warehouse" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockTran" />
+          <NavigationProperty Name="Inv_StockTranSlNo" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Warehouse" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockTranSlNo" />
         </EntityType>
         <Association Name="FK_Inv_WarehouseMaster_Gen_BranchMaster">
           <End Type="InspiredModel.Gen_BranchMaster" Role="Gen_BranchMaster" Multiplicity="0..1" />
@@ -3319,6 +3755,319 @@
             </Principal>
             <Dependent Role="Inv_WarehouseMaster">
               <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Inv_DocumentMaster">
+          <Key>
+            <PropertyRef Name="TRANS_TYPE" />
+            <PropertyRef Name="DOC_CODE" />
+          </Key>
+          <Property Name="TRANS_TYPE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_DESC" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="START_NO" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LAST_NO" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="STATUS" Type="Boolean" Nullable="false" />
+          <Property Name="COMPANY_ID" Type="Int32" Nullable="false" />
+          <Property Name="USER_ID" Type="Int32" />
+          <Property Name="LAST_UPDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_Inv_DocMas_Company" FromRole="Inv_DocumentMaster" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.FK_Inv_DocMas_User" FromRole="Inv_DocumentMaster" ToRole="Gen_UserMaster" />
+        </EntityType>
+        <EntityType Name="Inv_StockMaster">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+          </Key>
+          <Property Name="ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="WHS_ID" Type="Int32" Nullable="false" />
+          <Property Name="BATCH_NO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OB_DT" Type="DateTime" Precision="0" />
+          <Property Name="OB_QTY" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CB_QTY" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="NOTES" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="WA_PRC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FIFO_PRC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LIFO_PRC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="COMPANY_ID" Type="Int32" Nullable="false" />
+          <Property Name="USER_ID" Type="Int32" />
+          <Property Name="LAST_UPDATED" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Gen_CompanyMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_COMPANY" FromRole="Inv_StockMaster" ToRole="Gen_CompanyMaster" />
+          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_USER" FromRole="Inv_StockMaster" ToRole="Gen_UserMaster" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_INVSTOCKMASTER_MATERIALMASTER" FromRole="Inv_StockMaster" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_WAREHOUSEMASTER" FromRole="Inv_StockMaster" ToRole="Inv_WarehouseMaster" />
+        </EntityType>
+        <EntityType Name="Inv_StockMasterSlNo">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+            <PropertyRef Name="SERIAL_NO" />
+          </Key>
+          <Property Name="ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="WHS_ID" Type="Int32" Nullable="false" />
+          <Property Name="BATCH_NO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SERIAL_NO" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CB_QTY" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_INVSTOCKMASTERSLNO_MATERIALMASTER" FromRole="Inv_StockMasterSlNo" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER" FromRole="Inv_StockMasterSlNo" ToRole="Inv_WarehouseMaster" />
+        </EntityType>
+        <EntityType Name="Inv_StockTran">
+          <Key>
+            <PropertyRef Name="DOC_CODE" />
+            <PropertyRef Name="DOC_NUM" />
+            <PropertyRef Name="DOC_DATE" />
+            <PropertyRef Name="TRANS_TYPE" />
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+          </Key>
+          <Property Name="DOC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_NUM" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DOC_DATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TRANS_TYPE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="REF_NO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="REF_DT" Type="DateTime" Precision="3" />
+          <Property Name="NOTES" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="WHS_ID" Type="Int32" Nullable="false" />
+          <Property Name="BATCH_NO" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="REC_QTY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ISS_QTY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TRANS_VALUE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="USER_ID" Type="Int32" />
+          <Property Name="LAST_UPDATED" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.FK_Inv_StockTran_User" FromRole="Inv_StockTran" ToRole="Gen_UserMaster" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_StockTran" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_Inv_StockTran_Warehouse" FromRole="Inv_StockTran" ToRole="Inv_WarehouseMaster" />
+        </EntityType>
+        <EntityType Name="Inv_StockTranSlNo">
+          <Key>
+            <PropertyRef Name="DOC_CODE" />
+            <PropertyRef Name="DOC_NUM" />
+            <PropertyRef Name="DOC_DATE" />
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="WHS_ID" />
+            <PropertyRef Name="BATCH_NO" />
+            <PropertyRef Name="SERIAL_NO" />
+          </Key>
+          <Property Name="DOC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_NUM" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DOC_DATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="WHS_ID" Type="Int32" Nullable="false" />
+          <Property Name="BATCH_NO" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SERIAL_NO" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="REC_QTY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ISS_QTY" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Item" FromRole="Inv_StockTranSlNo" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Warehouse" FromRole="Inv_StockTranSlNo" ToRole="Inv_WarehouseMaster" />
+        </EntityType>
+        <Association Name="FK_Inv_DocMas_Company">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_DocumentMaster" Role="Inv_DocumentMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_DocumentMaster">
+              <PropertyRef Name="COMPANY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTER_COMPANY">
+          <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockMaster" Role="Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_CompanyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="COMPANY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_DocMas_User">
+          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_DocumentMaster" Role="Inv_DocumentMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_DocumentMaster">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTER_USER">
+          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_StockMaster" Role="Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_User">
+          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_MaterialBranchSpec_Specification">
+          <End Type="InspiredModel.Inv_MaterialSpecification" Role="Inv_MaterialSpecification" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialBranchSpec" Role="Inv_MaterialBranchSpec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialSpecification">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialBranchSpec">
+              <PropertyRef Name="Spec_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_Item">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTranSlNo_Item">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockTranSlNo" Role="Inv_StockTranSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTranSlNo">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVSTOCKMASTER_MATERIALMASTER">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockMaster" Role="Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVSTOCKMASTERSLNO_MATERIALMASTER">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockMasterSlNo" Role="Inv_StockMasterSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMasterSlNo">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTER_WAREHOUSEMASTER">
+          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockMaster" Role="Inv_StockMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMaster">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER">
+          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockMasterSlNo" Role="Inv_StockMasterSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockMasterSlNo">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_Warehouse">
+          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTranSlNo_Warehouse">
+          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockTranSlNo" Role="Inv_StockTranSlNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTranSlNo">
+              <PropertyRef Name="WHS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Inv_MaterialDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item_Id" Type="Int32" Nullable="false" />
+          <Property Name="Document_Path" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="User_Id" Type="Int32" Nullable="false" />
+          <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="FromDT" Type="DateTime" Precision="3" />
+          <Property Name="EndDT" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialDocument" ToRole="Inv_MaterialMaster" />
+        </EntityType>
+        <Association Name="FK_Inv_MaterialDocument_Inv_MaterialMaster">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_MaterialDocument" Role="Inv_MaterialDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_MaterialDocument">
+              <PropertyRef Name="Item_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3430,22 +4179,6 @@
                 <ScalarProperty Name="From_Qty" ColumnName="From_Qty" />
                 <ScalarProperty Name="To_Qty" ColumnName="To_Qty" />
                 <ScalarProperty Name="Price_Type" ColumnName="Price_Type" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
-                <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Inv_MaterialDocument">
-            <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialDocument">
-              <MappingFragment StoreEntitySet="Inv_MaterialDocument">
-                <ScalarProperty Name="EndDT" ColumnName="EndDT" />
-                <ScalarProperty Name="FromDT" ColumnName="FromDT" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="Document_Path" ColumnName="Document_Path" />
                 <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
@@ -3735,6 +4468,113 @@
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="InspiredModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_DocumentMaster">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_DocumentMaster">
+              <MappingFragment StoreEntitySet="Inv_DocumentMaster">
+                <ScalarProperty Name="LAST_UPDATE" ColumnName="LAST_UPDATE" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="COMPANY_ID" ColumnName="COMPANY_ID" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="LAST_NO" ColumnName="LAST_NO" />
+                <ScalarProperty Name="START_NO" ColumnName="START_NO" />
+                <ScalarProperty Name="DOC_DESC" ColumnName="DOC_DESC" />
+                <ScalarProperty Name="DOC_CODE" ColumnName="DOC_CODE" />
+                <ScalarProperty Name="TRANS_TYPE" ColumnName="TRANS_TYPE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_StockMaster">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_StockMaster">
+              <MappingFragment StoreEntitySet="Inv_StockMaster">
+                <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="COMPANY_ID" ColumnName="COMPANY_ID" />
+                <ScalarProperty Name="LIFO_PRC" ColumnName="LIFO_PRC" />
+                <ScalarProperty Name="FIFO_PRC" ColumnName="FIFO_PRC" />
+                <ScalarProperty Name="WA_PRC" ColumnName="WA_PRC" />
+                <ScalarProperty Name="NOTES" ColumnName="NOTES" />
+                <ScalarProperty Name="CB_QTY" ColumnName="CB_QTY" />
+                <ScalarProperty Name="OB_QTY" ColumnName="OB_QTY" />
+                <ScalarProperty Name="OB_DT" ColumnName="OB_DT" />
+                <ScalarProperty Name="BATCH_NO" ColumnName="BATCH_NO" />
+                <ScalarProperty Name="WHS_ID" ColumnName="WHS_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_StockMasterSlNo">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_StockMasterSlNo">
+              <MappingFragment StoreEntitySet="Inv_StockMasterSlNo">
+                <ScalarProperty Name="CB_QTY" ColumnName="CB_QTY" />
+                <ScalarProperty Name="SERIAL_NO" ColumnName="SERIAL_NO" />
+                <ScalarProperty Name="BATCH_NO" ColumnName="BATCH_NO" />
+                <ScalarProperty Name="WHS_ID" ColumnName="WHS_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_StockTran">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_StockTran">
+              <MappingFragment StoreEntitySet="Inv_StockTran">
+                <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="TRANS_VALUE" ColumnName="TRANS_VALUE" />
+                <ScalarProperty Name="ISS_QTY" ColumnName="ISS_QTY" />
+                <ScalarProperty Name="REC_QTY" ColumnName="REC_QTY" />
+                <ScalarProperty Name="BATCH_NO" ColumnName="BATCH_NO" />
+                <ScalarProperty Name="WHS_ID" ColumnName="WHS_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="NOTES" ColumnName="NOTES" />
+                <ScalarProperty Name="REF_DT" ColumnName="REF_DT" />
+                <ScalarProperty Name="REF_NO" ColumnName="REF_NO" />
+                <ScalarProperty Name="TRANS_TYPE" ColumnName="TRANS_TYPE" />
+                <ScalarProperty Name="DOC_DATE" ColumnName="DOC_DATE" />
+                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
+                <ScalarProperty Name="DOC_CODE" ColumnName="DOC_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_StockTranSlNo">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_StockTranSlNo">
+              <MappingFragment StoreEntitySet="Inv_StockTranSlNo">
+                <ScalarProperty Name="ISS_QTY" ColumnName="ISS_QTY" />
+                <ScalarProperty Name="REC_QTY" ColumnName="REC_QTY" />
+                <ScalarProperty Name="SERIAL_NO" ColumnName="SERIAL_NO" />
+                <ScalarProperty Name="BATCH_NO" ColumnName="BATCH_NO" />
+                <ScalarProperty Name="WHS_ID" ColumnName="WHS_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="DOC_DATE" ColumnName="DOC_DATE" />
+                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
+                <ScalarProperty Name="DOC_CODE" ColumnName="DOC_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_MaterialDocument">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialDocument">
+              <MappingFragment StoreEntitySet="Inv_MaterialDocument">
+                <ScalarProperty Name="EndDT" ColumnName="EndDT" />
+                <ScalarProperty Name="FromDT" ColumnName="FromDT" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Document_Path" ColumnName="Document_Path" />
+                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
