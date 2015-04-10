@@ -22,8 +22,8 @@ namespace Inspired.Data
         public System.DateTime Last_Updated { get; set; }
         public string Description { get; set; }
         public int version { get; set; }
-        public System.DateTime FromDT { get; set; }
-        public System.DateTime EndDT { get; set; }
+        public Nullable<System.DateTime> FromDT { get; set; }
+        public Nullable<System.DateTime> EndDT { get; set; }
     
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
     }

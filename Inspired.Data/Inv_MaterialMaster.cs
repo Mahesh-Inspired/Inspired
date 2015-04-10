@@ -31,11 +31,11 @@ namespace Inspired.Data
             this.AlternateRelativeItemCollection = new HashSet<Inv_MaterialAlternateRelative>();
             this.AlternateRelativeItemId = new HashSet<Inv_MaterialAlternateRelative>();
             this.Inv_MaterialNotes = new HashSet<Inv_MaterialNotes>();
-            this.Inv_StockTran = new HashSet<Inv_StockTran>();
             this.Inv_StockTranSlNo = new HashSet<Inv_StockTranSlNo>();
             this.Inv_StockMaster = new HashSet<Inv_StockMaster>();
             this.Inv_StockMasterSlNo = new HashSet<Inv_StockMasterSlNo>();
             this.Inv_MaterialDocument = new HashSet<Inv_MaterialDocument>();
+            this.Inv_StockTran = new HashSet<Inv_StockTran>();
         }
     
         public int Id { get; set; }
@@ -89,10 +89,10 @@ namespace Inspired.Data
         public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemCollection { get; set; }
         public virtual ICollection<Inv_MaterialAlternateRelative> AlternateRelativeItemId { get; set; }
         public virtual ICollection<Inv_MaterialNotes> Inv_MaterialNotes { get; set; }
-        public virtual ICollection<Inv_StockTran> Inv_StockTran { get; set; }
         public virtual ICollection<Inv_StockTranSlNo> Inv_StockTranSlNo { get; set; }
         public virtual ICollection<Inv_StockMaster> Inv_StockMaster { get; set; }
         public virtual ICollection<Inv_StockMasterSlNo> Inv_StockMasterSlNo { get; set; }
         public virtual ICollection<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
+        public virtual ICollection<Inv_StockTran> Inv_StockTran { get; set; }
     }
 }

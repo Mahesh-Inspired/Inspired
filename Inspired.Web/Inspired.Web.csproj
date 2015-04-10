@@ -206,6 +206,7 @@
     <Compile Include="ViewModel\DocumentViewModel.cs" />
     <Compile Include="ViewModel\DownloadViewModel.cs" />
     <Compile Include="ViewModel\LookupViewModel.cs" />
+    <Compile Include="ViewModel\MiscReceiptSubmitModel.cs" />
     <Compile Include="ViewModel\MiscReceiptViewModel.cs" />
     <Compile Include="ViewModel\WarehouseViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
@@ -271,6 +272,7 @@
     <Content Include="Content\DataTables-1.10.1\images\xls_hover.png" />
     <Content Include="Content\DataTables-1.10.1\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables-1.10.1\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Content\receipt.css" />
     <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
     <Content Include="Content\sweetalert\docs.css" />
     <Content Include="Content\sweetalert\sweet-alert.css" />

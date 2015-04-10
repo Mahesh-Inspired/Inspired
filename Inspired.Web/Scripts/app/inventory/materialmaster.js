@@ -14,10 +14,7 @@ $(function () {
     LoadNotes();
     $('form').submit(function (evt) {
         evt.preventDefault();
-        var $form = $(this);
-        if ($form.valid()) {
             Item_Save();
-        }
     });
 });
 

@@ -10,31 +10,33 @@ namespace Inspired.Web.ViewModel
     public class MiscReceiptViewModel
     {
         //header
-
-        public SelectList doc_code { get; set; }
-        public string doc_num { get; set; }
-        public string doc_date { get; set; }
-        public string trans_type { get; set; }
-        public string ref_num { get; set; }
-        public string ref_date { get; set; }
+        public SelectList DocCode { get; set; }
+        public string DocNum { get; set; }
+        public string DocDate { get; set; }
+        public string TransType { get; set; }
+        public string RefNum { get; set; }
+        public string RefDate { get; set; }
 
         //detail
+        public Int32 ItemID { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemDesc { get; set; }
+        public string WareHouseID { get; set; }
+        public string WareHouse { get; set; }
+        public string BatchNum { get; set; }
+        public decimal Quantity { get; set; }
+        public string Notes { get; set; }
 
-        public string item_code { get; set; }
-        public string item_desc { get; set; }
-        public string ware_house { get; set; }
-        public string batch_num { get; set; }
-        public string quantity { get; set; }
-        public string notes { get; set; }
+        public string SerialNo { get; set; }
 
         public Inv_StockTran Stock { get; set; }
 
         #region constructor
         public MiscReceiptViewModel(IEnumerable<Inv_DocumentMaster> docs, Inv_StockTran stock)
         {
-            doc_code = new SelectList(docs.Where(u=>u.TRANS_TYPE == "MiscReciept").ToList(), "DOC_CODE", "DOC_DESC");
-            doc_date = DateTime.Now.Date.ToString();
-            ref_date = DateTime.Now.Date.ToString();
+            DocCode = new SelectList(docs.Where(u=>u.TRANS_TYPE == "MiscReciept").ToList(), "DOC_CODE", "DOC_DESC");
+            DocDate = DateTime.Now.Date.ToString();
+            RefDate = DateTime.Now.Date.ToString();
             Stock = stock;
         }
         #endregion

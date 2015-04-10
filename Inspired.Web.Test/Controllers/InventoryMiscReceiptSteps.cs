@@ -8,6 +8,7 @@ using Inspired.Data;
 using System.Collections.Generic;
 using Inspired.Web.ViewModel;
 using Inspired.Web.Test.Code;
+using Inspired.Web.Test.Model;
 
 namespace Inspired.Web.Test.Controllers
 {
@@ -63,9 +64,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"Start typing Item Code in textbox")]
         public void StartTypingItemCodeInTextbox()
         {
-            baseController.DocumentMastersRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_DocumentMaster>() { new Inv_DocumentMaster { } });
-            baseController.StockTransRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_StockTran>() { new Inv_StockTran { } });
-            result = invController.FetchDocnoJSON("11", "misc");
+            result = invController.itemSearch("I");
         }
 
         [Then(@"Suggest list of Item Code based on text entered")]
@@ -74,6 +73,51 @@ namespace Inspired.Web.Test.Controllers
             Assert.IsInstanceOfType(result, typeof(JsonResult));
             var jsonResult = (JsonResult)result;
             var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+        }
+
+        [When(@"Start typing warehouse in textbox")]
+        public void StartTypingWarehouseInTextbox()
+        {
+            result = invController.warehouseSearch("W");
+        }
+
+        [Then(@"Suggest list of warehouse based on text entered")]
+        public void SuggestListOfWarehouseBasedOnTextEntered()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+        }
+
+        [When(@"Serial flag of item is false")]
+        public void SerialFlagOfItemIsFalse()
+        {
+            baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster>() { new Inv_MaterialMaster { } });
+            result = invController.FetchItemSNJSON("ITEM-10097");
+        }
+
+        [Then(@"Enter default serial number")]
+        public void EnterDefaultSerialNumber()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+        }
+
+        [When(@"I try to save the details entered in the Miscellaneous Receipt")]
+        public void ITryToSaveTheDetailsEnteredInTheMiscellaneousReceipt()
+        {
+            MiscReceiptSubmitModel MiscReceiptSubmitModel = MiscReceiptSubmit.FilledWithData();
+            result = invController.Receipt_Save(MiscReceiptSubmitModel);
+        }
+
+        [Then(@"The Miscellaneous Receipt save succeeds")]
+        public void TheMiscellaneousReceiptSaveSucceeds()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsTrue(jsonTopLevel["success"].ToString().ToLower() == "true");
         }
     }
 }

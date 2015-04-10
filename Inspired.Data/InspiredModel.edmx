@@ -269,7 +269,7 @@
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Last_Updated" Type="date" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="version" Type="int" />
+          <Property Name="version" Type="int" Nullable="false" />
           <Property Name="FromDT" Type="datetime" />
           <Property Name="EndDT" Type="datetime" />
         </EntityType>
@@ -437,18 +437,11 @@
           <Property Name="SERIAL_NO" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="CB_QTY" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Inspired.dbo.Inv_StockTran' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Inv_StockTran">
           <Key>
-            <PropertyRef Name="DOC_CODE" />
-            <PropertyRef Name="DOC_NUM" />
-            <PropertyRef Name="DOC_DATE" />
-            <PropertyRef Name="TRANS_TYPE" />
-            <PropertyRef Name="ITEM_ID" />
-            <PropertyRef Name="WHS_ID" />
-            <PropertyRef Name="BATCH_NO" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DOC_CODE" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DOC_NUM" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DOC_DATE" Type="date" Nullable="false" />
@@ -465,18 +458,11 @@ warning 6002: The table/view 'Inspired.dbo.Inv_StockTran' does not have a primar
           <Property Name="USER_ID" Type="int" />
           <Property Name="LAST_UPDATED" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Inspired.dbo.Inv_StockTranSlNo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Inv_StockTranSlNo">
           <Key>
-            <PropertyRef Name="DOC_CODE" />
-            <PropertyRef Name="DOC_NUM" />
-            <PropertyRef Name="DOC_DATE" />
-            <PropertyRef Name="ITEM_ID" />
-            <PropertyRef Name="WHS_ID" />
-            <PropertyRef Name="BATCH_NO" />
-            <PropertyRef Name="SERIAL_NO" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DOC_CODE" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DOC_NUM" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DOC_DATE" Type="date" Nullable="false" />
@@ -525,9 +511,6 @@ warning 6002: The table/view 'Inspired.dbo.Inv_StockTranSlNo' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'AspNetUser' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="AspNetUser" />-->
         <Association Name="Branch">
           <End Role="Gen_BranchMaster" Type="Self.Gen_BranchMaster" Multiplicity="0..1" />
           <End Role="Gen_UserMaster" Type="Self.Gen_UserMaster" Multiplicity="*" />
@@ -845,18 +828,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             </Principal>
             <Dependent Role="Inv_MaterialBranchSpec">
               <PropertyRef Name="Item_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_MaterialBranchSpec_Specification">
-          <End Role="Inv_MaterialSpecification" Type="Self.Inv_MaterialSpecification" Multiplicity="1" />
-          <End Role="Inv_MaterialBranchSpec" Type="Self.Inv_MaterialBranchSpec" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_MaterialSpecification">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_MaterialBranchSpec">
-              <PropertyRef Name="Spec_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1600,39 +1571,9 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <EntitySet Name="Inv_MaterialSupplier" EntityType="Self.Inv_MaterialSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_StockMaster" EntityType="Self.Inv_StockMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_StockMasterSlNo" EntityType="Self.Inv_StockMasterSlNo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_StockTran" EntityType="Self.Inv_StockTran" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inv_StockTranSlNo" EntityType="Self.Inv_StockTranSlNo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inv_WarehouseMaster" EntityType="Self.Inv_WarehouseMaster" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Inv_StockTran" EntityType="Self.Inv_StockTran" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Inv_StockTran].[DOC_CODE] AS [DOC_CODE], 
-    [Inv_StockTran].[DOC_NUM] AS [DOC_NUM], 
-    [Inv_StockTran].[DOC_DATE] AS [DOC_DATE], 
-    [Inv_StockTran].[TRANS_TYPE] AS [TRANS_TYPE], 
-    [Inv_StockTran].[REF_NO] AS [REF_NO], 
-    [Inv_StockTran].[REF_DT] AS [REF_DT], 
-    [Inv_StockTran].[NOTES] AS [NOTES], 
-    [Inv_StockTran].[ITEM_ID] AS [ITEM_ID], 
-    [Inv_StockTran].[WHS_ID] AS [WHS_ID], 
-    [Inv_StockTran].[BATCH_NO] AS [BATCH_NO], 
-    [Inv_StockTran].[REC_QTY] AS [REC_QTY], 
-    [Inv_StockTran].[ISS_QTY] AS [ISS_QTY], 
-    [Inv_StockTran].[TRANS_VALUE] AS [TRANS_VALUE], 
-    [Inv_StockTran].[USER_ID] AS [USER_ID], 
-    [Inv_StockTran].[LAST_UPDATED] AS [LAST_UPDATED]
-    FROM [dbo].[Inv_StockTran] AS [Inv_StockTran]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Inv_StockTranSlNo" EntityType="Self.Inv_StockTranSlNo" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Inv_StockTranSlNo].[DOC_CODE] AS [DOC_CODE], 
-    [Inv_StockTranSlNo].[DOC_NUM] AS [DOC_NUM], 
-    [Inv_StockTranSlNo].[DOC_DATE] AS [DOC_DATE], 
-    [Inv_StockTranSlNo].[ITEM_ID] AS [ITEM_ID], 
-    [Inv_StockTranSlNo].[WHS_ID] AS [WHS_ID], 
-    [Inv_StockTranSlNo].[BATCH_NO] AS [BATCH_NO], 
-    [Inv_StockTranSlNo].[SERIAL_NO] AS [SERIAL_NO], 
-    [Inv_StockTranSlNo].[REC_QTY] AS [REC_QTY], 
-    [Inv_StockTranSlNo].[ISS_QTY] AS [ISS_QTY]
-    FROM [dbo].[Inv_StockTranSlNo] AS [Inv_StockTranSlNo]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="AlternateRelativeItemCollection" Association="Self.AlternateRelativeItemCollection">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialAlternateRelative" EntitySet="Inv_MaterialAlternateRelative" />
@@ -1743,10 +1684,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialBranchSpec_Material" Association="Self.FK_Inv_MaterialBranchSpec_Material">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-            <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_MaterialBranchSpec_Specification" Association="Self.FK_Inv_MaterialBranchSpec_Specification">
-            <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
             <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialCategory_Gen_CompanyMaster" Association="Self.FK_Inv_MaterialCategory_Gen_CompanyMaster">
@@ -2693,7 +2630,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <EntitySet Name="Inv_DocumentMaster" EntityType="InspiredModel.Inv_DocumentMaster" />
           <EntitySet Name="Inv_StockMaster" EntityType="InspiredModel.Inv_StockMaster" />
           <EntitySet Name="Inv_StockMasterSlNo" EntityType="InspiredModel.Inv_StockMasterSlNo" />
-          <EntitySet Name="Inv_StockTran" EntityType="InspiredModel.Inv_StockTran" />
           <EntitySet Name="Inv_StockTranSlNo" EntityType="InspiredModel.Inv_StockTranSlNo" />
           <AssociationSet Name="FK_Inv_DocMas_Company" Association="InspiredModel.FK_Inv_DocMas_Company">
             <End Role="Gen_CompanyMaster" EntitySet="Gen_CompanyMaster" />
@@ -2711,17 +2647,9 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
             <End Role="Inv_StockMaster" EntitySet="Inv_StockMaster" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_StockTran_User" Association="InspiredModel.FK_Inv_StockTran_User">
-            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
-            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_MaterialBranchSpec_Specification" Association="InspiredModel.FK_Inv_MaterialBranchSpec_Specification">
             <End Role="Inv_MaterialSpecification" EntitySet="Inv_MaterialSpecification" />
             <End Role="Inv_MaterialBranchSpec" EntitySet="Inv_MaterialBranchSpec" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inv_StockTran_Item" Association="InspiredModel.FK_Inv_StockTran_Item">
-            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
-            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
           </AssociationSet>
           <AssociationSet Name="FK_Inv_StockTranSlNo_Item" Association="InspiredModel.FK_Inv_StockTranSlNo_Item">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
@@ -2743,10 +2671,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
             <End Role="Inv_StockMasterSlNo" EntitySet="Inv_StockMasterSlNo" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inv_StockTran_Warehouse" Association="InspiredModel.FK_Inv_StockTran_Warehouse">
-            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
-            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inv_StockTranSlNo_Warehouse" Association="InspiredModel.FK_Inv_StockTranSlNo_Warehouse">
             <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
             <End Role="Inv_StockTranSlNo" EntitySet="Inv_StockTranSlNo" />
@@ -2755,6 +2679,19 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <AssociationSet Name="FK_Inv_MaterialDocument_Inv_MaterialMaster" Association="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster">
             <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
             <End Role="Inv_MaterialDocument" EntitySet="Inv_MaterialDocument" />
+          </AssociationSet>
+          <EntitySet Name="Inv_StockTran" EntityType="InspiredModel.Inv_StockTran" />
+          <AssociationSet Name="FK_Inv_StockTran_User" Association="InspiredModel.FK_Inv_StockTran_User">
+            <End Role="Gen_UserMaster" EntitySet="Gen_UserMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_Item" Association="InspiredModel.FK_Inv_StockTran_Item">
+            <End Role="Inv_MaterialMaster" EntitySet="Inv_MaterialMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_StockTran_Warehouse" Association="InspiredModel.FK_Inv_StockTran_Warehouse">
+            <End Role="Inv_WarehouseMaster" EntitySet="Inv_WarehouseMaster" />
+            <End Role="Inv_StockTran" EntitySet="Inv_StockTran" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Inv_MaterialBOM">
@@ -3261,11 +3198,11 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <NavigationProperty Name="AlternateRelativeItemCollection" Relationship="InspiredModel.AlternateRelativeItemCollection" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialAlternateRelative" />
           <NavigationProperty Name="AlternateRelativeItemId" Relationship="InspiredModel.AlternateRelativeItemId" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialAlternateRelative" />
           <NavigationProperty Name="Inv_MaterialNotes" Relationship="InspiredModel.FK_Inv_MaterialNotes_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialNotes" />
-          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_MaterialMaster" ToRole="Inv_StockTran" />
           <NavigationProperty Name="Inv_StockTranSlNo" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Item" FromRole="Inv_MaterialMaster" ToRole="Inv_StockTranSlNo" />
           <NavigationProperty Name="Inv_StockMaster" Relationship="InspiredModel.FK_INVSTOCKMASTER_MATERIALMASTER" FromRole="Inv_MaterialMaster" ToRole="Inv_StockMaster" />
           <NavigationProperty Name="Inv_StockMasterSlNo" Relationship="InspiredModel.FK_INVSTOCKMASTERSLNO_MATERIALMASTER" FromRole="Inv_MaterialMaster" ToRole="Inv_StockMasterSlNo" />
           <NavigationProperty Name="Inv_MaterialDocument" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDocument" />
+          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_MaterialMaster" ToRole="Inv_StockTran" />
         </EntityType>
         <Association Name="FK_Inv_MaterialMaster_Gen_CompanyMaster">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
@@ -3719,8 +3656,8 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <NavigationProperty Name="Gen_LookupItem" Relationship="InspiredModel.FK_WarehouseType_Lookup" FromRole="Inv_WarehouseMaster" ToRole="Gen_LookupItem" />
           <NavigationProperty Name="Inv_StockMaster" Relationship="InspiredModel.FK_INV_STOCKMASTER_WAREHOUSEMASTER" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockMaster" />
           <NavigationProperty Name="Inv_StockMasterSlNo" Relationship="InspiredModel.FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockMasterSlNo" />
-          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Warehouse" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockTran" />
           <NavigationProperty Name="Inv_StockTranSlNo" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Warehouse" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockTranSlNo" />
+          <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Warehouse" FromRole="Inv_WarehouseMaster" ToRole="Inv_StockTran" />
         </EntityType>
         <Association Name="FK_Inv_WarehouseMaster_Gen_BranchMaster">
           <End Type="InspiredModel.Gen_BranchMaster" Role="Gen_BranchMaster" Multiplicity="0..1" />
@@ -3824,44 +3761,9 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_INVSTOCKMASTERSLNO_MATERIALMASTER" FromRole="Inv_StockMasterSlNo" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_INV_STOCKMASTERSLNO_WAREHOUSEMASTER" FromRole="Inv_StockMasterSlNo" ToRole="Inv_WarehouseMaster" />
         </EntityType>
-        <EntityType Name="Inv_StockTran">
-          <Key>
-            <PropertyRef Name="DOC_CODE" />
-            <PropertyRef Name="DOC_NUM" />
-            <PropertyRef Name="DOC_DATE" />
-            <PropertyRef Name="TRANS_TYPE" />
-            <PropertyRef Name="ITEM_ID" />
-            <PropertyRef Name="WHS_ID" />
-            <PropertyRef Name="BATCH_NO" />
-          </Key>
-          <Property Name="DOC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DOC_NUM" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="DOC_DATE" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="TRANS_TYPE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="REF_NO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="REF_DT" Type="DateTime" Precision="3" />
-          <Property Name="NOTES" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
-          <Property Name="ITEM_ID" Type="Int32" Nullable="false" />
-          <Property Name="WHS_ID" Type="Int32" Nullable="false" />
-          <Property Name="BATCH_NO" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="REC_QTY" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ISS_QTY" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TRANS_VALUE" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="USER_ID" Type="Int32" />
-          <Property Name="LAST_UPDATED" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.FK_Inv_StockTran_User" FromRole="Inv_StockTran" ToRole="Gen_UserMaster" />
-          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_StockTran" ToRole="Inv_MaterialMaster" />
-          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_Inv_StockTran_Warehouse" FromRole="Inv_StockTran" ToRole="Inv_WarehouseMaster" />
-        </EntityType>
         <EntityType Name="Inv_StockTranSlNo">
           <Key>
-            <PropertyRef Name="DOC_CODE" />
-            <PropertyRef Name="DOC_NUM" />
-            <PropertyRef Name="DOC_DATE" />
-            <PropertyRef Name="ITEM_ID" />
-            <PropertyRef Name="WHS_ID" />
-            <PropertyRef Name="BATCH_NO" />
-            <PropertyRef Name="SERIAL_NO" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="DOC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DOC_NUM" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -3874,6 +3776,7 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <Property Name="ISS_QTY" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Item" FromRole="Inv_StockTranSlNo" ToRole="Inv_MaterialMaster" />
           <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_Inv_StockTranSlNo_Warehouse" FromRole="Inv_StockTranSlNo" ToRole="Inv_WarehouseMaster" />
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <Association Name="FK_Inv_DocMas_Company">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
@@ -3923,18 +3826,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_StockTran_User">
-          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="0..1" />
-          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gen_UserMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_StockTran">
-              <PropertyRef Name="USER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_MaterialBranchSpec_Specification">
           <End Type="InspiredModel.Inv_MaterialSpecification" Role="Inv_MaterialSpecification" Multiplicity="1" />
           <End Type="InspiredModel.Inv_MaterialBranchSpec" Role="Inv_MaterialBranchSpec" Multiplicity="*" />
@@ -3944,18 +3835,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             </Principal>
             <Dependent Role="Inv_MaterialBranchSpec">
               <PropertyRef Name="Spec_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inv_StockTran_Item">
-          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
-          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_MaterialMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_StockTran">
-              <PropertyRef Name="ITEM_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4019,18 +3898,6 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inv_StockTran_Warehouse">
-          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
-          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inv_WarehouseMaster">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Inv_StockTran">
-              <PropertyRef Name="WHS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inv_StockTranSlNo_Warehouse">
           <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
           <End Type="InspiredModel.Inv_StockTranSlNo" Role="Inv_StockTranSlNo" Multiplicity="*" />
@@ -4054,7 +3921,7 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="Last_Updated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="version" Type="Int32" />
+          <Property Name="version" Type="Int32" Nullable="false" />
           <Property Name="FromDT" Type="DateTime" Precision="3" />
           <Property Name="EndDT" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialDocument" ToRole="Inv_MaterialMaster" />
@@ -4068,6 +3935,66 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
             </Principal>
             <Dependent Role="Inv_MaterialDocument">
               <PropertyRef Name="Item_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Inv_StockTran">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="DOC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_NUM" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DOC_DATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TRANS_TYPE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="REF_NO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="REF_DT" Type="DateTime" Precision="3" />
+          <Property Name="NOTES" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="WHS_ID" Type="Int32" Nullable="false" />
+          <Property Name="BATCH_NO" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="REC_QTY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ISS_QTY" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TRANS_VALUE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="USER_ID" Type="Int32" />
+          <Property Name="LAST_UPDATED" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Gen_UserMaster" Relationship="InspiredModel.FK_Inv_StockTran_User" FromRole="Inv_StockTran" ToRole="Gen_UserMaster" />
+          <NavigationProperty Name="Inv_MaterialMaster" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_StockTran" ToRole="Inv_MaterialMaster" />
+          <NavigationProperty Name="Inv_WarehouseMaster" Relationship="InspiredModel.FK_Inv_StockTran_Warehouse" FromRole="Inv_StockTran" ToRole="Inv_WarehouseMaster" />
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="FK_Inv_StockTran_User">
+          <End Type="InspiredModel.Gen_UserMaster" Role="Gen_UserMaster" Multiplicity="0..1" />
+          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gen_UserMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_Item">
+          <End Type="InspiredModel.Inv_MaterialMaster" Role="Inv_MaterialMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_MaterialMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_StockTran_Warehouse">
+          <End Type="InspiredModel.Inv_WarehouseMaster" Role="Inv_WarehouseMaster" Multiplicity="1" />
+          <End Type="InspiredModel.Inv_StockTran" Role="Inv_StockTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inv_WarehouseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inv_StockTran">
+              <PropertyRef Name="WHS_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4527,30 +4454,10 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Inv_StockTran">
-            <EntityTypeMapping TypeName="InspiredModel.Inv_StockTran">
-              <MappingFragment StoreEntitySet="Inv_StockTran">
-                <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
-                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
-                <ScalarProperty Name="TRANS_VALUE" ColumnName="TRANS_VALUE" />
-                <ScalarProperty Name="ISS_QTY" ColumnName="ISS_QTY" />
-                <ScalarProperty Name="REC_QTY" ColumnName="REC_QTY" />
-                <ScalarProperty Name="BATCH_NO" ColumnName="BATCH_NO" />
-                <ScalarProperty Name="WHS_ID" ColumnName="WHS_ID" />
-                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
-                <ScalarProperty Name="NOTES" ColumnName="NOTES" />
-                <ScalarProperty Name="REF_DT" ColumnName="REF_DT" />
-                <ScalarProperty Name="REF_NO" ColumnName="REF_NO" />
-                <ScalarProperty Name="TRANS_TYPE" ColumnName="TRANS_TYPE" />
-                <ScalarProperty Name="DOC_DATE" ColumnName="DOC_DATE" />
-                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
-                <ScalarProperty Name="DOC_CODE" ColumnName="DOC_CODE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Inv_StockTranSlNo">
             <EntityTypeMapping TypeName="InspiredModel.Inv_StockTranSlNo">
               <MappingFragment StoreEntitySet="Inv_StockTranSlNo">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ISS_QTY" ColumnName="ISS_QTY" />
                 <ScalarProperty Name="REC_QTY" ColumnName="REC_QTY" />
                 <ScalarProperty Name="SERIAL_NO" ColumnName="SERIAL_NO" />
@@ -4576,6 +4483,28 @@ warning 6035: The relationship 'AspNetUser' has columns that are not part of the
                 <ScalarProperty Name="Document_Path" ColumnName="Document_Path" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inv_StockTran">
+            <EntityTypeMapping TypeName="InspiredModel.Inv_StockTran">
+              <MappingFragment StoreEntitySet="Inv_StockTran">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LAST_UPDATED" ColumnName="LAST_UPDATED" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="TRANS_VALUE" ColumnName="TRANS_VALUE" />
+                <ScalarProperty Name="ISS_QTY" ColumnName="ISS_QTY" />
+                <ScalarProperty Name="REC_QTY" ColumnName="REC_QTY" />
+                <ScalarProperty Name="BATCH_NO" ColumnName="BATCH_NO" />
+                <ScalarProperty Name="WHS_ID" ColumnName="WHS_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="NOTES" ColumnName="NOTES" />
+                <ScalarProperty Name="REF_DT" ColumnName="REF_DT" />
+                <ScalarProperty Name="REF_NO" ColumnName="REF_NO" />
+                <ScalarProperty Name="TRANS_TYPE" ColumnName="TRANS_TYPE" />
+                <ScalarProperty Name="DOC_DATE" ColumnName="DOC_DATE" />
+                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
+                <ScalarProperty Name="DOC_CODE" ColumnName="DOC_CODE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

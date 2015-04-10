@@ -80,6 +80,9 @@ namespace Inspired.Web
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new StyleBundle("~/Content/receipt").Include(
+                        "~/Content/receipt.css"));
+
             bundles.Add(new StyleBundle("~/Content/jtable").Include("~/Scripts/jtable/themes/metro/blue/jtable.css"));
 
             #endregion

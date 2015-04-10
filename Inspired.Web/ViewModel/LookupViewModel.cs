@@ -11,15 +11,15 @@ namespace Inspired.Web.ViewModel
     {
         public SelectList Types { get; set; }
         public SelectList Groups { get; set; }
-        public Gen_LookupItem Category { get; set; }
+        public Gen_LookupItem Lookup { get; set; }
 
         #region constructor
-        public LookupViewModel(IEnumerable<Gen_LookupType> types, IEnumerable<Gen_LookupGroup> groups, Gen_LookupItem category)
+        public LookupViewModel(IEnumerable<Gen_LookupType> types, IEnumerable<Gen_LookupGroup> groups, Gen_LookupItem lookup)
         {
             if (types == null) throw new ArgumentNullException("types");
             Types = new SelectList(types.ToList(), "Id", "Description");
             Groups = new SelectList(groups.ToList(), "Id", "Description");
-            Category = category;
+            Lookup = lookup;
         }
         #endregion
     }

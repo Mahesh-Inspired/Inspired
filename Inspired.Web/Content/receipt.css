@@ -1,0 +1,27 @@
+﻿
+#SerialTable_filter {
+    visibility: hidden !important;
+}
+
+#Notes {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    resize: none;
+    border-color: white;
+    z-index: 1000;
+}
+
+#SerialTable {
+    counter-reset: rowNumber -1;
+}
+
+#SerialTable tr {
+    counter-increment: rowNumber;
+}
+
+#SerialTable tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}

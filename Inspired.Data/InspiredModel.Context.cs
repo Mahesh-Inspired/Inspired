@@ -55,8 +55,8 @@ namespace Inspired.Data
         public virtual DbSet<Inv_DocumentMaster> Inv_DocumentMaster { get; set; }
         public virtual DbSet<Inv_StockMaster> Inv_StockMaster { get; set; }
         public virtual DbSet<Inv_StockMasterSlNo> Inv_StockMasterSlNo { get; set; }
-        public virtual DbSet<Inv_StockTran> Inv_StockTran { get; set; }
         public virtual DbSet<Inv_StockTranSlNo> Inv_StockTranSlNo { get; set; }
         public virtual DbSet<Inv_MaterialDocument> Inv_MaterialDocument { get; set; }
+        public virtual DbSet<Inv_StockTran> Inv_StockTran { get; set; }
     }
 }

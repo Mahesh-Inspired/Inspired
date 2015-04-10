@@ -134,6 +134,7 @@
       <DependentUpon>InventoryMiscReceipt.feature</DependentUpon>
     </Compile>
     <Compile Include="Model\MaterialMasterSubmit.cs" />
+    <Compile Include="Model\MiscReceiptSubmit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

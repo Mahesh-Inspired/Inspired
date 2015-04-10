@@ -261,22 +261,22 @@ namespace Inspired.Web.Test.Controllers
         internal LookupFormCollectionBuilder()
         {
             collection = new FormCollection();
-            collection.Add("Category.LookupType_Id", "1");
-            collection.Add("Category.LookupGroup_Id", "1");
-            collection.Add("Category.Description", "Test description");
-            collection.Add("Category.isOther", "true");
-            collection.Add("Category.isHidden", "true");
+            collection.Add("Lookup.LookupType_Id", "1");
+            collection.Add("Lookup.LookupGroup_Id", "1");
+            collection.Add("Lookup.Description", "Test description");
+            collection.Add("Lookup.isOther", "true");
+            collection.Add("Lookup.isHidden", "true");
         }
 
         internal LookupFormCollectionBuilder WithBlankLookupType()
         {
-            collection["Category.LookupType_Id"] = "0";
+            collection["Lookup.LookupType_Id"] = "0";
             return this;
         }
 
         internal LookupFormCollectionBuilder WithBlankLookupDescription()
         {
-            collection["Category.Description"] = "";
+            collection["Lookup.Description"] = "";
             return this;
         }
 

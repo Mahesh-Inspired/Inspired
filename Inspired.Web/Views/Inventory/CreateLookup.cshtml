@@ -15,8 +15,8 @@
             Lookup Type
         </div>
         <div class="col-md-8 col-sm-12">
-            @Html.DropDownListFor(model => model.Category.LookupType_Id, Model.Types, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Category.LookupType_Id)
+            @Html.DropDownListFor(model => model.Lookup.LookupType_Id, Model.Types, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Lookup.LookupType_Id)
         </div>
     </div>
     <div class="form-group">
@@ -24,8 +24,8 @@
             Lookup Group
         </div>
         <div class="col-md-8">
-            @Html.DropDownListFor(model => model.Category.LookupGroup_Id, Model.Groups, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Category.LookupGroup_Id)
+            @Html.DropDownListFor(model => model.Lookup.LookupGroup_Id, Model.Groups, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Lookup.LookupGroup_Id)
         </div>
     </div>
     <div class="form-group">
@@ -33,8 +33,8 @@
             Description
         </div>
         <div class="col-md-8">
-            @Html.TextBoxFor(model => model.Category.Description, new { @class = "form-control", @placeholder = "Lookup Description" })
-            @Html.ValidationMessageFor(m => m.Category.Description)
+            @Html.TextBoxFor(model => model.Lookup.Description, new { @class = "form-control", @placeholder = "Lookup Description" })
+            @Html.ValidationMessageFor(m => m.Lookup.Description)
         </div>
     </div>
     <div class="form-group">
@@ -42,8 +42,8 @@
             Is Other
         </div>
         <div class="col-md-8">
-            @Html.CheckBoxFor(model => model.Category.IsOther, new { @class = "checkbox" })
-            @Html.ValidationMessageFor(m => m.Category.IsOther)
+            @Html.CheckBoxFor(model => model.Lookup.IsOther, new { @class = "checkbox" })
+            @Html.ValidationMessageFor(m => m.Lookup.IsOther)
         </div>
     </div>
     <div class="form-group">
@@ -51,8 +51,8 @@
             Is Hidden
         </div>
         <div class="col-md-8">
-            @Html.CheckBoxFor(model => model.Category.IsHidden, new { @class = "checkbox" })
-            @Html.ValidationMessageFor(m => m.Category.IsHidden)
+            @Html.CheckBoxFor(model => model.Lookup.IsHidden, new { @class = "checkbox" })
+            @Html.ValidationMessageFor(m => m.Lookup.IsHidden)
         </div>
     </div>
     <div class="row">

@@ -29,6 +29,7 @@ namespace Inspired.Data
         public Nullable<decimal> TRANS_VALUE { get; set; }
         public Nullable<int> USER_ID { get; set; }
         public Nullable<System.DateTime> LAST_UPDATED { get; set; }
+        public decimal ID { get; set; }
     
         public virtual Gen_UserMaster Gen_UserMaster { get; set; }
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }

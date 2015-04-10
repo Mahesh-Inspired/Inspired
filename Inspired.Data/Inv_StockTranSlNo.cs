@@ -23,6 +23,7 @@ namespace Inspired.Data
         public string SERIAL_NO { get; set; }
         public Nullable<decimal> REC_QTY { get; set; }
         public Nullable<decimal> ISS_QTY { get; set; }
+        public decimal ID { get; set; }
     
         public virtual Inv_MaterialMaster Inv_MaterialMaster { get; set; }
         public virtual Inv_WarehouseMaster Inv_WarehouseMaster { get; set; }

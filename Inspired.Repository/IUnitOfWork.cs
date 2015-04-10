@@ -32,6 +32,9 @@ namespace Inspired.Repository
         IGenericRepository<Inv_MaterialDocument> MaterialDocumentRepository { get; }
         IGenericRepository<Inv_DocumentMaster> DocumentMasterRepository { get; }
         IGenericRepository<Inv_StockTran> StockTransRepository { get; }
+        IGenericRepository<Inv_StockTranSlNo> StockTranslnoRepository { get; }
+        IGenericRepository<Inv_StockMaster> StockMasterRepository { get; }
+        IGenericRepository<Inv_StockMasterSlNo> StockMasterSlNoRepository { get; }
         void Save();
 
         void DisableChangeTracking();

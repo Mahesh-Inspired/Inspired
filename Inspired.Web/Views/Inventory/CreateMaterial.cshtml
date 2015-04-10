@@ -100,7 +100,7 @@
         $(document).ready(function () {
             $('#CatCode').autocomplete(
                 {
-                    source: '@Url.Action("TagSearch", "Inventory")'
+                    source: '@Url.Action("categorySearch", "Inventory")'
                 });
             $('#Material_UOM').autocomplete(
                 {
@@ -112,15 +112,15 @@
                 });
             $('#SuppCust_Code').autocomplete(
                 {
-                    source: '@Url.Action("supSearch", "Inventory")'
+                    source: '@Url.Action("supplierSearch", "Inventory")'
                 });
             $('#AlternateItemCode').autocomplete(
                 {
-                    source: '@Url.Action("altSearch", "Inventory")'
+                    source: '@Url.Action("alternateSearch", "Inventory")'
                 });
             $('#SpareItemCode').autocomplete(
                 {
-                    source: '@Url.Action("altSearch", "Inventory")'
+                    source: '@Url.Action("alternateSearch", "Inventory")'
                 });
         })
     </script>

@@ -37,6 +37,10 @@ namespace Inspired.Repository
         private IGenericRepository<Inv_MaterialDocument> _MaterialDocumentRepository;
         private IGenericRepository<Inv_DocumentMaster> _DocumentMasterRepository;
         private IGenericRepository<Inv_StockTran> _StockTransRepository;
+        private IGenericRepository<Inv_StockTranSlNo> _StockTranslnoRepository;
+        private IGenericRepository<Inv_StockMaster> _StockMasterRepository;
+        private IGenericRepository<Inv_StockMasterSlNo> _StockMasterSlNoRepository;
+
         #region Constructor
         public UnitOfWork()
             {
@@ -199,5 +203,19 @@ namespace Inspired.Repository
             get { return _StockTransRepository ?? (_StockTransRepository = new GenericRepository<Inv_StockTran>(DbContext)); }
         }
 
+        public IGenericRepository<Inv_StockTranSlNo> StockTranslnoRepository
+        {
+            get { return _StockTranslnoRepository ?? (_StockTranslnoRepository = new GenericRepository<Inv_StockTranSlNo>(DbContext)); }
+        }
+
+        public IGenericRepository<Inv_StockMaster> StockMasterRepository
+        {
+            get { return _StockMasterRepository ?? (_StockMasterRepository = new GenericRepository<Inv_StockMaster>(DbContext)); }
+        }
+
+        public IGenericRepository<Inv_StockMasterSlNo> StockMasterSlNoRepository
+        {
+            get { return _StockMasterSlNoRepository ?? (_StockMasterSlNoRepository = new GenericRepository<Inv_StockMasterSlNo>(DbContext)); }
+        }
     }
 }

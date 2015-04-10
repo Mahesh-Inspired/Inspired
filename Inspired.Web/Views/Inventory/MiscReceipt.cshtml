@@ -14,6 +14,11 @@
 
 <h2>Miscellaneous Receipt</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    
 <div class="row-fluid">
     <div class="col-md-12">
         <div class="nav nav-tabs" id="itemTabs">
@@ -38,10 +43,10 @@
                     <div class="col-md-4">
                         <div class="row">
                             <div class="col-md-8">
-                                @Html.DropDownListFor(model => model.Stock.DOC_CODE, Model.doc_code, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','doc_num', 'misc');" })
+                                @Html.DropDownListFor(m => m.Stock.DOC_CODE, Model.DocCode, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','DocNum', 'misc');" })
                             </div>
                             <div class="col-md-2">
-                                <input type="text" id="doc_num" readonly="readonly" class="form-control" />
+                                @Html.TextBoxFor(m => m.DocNum, new { @class = "form-control", @readonly = "true" } )
                             </div>
                         </div>
                     </div>
@@ -49,8 +54,8 @@
                         Reference Number
                     </div>
                     <div class="col-md-4">
-                        @Html.TextBoxFor(model => model.ref_num, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.ref_num)
+                        @Html.TextBoxFor(m => m.RefNum, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.RefNum)
                     </div>
                 </div>
                 <div class="row">
@@ -58,15 +63,15 @@
                         Transaction Date
                     </div>
                     <div class="col-md-4">
-                        @Html.TextBoxFor(model => model.doc_date, new { @class = "form-control datepicker" })
-                        @Html.ValidationMessageFor(m => m.doc_date)
+                        @Html.TextBoxFor(m => m.DocDate, new { @class = "form-control datepicker" })
+                        @Html.ValidationMessageFor(m => m.DocDate)
                     </div>
                     <div class="col-md-2">
                         Reference Date
                     </div>
                     <div class="col-md-4">
-                        @Html.TextBoxFor(model => model.ref_date, new { @class = "form-control datepicker" })
-                        @Html.ValidationMessageFor(m => m.ref_date)
+                        @Html.TextBoxFor(m => m.RefDate, new { @class = "form-control datepicker" })
+                        @Html.ValidationMessageFor(m => m.RefDate)
                     </div>
                 </div>
             </div>
@@ -96,23 +101,25 @@
                     </tr>
                     <tr>
                         <td>
-                            @Html.TextBoxFor(model => model.item_code, new { @class = "form-control", @onblur = "fetchItemDetails('item_code','item_desc','item_id','batch_num');" })
+                            @Html.HiddenFor(m => m.ItemID)
+                            @Html.TextBoxFor(m => m.ItemCode, new { @class = "form-control", @onblur = "fetchItemDetails('ItemCode','ItemDesc','ItemID','BatchNum');" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(model => model.item_desc, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.ItemDesc, new { @class = "form-control" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(model => model.ware_house, new { @class = "form-control", @onblur = "fetchWarehouse('ware_house');" })
+                            @Html.HiddenFor(m => m.WareHouseID)
+                            @Html.TextBoxFor(m => m.WareHouse, new { @class = "form-control", @onblur = "fetchWarehouse('WareHouse', 'WareHouseID');" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(model => model.batch_num, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.BatchNum, new { @class = "form-control" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(model => model.quantity, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
                         </td>
                         <td>
                             <input type="button" class="btn btn-success" value="Add Notes" id="add_notes" /><br />
-                            @Html.TextAreaFor(model => model.notes)
+                            @Html.TextAreaFor(m => m.Notes)
                         </td>
                         <td>
                             <input type="button" class="btn btn-success" value="Add" onclick="AddItem()" />
@@ -128,6 +135,8 @@
                         <tr>
                             <th>Item Code</th>
                             <th>Description</th>
+                            <th>Item ID</th>
+                            <th>Location ID</th>
                             <th>Location</th>
                             <th>Batch Number</th>
                             <th>Quantity</th>
@@ -135,26 +144,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @if (Model.item_code != null)
+                    @if (Model.ItemCode != null)
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(m => m.item_code)
+                                @Html.DisplayFor(m => m.ItemCode)
                             </td>
                             <td>
-                                @Html.DisplayFor(m => m.item_desc)
+                                @Html.DisplayFor(m => m.ItemDesc)
                             </td>
                             <td>
-                                @Html.DisplayFor(m => m.ware_house)
+                                @Html.DisplayFor(m => m.ItemID)
                             </td>
                             <td>
-                                @Html.DisplayFor(m => m.batch_num)
+                                @Html.DisplayFor(m => m.WareHouseID)
                             </td>
                             <td>
-                                @Html.DisplayFor(m => m.quantity)
+                                @Html.DisplayFor(m => m.WareHouse)
                             </td>
                             <td>
-                                @Html.DisplayFor(m => m.notes)
+                                @Html.DisplayFor(m => m.BatchNum)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.Notes)
                             </td>
                         </tr>
                     }
@@ -174,15 +189,35 @@
         <table class="table" id="SerialTable">
             <thead>
                 <tr>
+                    <th>Item ID</th>
+                    <th>Warehouse ID</th>
+                    <th>Batch Number</th>
                     <th>Serial Number</th>
+                    <th>Serial No</th>
+                    <th>Quantity</th>
                 </tr>
             </thead>
             <tbody>
-            @if (Model.item_code != null)
+            @if (Model.ItemCode != null)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(m => m.item_code)
+                        @Html.DisplayFor(m => m.ItemID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.WareHouseID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.BatchNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.SerialNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.SerialNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Quantity)
                     </td>
                 </tr>
             }
@@ -190,13 +225,14 @@
         </table>
         <div class="col-md-12">
             <input type="button" class="btn btn-success" value="save" onclick="Addserials()" />
-            <input type="submit" class="btn btn-primary" value="Clear" onclick="Clrserials()" />
-            <input type="submit" class="btn btn-primary" value="Cancel" onclick="Cancelserials()" />
+            <input type="button" class="btn btn-primary" value="Clear" onclick="Clrserials()" />
+            <input type="button" class="btn btn-primary" value="Cancel" onclick="Cancelserials()" />
         </div>
     </div>
 </div>
-
+}
 @section Scripts {
+    @Styles.Render("~/Content/receipt")
     @Scripts.Render("~/bundles/miscreceipt")
     @Scripts.Render("~/bundles/datechecker")
     @Scripts.Render("~/bundles/jqueryval")
@@ -207,22 +243,22 @@
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
-            $('#item_code').autocomplete(
+            $('#ItemCode').autocomplete(
                 {
                     source: '@Url.Action("itemSearch", "Inventory")'
                 });
-            $('#ware_house').autocomplete(
+            $('#WareHouse').autocomplete(
                 {
-                    source: '@Url.Action("wrhSearch", "Inventory")'
+                    source: '@Url.Action("warehouseSearch", "Inventory")'
                 });
 
             $('#add_notes').click(function () {
-                $('#notes').animate({ "width": '200px', "height": '100px', "border-color": "#999999", "margin": "5px" });
-                $('#notes').focus();
+                $('#Notes').animate({ "width": '200px', "height": '100px', "border-color": "#999999", "margin": "5px" });
+                $('#Notes').focus();
             });
 
-            $('#notes').focusout(function () {
-                $('#notes').animate({ "width": '0px', "height": '0px', "border-color": "white", "margin": "0px" });
+            $('#Notes').focusout(function () {
+                $('#Notes').animate({ "width": '0px', "height": '0px', "border-color": "white", "margin": "0px" });
             });
         });
     </script>
