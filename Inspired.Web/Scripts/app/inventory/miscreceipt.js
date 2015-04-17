@@ -271,17 +271,31 @@ function AddItem() {
 
     if (validate() === true) {
 
-        var serial_flag = $("#SerialNoFlag").val();            // check whether serial flag is true or false
-        var rows = 0;                           // Current no. of rows in serial table
-        var quantity = $('#Quantity').val();    // Current no. of quantities entered
-        var i = 0;                              // Contains no. of items to be add or remove in serial Table
-        var j = 0;                              // Iteration variable
+        var serial_flag = $("#SerialNoFlag").val();             // Check whether serial flag is true or false
+        var rows = 0;                                           // Current no. of rows in serial table
+        var cols = 0;                                           // Current no. of columns in serial table
+        var colval = "";                                        // variable to check empty data
+        var quantity = $('#Quantity').val();                    // Current no. of quantities entered
+        var i = 0;                                              // Contains no. of items to be add or remove in serial Table
+        var j = 0;                                              // Iteration variable
 
         $('#selItem').text($("#ItemCode").val());
         $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
 
         rows = document.getElementById("SerialTable").getElementsByTagName("tr").length - 2;
 
+        cols = document.getElementById("SerialTable").getElementsByTagName("td").length;
+
+        colval = $('#SerialTable tbody tr td').text();
+
+        console.log(rows);
+        console.log(cols);
+        console.log(colval);
+
+        if (cols == 1 && rows == 0 && colval != 'No data available in table') {
+            rows = rows + 1;
+        }
+        
         if (rows == 0) {
             if (serial_flag == 'True') {
                 for (j = 0; j <= quantity - 1; j++) {
@@ -302,7 +316,15 @@ function AddItem() {
         }
         else if (rows > 0) {
 
-            rows = rows + 1;
+            if (rows == 1)
+            {
+                rows = rows;
+            }
+            else
+            {
+                rows = rows + 1;
+            }
+           
             i = quantity - rows;
 
             if (i < 0) {
@@ -325,6 +347,7 @@ function AddItem() {
             }
 
             else if (i > 0) {
+                console.log('here' + i);
                 if (serial_flag == 'True') {
                     for (j = 0; j <= i - 1; j++) {
                         $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' value='' alt=" + $("#ItemCode").val() + ">", "", $("#Quantity").val()]);
@@ -367,11 +390,13 @@ function AddItem() {
 
 function Addserials() {
 
+    $('#SerialTable').dataTable().fnFilter();
+
     var i = document.getElementById("SerialTable").getElementsByTagName("tr").length;
     var i = i - 1;
     for (j = 0; j <= i - 1; j++) {
         var serialno = $('#SerialTable tbody tr td input[type=text]:eq(' + j + ')').val();
-        $('#SerialTable').dataTable().fnUpdate(serialno, j, 4);
+        $('#SerialTable tbody tr:eq(' + j + ') td:eq(4)').text(serialno);
         $('#SerialTable tbody tr td input[type=text]:eq(' + j + ')').val(serialno);
     }
 
