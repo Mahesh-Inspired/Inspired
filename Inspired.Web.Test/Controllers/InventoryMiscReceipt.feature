@@ -20,11 +20,12 @@ Scenario: Inventory - Miscellaneous Receipt - Autocomplete warehouse textbox
 	When Start typing warehouse in textbox
 	Then Suggest list of warehouse based on text entered
 
-Scenario: Inventory - Miscellaneous Receipt - If Serial flag of Item is false populate default serial number
-	When Serial flag of item is false
-	Then Enter default serial number
-
 Scenario: Inventory - Miscellaneous Receipt - The data is saved 
 	Given I am logged in user
 	When I try to save the details entered in the Miscellaneous Receipt
 	Then The Miscellaneous Receipt save succeeds
+
+Scenario: Inventory - Miscellaneous Receipt - Try to save data with blank data
+	Given I am logged in user
+	When I try to save the details entered in the Miscellaneous Receipt with blank serial numbers
+	Then Return error message

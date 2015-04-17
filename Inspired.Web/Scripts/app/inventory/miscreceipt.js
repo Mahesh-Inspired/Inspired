@@ -26,8 +26,7 @@
     });
 });
 
-function Receipt_Save()
-{
+function Receipt_Save() {
     var Data = { "Data": "" };
     var ItemDetail = { "ItemCode": "", "ItemDesc": "", "ItemID": "", "WareHouseID": "", "WareHouse": "", "BatchNum": "", "Quantity": "", "Notes": "" };
     var SerialNoDetail = { "ItemID": "", "WareHouseID": "", "BatchNum": "", "SerialNo": "", "Quantity": "" };
@@ -80,7 +79,7 @@ function Receipt_Save()
         dataType: "json",
         error: function (e) { alert(e.Message); },
         success: function (data) {
-            if (data.success == true)
+            if (data.success == "True")
                 window.location.href = "/Inventory/MiscReceipt";
             else
                 alert(data.Message);
@@ -94,7 +93,7 @@ function getCurrentDate() {
     return fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
 }
 
-function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId, CtrlBatchYN) {
+function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId, CtrlBatchYN, CtrlSerialFlag) {
     var spareitemcode = $("#" + CtrlItemCode).val();
     if (spareitemcode == '') return;
     $.ajax({
@@ -106,6 +105,7 @@ function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId, CtrlBatchYN) {
                 $('#' + CtrlItemDesc).val(data.ItemDescription);
                 $('#' + CtrlItemId).val(data.id);
                 $('#' + CtrlItemCode).val(data.ItemCode);
+                $('#' + CtrlSerialFlag).val(data.SerialFlag);
                 var batch_flag = data.flag;
                 if (batch_flag == 'True') {
                     $('#' + CtrlBatchYN).removeAttr("disabled")
@@ -201,8 +201,7 @@ function LoadItems() {
     $("#delItem").hide("slow");
 }
 
-function clearItem()
-{
+function clearItem() {
     $("#delItem").hide("slow");
     $("#ItemCode").val("");
     $("#ItemDesc").val("");
@@ -212,6 +211,34 @@ function clearItem()
     $("#BatchNum").val("");
     $("#Quantity").val("");
     $("#Notes").val("");
+}
+
+
+function validate() {
+    var i = document.getElementById("ItemsTable").getElementsByTagName("tr").length;
+    var i = i - 1;
+    var status = true;
+
+    for (j = 0; j <= i - 1; j++) {
+        var itemid = $('#ItemsTable').dataTable().fnGetData(j, 2);
+        var warehouseid = $('#ItemsTable').dataTable().fnGetData(j, 3);
+        var batchnum = $('#ItemsTable').dataTable().fnGetData(j, 5);
+
+        if (itemid === undefined) {
+            status = true;
+        }
+        else {
+            if (itemid === $('#ItemID').val() && warehouseid === $('#WareHouseID').val() && batchnum === $('#BatchNum').val()) {
+                alert("Item and batch number already added for this warehouse");
+                status = false;
+                break;
+            }
+            else {
+                status = true;
+            }
+        }
+    }
+    return status;
 }
 
 function AddItem() {
@@ -242,114 +269,100 @@ function AddItem() {
         return false;
     }
 
-    spareitemcode = $("#ItemCode").val();
+    if (validate() === true) {
 
-    $.ajax({
-        context: document.body,
-        data: addAntiForgeryToken({ itemcode: spareitemcode }),
-        error: function (e) { alert(e.Message); },
-        success: function (data) {
-            if (data.success == true) {
+        var serial_flag = $("#SerialNoFlag").val();            // check whether serial flag is true or false
+        var rows = 0;                           // Current no. of rows in serial table
+        var quantity = $('#Quantity').val();    // Current no. of quantities entered
+        var i = 0;                              // Contains no. of items to be add or remove in serial Table
+        var j = 0;                              // Iteration variable
 
-                var serial_flag = data.flag;            // check whether serial flag is true or false
-                var rows = 0;                           // Current no. of rows in serial table
-                var quantity = $('#Quantity').val();    // Current no. of quantities entered
-                var i = 0;                              // Contains no. of items to be add or remove in serial Table
-                var j = 0;                              // Iteration variable
+        $('#selItem').text($("#ItemCode").val());
+        $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
 
-                $('#selItem').text($("#ItemCode").val());
-                $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
+        rows = document.getElementById("SerialTable").getElementsByTagName("tr").length - 2;
 
-                rows = document.getElementById("SerialTable").getElementsByTagName("tr").length - 2;
-
-                if (rows == 0) {
-                    if (serial_flag == 'True') {
-                        for (j = 0; j <= quantity - 1; j++) {
-                            $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' value='' alt=" + $("#ItemCode").val() + ">", "", $("#Quantity").val()]);
-                            $('#Receipt').removeClass('active');
-                            $('#Serial').removeClass('inactive');
-                            $('#Receipt').addClass('inactive');
-                            $('#Serial').addClass('active');
-                        }
-                    }
-                    else if (serial_flag == 'False') {
-                        $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
-                        for (j = 0; j <= quantity - 1; j++) {
-                            $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' disabled='disabled' value='Default Serial' alt=" + $("#ItemCode").val() + ">", "Default Serial", $("#Quantity").val()]);
-                        }
-                        clearItem();
-                    }
+        if (rows == 0) {
+            if (serial_flag == 'True') {
+                for (j = 0; j <= quantity - 1; j++) {
+                    $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' value='' alt=" + $("#ItemCode").val() + ">", "", $("#Quantity").val()]);
+                    $('#Receipt').removeClass('active');
+                    $('#Serial').removeClass('inactive');
+                    $('#Receipt').addClass('inactive');
+                    $('#Serial').addClass('active');
                 }
-                else if (rows > 0) {
-
-                    rows = rows + 1;
-                    i = quantity - rows;
-
-                    if (i < 0) {
-                        if (serial_flag == 'True') {
-                            for (j = rows; j > quantity; j--) {
-                                document.getElementById("SerialTable").deleteRow(j);
-                            }
-                            $('#Receipt').removeClass('active');
-                            $('#Serial').removeClass('inactive');
-                            $('#Receipt').addClass('inactive');
-                            $('#Serial').addClass('active');
-                        }
-                        else if (serial_flag == 'False') {
-                            $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
-                            for (j = rows; j > quantity; j--) {
-                                document.getElementById("SerialTable").deleteRow(j);
-                            }
-                            clearItem();
-                        }
-                    }
-
-                    else if (i > 0) {
-                        if (serial_flag == 'True') {
-                            for (j = 0; j <= i - 1; j++) {
-                                $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' value='' alt=" + $("#ItemCode").val() + ">", "", $("#Quantity").val()]);
-                                $('#Receipt').removeClass('active');
-                                $('#Serial').removeClass('inactive');
-                                $('#Receipt').addClass('inactive');
-                                $('#Serial').addClass('active');
-                            }
-                        }
-                        else if (serial_flag == 'False') {
-                            $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
-                            for (j = 0; j <= i - 1; j++) {
-                                $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' disabled='disabled' value='Default Serial' alt=" + $("#ItemCode").val() + ">", "Default Serial", $("#Quantity").val()]);
-                            }
-                            clearItem();
-                        }
-                    }
-
-                    else if (i == 0) {
-                        $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
-                        clearItem();
-                    }
-
-                }
-
-                $(function () {
-                    $('input:text:first').focus();
-                    var $inp = $('input:text');
-                    $inp.bind('keydown', function (e) {
-                        var key = e.which;
-                        if (key == 13) {
-                            e.preventDefault();
-                            var nxtIdx = $inp.index(this) + 1;
-                            $(":input:text:eq(" + nxtIdx + ")").focus();
-                        }
-                    });
-                });
-
-            } else if (data.success == false) {
-                alert(data.Message);
             }
-        },
-        type: 'POST',
-        url: 'FetchItemSNJSON'
-    });
+            else if (serial_flag == 'False') {
+                $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
+                for (j = 0; j <= quantity - 1; j++) {
+                    $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' disabled='disabled' value='Default Serial' alt=" + $("#ItemCode").val() + ">", "Default Serial", $("#Quantity").val()]);
+                }
+                clearItem();
+            }
+        }
+        else if (rows > 0) {
+
+            rows = rows + 1;
+            i = quantity - rows;
+
+            if (i < 0) {
+                if (serial_flag == 'True') {
+                    for (j = rows; j > quantity; j--) {
+                        document.getElementById("SerialTable").deleteRow(j);
+                    }
+                    $('#Receipt').removeClass('active');
+                    $('#Serial').removeClass('inactive');
+                    $('#Receipt').addClass('inactive');
+                    $('#Serial').addClass('active');
+                }
+                else if (serial_flag == 'False') {
+                    $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
+                    for (j = rows; j > quantity; j--) {
+                        document.getElementById("SerialTable").deleteRow(j);
+                    }
+                    clearItem();
+                }
+            }
+
+            else if (i > 0) {
+                if (serial_flag == 'True') {
+                    for (j = 0; j <= i - 1; j++) {
+                        $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' value='' alt=" + $("#ItemCode").val() + ">", "", $("#Quantity").val()]);
+                        $('#Receipt').removeClass('active');
+                        $('#Serial').removeClass('inactive');
+                        $('#Receipt').addClass('inactive');
+                        $('#Serial').addClass('active');
+                    }
+                }
+                else if (serial_flag == 'False') {
+                    $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
+                    for (j = 0; j <= i - 1; j++) {
+                        $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' disabled='disabled' value='Default Serial' alt=" + $("#ItemCode").val() + ">", "Default Serial", $("#Quantity").val()]);
+                    }
+                    clearItem();
+                }
+            }
+
+            else if (i == 0) {
+                $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
+                clearItem();
+            }
+
+        }
+
+        $(function () {
+            $('input:text:first').focus();
+            var $inp = $('input:text');
+            $inp.bind('keydown', function (e) {
+                var key = e.which;
+                if (key == 13) {
+                    e.preventDefault();
+                    var nxtIdx = $inp.index(this) + 1;
+                    $(":input:text:eq(" + nxtIdx + ")").focus();
+                }
+            });
+        });
+    }
 }
 
 function Addserials() {

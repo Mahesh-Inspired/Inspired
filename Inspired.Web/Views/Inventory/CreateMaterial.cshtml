@@ -100,27 +100,27 @@
         $(document).ready(function () {
             $('#CatCode').autocomplete(
                 {
-                    source: '@Url.Action("categorySearch", "Inventory")'
+                    source: '@Url.Action("CategorySearch", "Inventory")'
                 });
             $('#Material_UOM').autocomplete(
                 {
-                    source: '@Url.Action("uomSearch", "Inventory")'
+                    source: '@Url.Action("UomSearch", "Inventory")'
                 });
             $('#Supplier_Code').autocomplete(
                 {
-                    source: '@Url.Action("accSearch", "Inventory")'
+                    source: '@Url.Action("AccountSearch", "Inventory")'
                 });
             $('#SuppCust_Code').autocomplete(
                 {
-                    source: '@Url.Action("supplierSearch", "Inventory")'
+                    source: '@Url.Action("SupplierSearch", "Inventory")'
                 });
             $('#AlternateItemCode').autocomplete(
                 {
-                    source: '@Url.Action("alternateSearch", "Inventory")'
+                    source: '@Url.Action("AlternateSearch", "Inventory")'
                 });
             $('#SpareItemCode').autocomplete(
                 {
-                    source: '@Url.Action("alternateSearch", "Inventory")'
+                    source: '@Url.Action("AlternateSearch", "Inventory")'
                 });
         })
     </script>

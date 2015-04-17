@@ -526,9 +526,6 @@ namespace Inspired.Web.Controllers
         {
             Int32 id = 0;
             String catDescription = String.Empty;
-            try {
-                catCode = catCode.Split(new char[] { '(', ')' })[1]; }
-            catch { }
 
             Inv_CategoryMaster cat = UnitOfWork.CategoryMasterRepository.Get(u => u.Code.ToLower() == catCode.ToLower() && u.Type == catType)
                 .FirstOrDefault();
@@ -546,153 +543,113 @@ namespace Inspired.Web.Controllers
 
         #region Create Material JSon Fetch
 
-        public ActionResult categorySearch(string term)
+        public ActionResult CategorySearch(string term)
         {
             var categoryList = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            existingList = (string[])Session["cat"];
+            existingList = (string[])Session["CategoryList"];
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 categoryList = UnitOfWork.CategoryMasterRepository.Get(u => u.Company_Id == companyId).ToList()
-                    .Select(i => i.Description + " (" + i.Code + ")").ToArray();
-                Session["cat"] = categoryList;
-                existingList = (string[])Session["cat"];
+                    .Select(i => i.Code).ToArray();
+                Session["CategoryList"] = categoryList;
+                existingList = (string[])Session["CategoryList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult uomSearch(string term)
+        public ActionResult UomSearch(string term)
         {
             var uomList = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            existingList = (string[])Session["uom"];
+            existingList = (string[])Session["UomList"];
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 uomList = UnitOfWork.LookupItemRepository.Get(u => u.Company_Id == companyId && u.LookupType_Id == 9).ToList()
                     .Select(i => i.Description).ToArray();
-                Session["uom"] = uomList;
-                existingList = (string[])Session["uom"];
+                Session["UomList"] = uomList;
+                existingList = (string[])Session["UomList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult accSearch(string term)
+        public ActionResult AccountSearch(string term)
         {
             var tags = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            existingList = (string[])Session["acc"];
+            existingList = (string[])Session["AccountList"];
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 tags = UnitOfWork.AccountMasterRepository.Get(u => u.Company_Id == companyId).ToList()
-                    .Select(i => i.Acc_Description + " (" + i.Acc_Code + ")").ToArray();
-                Session["acc"] = tags;
-                existingList = (string[])Session["acc"];
+                    .Select(i => i.Acc_Code).ToArray();
+                Session["AccountList"] = tags;
+                existingList = (string[])Session["AccountList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult supplierSearch(string term)
+        public ActionResult SupplierSearch(string term)
         {
             var supplierList = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            existingList = (string[])Session["sup"];
+            existingList = (string[])Session["SupplierList"];
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 supplierList = UnitOfWork.MaterialSupplierRepository.Get(u => u.Company_Id == companyId).ToList()
                     .Select(i => i.Supplier_Code.ToString()).ToArray();
-                Session["sup"] = supplierList;
-                existingList = (string[])Session["sup"];
+                Session["SupplierList"] = supplierList;
+                existingList = (string[])Session["SupplierList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult alternateSearch(string term)
+        public ActionResult AlternateSearch(string term)
         {
             var alternateList = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            existingList = (string[])Session["alt"];
+            existingList = (string[])Session["AlternateList"];
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 alternateList = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList()
-                    .Select(i => i.Description + "(" + i.Code + ")").ToArray();
-                Session["alt"] = alternateList;
-                existingList = (string[])Session["alt"];
+                    .Select(i => i.Code).ToArray();
+                Session["AlternateList"] = alternateList;
+                existingList = (string[])Session["AlternateList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
@@ -726,11 +683,7 @@ namespace Inspired.Web.Controllers
 
             Int32 id = 0;
             String itemDescription = String.Empty;
-            try
-            {
-                itemcode = itemcode.Split(new char[] { '(', ')' })[1];
-            }
-            catch { }
+
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemcode).FirstOrDefault();
             if (item != null)
             {
@@ -750,10 +703,7 @@ namespace Inspired.Web.Controllers
 
             Int32 id = 0;
             FAS_AccountMaster account;
-            try {
-                Code = Code.Split(new char[] { '(', ')' })[1];
-            }
-            catch { }
+
             if (!String.IsNullOrEmpty(Code))
                 account = UnitOfWork.AccountMasterRepository.Get(u => u.Acc_Code == Code).FirstOrDefault();
             else
@@ -835,8 +785,6 @@ namespace Inspired.Web.Controllers
                 return Json(new { success = false, Message = ex.InnerException }, JsonRequestBehavior.AllowGet);
             }
         }
-
-
 
         public JsonResult DeleteWarehouse(Int32 whsId)
         {
@@ -921,7 +869,7 @@ namespace Inspired.Web.Controllers
             Int32 Company_Id = UserIdentity.GetCompanyId();
             LookupType_Id = Convert.ToInt32(collection["Lookup.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Lookup.LookupGroup_Id"]);
-            Description = collection["Lookup.Description"].ToString();
+            Description = collection["Description"].ToString();
             isOther = collection["Lookup.IsOther"].IndexOf("true") != -1;
             isHidden = collection["Lookup.IsHidden"].IndexOf("true") != -1;
 
@@ -1001,7 +949,7 @@ namespace Inspired.Web.Controllers
             LookupType_Id = Convert.ToInt32(collection["Lookup.LookupType_Id"]);
             LookupGroup_Id = Convert.ToInt32(collection["Lookup.LookupGroup_Id"]);
             id = Convert.ToInt32(collection["Lookup.Id"]);
-            Description = collection["Lookup.Description"].ToString();
+            Description = collection["Description"].ToString();
             isOther = collection["Lookup.IsOther"].IndexOf("true") != -1;
             isHidden = collection["Lookup.IsHidden"].IndexOf("true") != -1;
 
@@ -1056,7 +1004,7 @@ namespace Inspired.Web.Controllers
 
             Int32 companyId = UserIdentity.GetCompanyId();
             ItemID = Convert.ToInt32(collection["Documents.Item_Id"]);
-            Description = collection["Documents.Description"].ToString();
+            Description = collection["Description"].ToString();
 
             Int32 ID;
 
@@ -1115,8 +1063,6 @@ namespace Inspired.Web.Controllers
         {
             if (doc.Document_Path == "http://localhost:4204/Documents/" + DateTime.Now.ToString("m-d-yy hh-mm") + " ")
                 ModelState.AddModelError("Document.Document_Path", "Select a Document");
-            if (String.IsNullOrEmpty(doc.Description))
-                ModelState.AddModelError("Document.Description", "Enter a valid description");
         }
         #endregion
 
@@ -1139,16 +1085,7 @@ namespace Inspired.Web.Controllers
             var companyId = UserIdentity.GetCompanyId();
 
             Int32 id = 0;
-            String itemDescription = String.Empty, BatchFlag = string.Empty;
-
-            try
-            {
-                itemCode = itemCode.Split(new char[] { '(', ')' })[1];
-            }
-            catch
-            {
-                
-            }
+            String itemDescription = String.Empty, BatchFlag = string.Empty, SerialFlag = string.Empty;
 
             Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemCode).FirstOrDefault();
             if (item != null)
@@ -1156,10 +1093,11 @@ namespace Inspired.Web.Controllers
                 id = item.Id;
                 itemDescription = item.Description;
                 BatchFlag = item.Batch_YN.ToString();
-                return Json(new { success = true, id = id, ItemDescription = itemDescription, ItemCode = itemCode, flag = BatchFlag }, JsonRequestBehavior.AllowGet);
+                SerialFlag = item.Serial_YN.ToString();
+                return Json(new { success = true, id = id, ItemDescription = itemDescription, ItemCode = itemCode, SerialFlag = SerialFlag, flag = BatchFlag }, JsonRequestBehavior.AllowGet);
             }
             else
-                return Json(new { success = true, id = 0, ItemDescription = "", flag = "true" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, id = 0, ItemDescription = "", SerialFlag = "true", flag = "true" }, JsonRequestBehavior.AllowGet);
         }
 
         //Fetch warehouse details
@@ -1168,15 +1106,6 @@ namespace Inspired.Web.Controllers
             var companyId = UserIdentity.GetCompanyId();
 
             Int32 id = 0;
-
-            try
-            {
-                WarehouseCode = WarehouseCode.Split(new char[] { '(', ')' })[1];
-            }
-            catch
-            {
-
-            }
 
             Inv_WarehouseMaster warehouse = UnitOfWork.WarehouseRepository.Get(u => u.Code == WarehouseCode).FirstOrDefault();
             if (warehouse != null)
@@ -1188,77 +1117,23 @@ namespace Inspired.Web.Controllers
                 return Json(new { success = true, id = 0, code = "" }, JsonRequestBehavior.AllowGet);
         }
 
-        //Fetch serial flag
-        public JsonResult FetchItemSNJSON(String itemcode)
-        {
-            var companyId = UserIdentity.GetCompanyId();
-
-            Int32 id = 0;
-            string SerialFlag = string.Empty;
-
-            try
-            {
-                itemcode = itemcode.Split(new char[] { '(', ')' })[1];
-            }
-            catch
-            {
-            
-            }
-
-            Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemcode).FirstOrDefault();
-            if (item != null)
-            {
-                id = item.Id;
-                SerialFlag = item.Serial_YN.ToString();
-                return Json(new { success = true, flag = SerialFlag }, JsonRequestBehavior.AllowGet);
-            }
-            else
-                return Json(new { success = true, flag = "true" }, JsonRequestBehavior.AllowGet);
-        }
-
         //Generate new document code
         public JsonResult FetchDocnoJSON(String doccode, string trans_type)
         {
             var companyId = UserIdentity.GetCompanyId();
 
-            decimal first_num = 0, last_num = 0, docno = 0, currno = 0;
+            decimal DocNum = 0;
 
-            Inv_DocumentMaster doc;
-            Inv_StockTran tra = new Inv_StockTran();
+            Inv_DocumentMaster Doc;
 
-            doc = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == doccode).Last();
+            Doc = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == doccode).FirstOrDefault();
 
-            try
+            if (Doc != null)
             {
-                tra = UnitOfWork.StockTransRepository.Get(u => u.TRANS_TYPE == trans_type).Last();
-            }
-            catch
-            {
-
+                DocNum = Doc.LAST_NO + 1;
             }
 
-            if (doc != null)
-            {
-                first_num = doc.START_NO;
-                last_num = doc.LAST_NO;
-            }
-
-            if (tra != null)
-            {
-                docno = tra.DOC_NUM;
-            }
-
-            if (docno == 0)
-            {
-                docno = first_num - 1;
-            }
-
-            if (docno + 1 <= last_num)
-            {
-                currno = docno + 1;
-            }
-
-            return Json(new { success = true, currno = currno }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, currno = DocNum }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MiscReceipt()
@@ -1269,199 +1144,199 @@ namespace Inspired.Web.Controllers
             return View(miscViewModel);
         }
 
-        public ActionResult itemSearch(string term)
+        public ActionResult ItemSearch(string term)
         {
             var itemList = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            try { existingList = (string[])Session["items"]; }
+            try { existingList = (string[])Session["ItemList"]; }
             catch { }
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 itemList = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId).ToList()
-                    .Select(i => i.Description + " (" + i.Code + ")").ToArray();
-                Session["items"] = itemList;
-                existingList = (string[])Session["items"];
+                    .Select(i => i.Code).ToArray();
+                Session["ItemList"] = itemList;
+                existingList = (string[])Session["ItemList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult warehouseSearch(string term)
+        public ActionResult WarehouseSearch(string term)
         {
             var warehouseList = new string[] { }.ToArray();
             string[] existingList = new string[] { }.ToArray();
 
-            try { existingList = (string[])Session["wrh"]; }
+            try { existingList = (string[])Session["WarehouseList"]; }
             catch { }
 
             if (existingList == null)
             {
                 Int32 companyId = UserIdentity.GetCompanyId();
                 warehouseList = UnitOfWork.WarehouseRepository.Get(u => u.Company_Id == companyId).ToList()
-                    .Select(i => i.Description + " (" + i.Code + ")").ToArray();
-                Session["wrh"] = warehouseList;
-                existingList = (string[])Session["wrh"];
+                    .Select(i => i.Code).ToArray();
+                Session["WarehouseList"] = warehouseList;
+                existingList = (string[])Session["WarehouseList"];
             }
 
-            List<string> tag = new string[] { }.ToList();
+            List<string> tag = new List<string>(existingList);
 
-            foreach (string s in existingList)
-            {
-                if (s.ToUpper().Contains(term.ToUpper()))
-                {
-                    tag.Add(s);
-                }
-            }
-
-            return this.Json(tag,
+            return this.Json(tag.Where(i => i.ToUpper().StartsWith(term.ToUpper())),
                     JsonRequestBehavior.AllowGet);
         }
 
-        private Boolean SaveMiscReceiptDetail(MiscReceiptSubmitModel data)
+        private String SaveMiscReceiptDetail(MiscReceiptSubmitModel data)
         {
-            Inv_StockTran InvStockTrans;
-            Inv_StockTranSlNo InvStockTranslno;
-            Inv_StockMaster InvStockMaster;
-            Inv_StockMasterSlNo InvStockMasterSlNo;
-
-            List<MiscReceiptSubmitModel.ItemDetails> ItemDetails = data.ItemDetail.ToList();
-            List<MiscReceiptSubmitModel.SerialNoDetails> SerialNoDetails = data.SerialNoDetail.ToList();
-
-            Int32 Company_Id = UserIdentity.GetCompanyId();
-            
-            foreach (MiscReceiptSubmitModel.ItemDetails a in ItemDetails)
+            if (ModelState.IsValid)
             {
-                InvStockTrans = new Inv_StockTran()
-                {
-                    DOC_CODE = data.DocCode,
-                    DOC_NUM = data.DocNum,
-                    DOC_DATE = data.DocDate,
-                    TRANS_TYPE = data.TransType,
-                    REF_NO = data.RefNum,
-                    REF_DT = data.RefDate,
-                    NOTES = a.Notes,
-                    ITEM_ID = a.ItemID,
-                    WHS_ID = a.WareHouseID,
-                    BATCH_NO = a.BatchNum,
-                    REC_QTY = a.Quantity,
-                    USER_ID = UserIdentity.GetUserId(),
-                    LAST_UPDATED = DateTime.Now
-                };
-
-                UnitOfWork.StockTransRepository.Insert(InvStockTrans);
-
                 try
                 {
-                    InvStockMaster = UnitOfWork.StockMasterRepository.Get(u => u.COMPANY_ID == Company_Id && u.ITEM_ID == a.ItemID && u.WHS_ID == a.WareHouseID && u.BATCH_NO == a.BatchNum).FirstOrDefault();
-                }
-                catch
-                {
-                    InvStockMaster = null;
-                }
+                    Inv_StockTran InvStockTrans;
+                    Inv_StockTranSlNo InvStockTranslno;
+                    Inv_StockMaster InvStockMaster;
+                    Inv_StockMasterSlNo InvStockMasterSlNo;
+                    Inv_DocumentMaster InvDocumentMaster;
 
-                if(InvStockMaster == null)
-                {
-                    InvStockMaster = new Inv_StockMaster()
+                    List<ItemDetails> ItemDetails = data.ItemDetail.ToList();
+                    List<SerialNoDetails> SerialNoDetails = data.SerialNoDetail.ToList();
+
+                    Int32 Company_Id = UserIdentity.GetCompanyId();
+
+                    foreach (ItemDetails ItemList in ItemDetails)
                     {
-                        ITEM_ID = a.ItemID,
-                        WHS_ID = a.WareHouseID,
-                        BATCH_NO = a.BatchNum,
-                        OB_DT = data.DocDate,
-                        OB_QTY = a.Quantity,
-                        CB_QTY=a.Quantity,
-                        NOTES = a.Notes,
-                        COMPANY_ID = Company_Id,
-                        USER_ID = UserIdentity.GetUserId(),
-                        LAST_UPDATED = DateTime.Now
-                    };
+                        InvStockTrans = new Inv_StockTran()
+                        {
+                            DOC_CODE = data.DocCode,
+                            DOC_NUM = data.DocNum,
+                            DOC_DATE = data.DocDate,
+                            TRANS_TYPE = data.TransType,
+                            REF_NO = data.RefNum,
+                            REF_DT = data.RefDate,
+                            NOTES = ItemList.Notes,
+                            ITEM_ID = ItemList.ItemID,
+                            WHS_ID = ItemList.WareHouseID,
+                            BATCH_NO = ItemList.BatchNum,
+                            REC_QTY = ItemList.Quantity,
+                            USER_ID = UserIdentity.GetUserId(),
+                            LAST_UPDATED = DateTime.Now
+                        };
 
-                    UnitOfWork.StockMasterRepository.Insert(InvStockMaster);
-                }
-                else
-                {
-                    InvStockMaster.CB_QTY = InvStockMaster.CB_QTY + a.Quantity;
-                    InvStockMaster.NOTES=a.Notes;
-                    InvStockMaster.LAST_UPDATED = DateTime.Now;
+                        UnitOfWork.StockTransRepository.Insert(InvStockTrans);
 
-                    UnitOfWork.StockMasterRepository.Update(InvStockMaster);
-                }
-            }
+                        try
+                        {
+                            InvStockMaster = UnitOfWork.StockMasterRepository.Get(u => u.COMPANY_ID == Company_Id && u.ITEM_ID == ItemList.ItemID && u.WHS_ID == ItemList.WareHouseID && u.BATCH_NO == ItemList.BatchNum).FirstOrDefault();
+                        }
+                        catch
+                        {
+                            InvStockMaster = null;
+                        }
 
-            UnitOfWork.Save();
+                        if (InvStockMaster == null)
+                        {
+                            InvStockMaster = new Inv_StockMaster()
+                            {
+                                ITEM_ID = ItemList.ItemID,
+                                WHS_ID = ItemList.WareHouseID,
+                                BATCH_NO = ItemList.BatchNum,
+                                OB_DT = data.DocDate,
+                                OB_QTY = ItemList.Quantity,
+                                CB_QTY = ItemList.Quantity,
+                                NOTES = ItemList.Notes,
+                                COMPANY_ID = Company_Id,
+                                USER_ID = UserIdentity.GetUserId(),
+                                LAST_UPDATED = DateTime.Now
+                            };
 
-            foreach (MiscReceiptSubmitModel.SerialNoDetails a in SerialNoDetails)
-            {
-                InvStockTranslno = new Inv_StockTranSlNo()
-                {
-                    DOC_CODE = data.DocCode,
-                    DOC_NUM = data.DocNum,
-                    DOC_DATE = data.DocDate,
-                    ITEM_ID = a.ItemID,
-                    WHS_ID = a.WareHouseID,
-                    BATCH_NO = a.BatchNum,
-                    REC_QTY = a.Quantity,
-                    SERIAL_NO = a.SerialNo
-                };
+                            UnitOfWork.StockMasterRepository.Insert(InvStockMaster);
+                        }
+                        else
+                        {
+                            InvStockMaster.CB_QTY = InvStockMaster.CB_QTY + ItemList.Quantity;
+                            InvStockMaster.NOTES = ItemList.Notes;
+                            InvStockMaster.USER_ID = UserIdentity.GetUserId();
+                            InvStockMaster.LAST_UPDATED = DateTime.Now;
 
-                UnitOfWork.StockTranslnoRepository.Insert(InvStockTranslno);
+                            UnitOfWork.StockMasterRepository.Update(InvStockMaster);
+                        }
 
-                UnitOfWork.Save();
+                        foreach (SerialNoDetails SerialNumList in SerialNoDetails)
+                        {
+                            InvStockTranslno = new Inv_StockTranSlNo()
+                            {
+                                DOC_CODE = data.DocCode,
+                                DOC_NUM = data.DocNum,
+                                DOC_DATE = data.DocDate,
+                                ITEM_ID = SerialNumList.ItemID,
+                                WHS_ID = SerialNumList.WareHouseID,
+                                BATCH_NO = SerialNumList.BatchNum,
+                                REC_QTY = SerialNumList.Quantity,
+                                SERIAL_NO = SerialNumList.SerialNo
+                            };
 
-                InvStockMasterSlNo = UnitOfWork.StockMasterSlNoRepository.Get(u => u.ITEM_ID == a.ItemID && u.WHS_ID == a.WareHouseID && u.BATCH_NO == a.BatchNum && u.SERIAL_NO == a.SerialNo).FirstOrDefault();
+                            UnitOfWork.StockTranslnoRepository.Insert(InvStockTranslno);
 
-                if (InvStockMasterSlNo == null)
-                {
-                    InvStockMasterSlNo = new Inv_StockMasterSlNo()
-                    {
-                        ITEM_ID = a.ItemID,
-                        WHS_ID = a.WareHouseID,
-                        BATCH_NO = a.BatchNum,
-                        SERIAL_NO = a.SerialNo,
-                        CB_QTY = 1
-                    };
+                            InvStockMasterSlNo = UnitOfWork.StockMasterSlNoRepository.Get(u => u.ITEM_ID == SerialNumList.ItemID && u.WHS_ID == SerialNumList.WareHouseID && u.BATCH_NO == SerialNumList.BatchNum && u.SERIAL_NO == SerialNumList.SerialNo).FirstOrDefault();
 
-                    UnitOfWork.StockMasterSlNoRepository.Insert(InvStockMasterSlNo);
+                            if (InvStockMasterSlNo == null)
+                            {
+                                InvStockMasterSlNo = new Inv_StockMasterSlNo()
+                                {
+                                    ITEM_ID = SerialNumList.ItemID,
+                                    WHS_ID = SerialNumList.WareHouseID,
+                                    BATCH_NO = SerialNumList.BatchNum,
+                                    SERIAL_NO = SerialNumList.SerialNo,
+                                    CB_QTY = 1
+                                };
+
+                                UnitOfWork.StockMasterSlNoRepository.Insert(InvStockMasterSlNo);
+                            }
+                            else
+                            {
+                                InvStockMasterSlNo.CB_QTY = InvStockMasterSlNo.CB_QTY + 1;
+
+                                UnitOfWork.StockMasterSlNoRepository.Update(InvStockMasterSlNo);
+                            }
+                        }
+                    }
+
+                    InvDocumentMaster = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == data.DocCode).FirstOrDefault();
+
+                    InvDocumentMaster.LAST_NO = data.DocNum;
 
                     UnitOfWork.Save();
+
+                    return "True";
                 }
-                else
+                catch(Exception ex)
                 {
-                    InvStockMasterSlNo.CB_QTY = InvStockMasterSlNo.CB_QTY + 1;
-
-                    UnitOfWork.StockMasterSlNoRepository.Update(InvStockMasterSlNo);
-
-                    UnitOfWork.Save();
+                    return ex.Message;
                 }
             }
-
-            
-
-            return true;
+            else
+                return "Validation failed";
         }
 
         [HttpPost]
         public JsonResult Receipt_Save(MiscReceiptSubmitModel data)
         {
-
-            Boolean canContinue = false;
+            string canContinue = "";
 
             canContinue = SaveMiscReceiptDetail(data);
 
-            return Json(new { success = canContinue }, JsonRequestBehavior.AllowGet);
+            if (canContinue == "True")
+            {
+                return Json(new { success = canContinue }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { success = canContinue });
+            }
         }
 
         #endregion

@@ -1,0 +1,3 @@
+If quantity is 1 calculation error on adding
+
+check the filtering of serial table

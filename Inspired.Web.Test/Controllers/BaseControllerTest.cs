@@ -41,6 +41,9 @@ namespace Inspired.Web.Test.Controllers
         public IGenericRepository<Inv_MaterialNotes> MaterialNotesRepository { get;set;}
         public IGenericRepository<Inv_DocumentMaster> DocumentMastersRepository { get; set; }
         public IGenericRepository<Inv_StockTran> StockTransRepository { get; set; }
+        public IGenericRepository<Inv_StockTranSlNo> StockTranSlNoRepository { get; set; }
+        public IGenericRepository<Inv_StockMaster> StockMasterRepository { get; set; }
+        public IGenericRepository<Inv_StockMasterSlNo> StockMasterSlNoRepository { get; set; }
 
         public IGenericRepository<FAS_AccountMaster> AccountMasterRepository { get; set; }
         #endregion
@@ -68,6 +71,9 @@ namespace Inspired.Web.Test.Controllers
             AccountMasterRepository = MockRepository.GenerateMock<IGenericRepository<FAS_AccountMaster>>();
             DocumentMastersRepository = MockRepository.GenerateMock<IGenericRepository<Inv_DocumentMaster>>();
             StockTransRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockTran>>();
+            StockTranSlNoRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockTranSlNo>>();
+            StockMasterRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockMaster>>();
+            StockMasterSlNoRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockMasterSlNo>>();
 
             userPrincipal = new FakePrincipal(new FakeIdentity("InventoryUser"), null);
 
@@ -93,6 +99,9 @@ namespace Inspired.Web.Test.Controllers
             UnitOfWork.Stub(u => u.AccountMasterRepository).Return(AccountMasterRepository);
             UnitOfWork.Stub(u => u.DocumentMasterRepository).Return(DocumentMastersRepository);
             UnitOfWork.Stub(u => u.StockTransRepository).Return(StockTransRepository);
+            UnitOfWork.Stub(u => u.StockTranslnoRepository).Return(StockTranSlNoRepository);
+            UnitOfWork.Stub(u => u.StockMasterRepository).Return(StockMasterRepository);
+            UnitOfWork.Stub(u => u.StockMasterSlNoRepository).Return(StockMasterSlNoRepository);
             //// Create controller
             //HttpContext = MockRepository.GenerateStub<HttpContextBase>();
             //HttpContext.Stub(c => c.Request).Return(MockRepository.GenerateMock<HttpRequestBase>());            

@@ -17,7 +17,7 @@ namespace Inspired.Data
         public int ITEM_ID { get; set; }
         public int WHS_ID { get; set; }
         public string BATCH_NO { get; set; }
-        public System.DateTime OB_DT { get; set; }
+        public Nullable<System.DateTime> OB_DT { get; set; }
         public decimal OB_QTY { get; set; }
         public decimal CB_QTY { get; set; }
         public string NOTES { get; set; }

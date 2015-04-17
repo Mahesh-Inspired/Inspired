@@ -19,15 +19,10 @@ namespace Inspired.Web.Test.Model
             MiscReceiptSubmit.TransType = "misc";
             MiscReceiptSubmit.RefNum = "1000";
             MiscReceiptSubmit.RefDate = DateTime.Now;
-            MiscReceiptSubmit.ItemDetail = new List<MiscReceiptSubmitModel.ItemDetails> { };
-            MiscReceiptSubmit.SerialNoDetail = new List<MiscReceiptSubmitModel.SerialNoDetails> { };
+            MiscReceiptSubmit.ItemDetail = new List<ItemDetails> { };
+            MiscReceiptSubmit.SerialNoDetail = new List<SerialNoDetails> { };
 
-            return MiscReceiptSubmit;
-        }
-
-        public static MiscReceiptSubmitModel.ItemDetails MiscReceiptItemSubmit()
-        {
-            MiscReceiptSubmitModel.ItemDetails MiscReceiptItemSubmit = new MiscReceiptSubmitModel.ItemDetails();
+            ItemDetails MiscReceiptItemSubmit = new ItemDetails();
 
             MiscReceiptItemSubmit.ItemID = 11;
             MiscReceiptItemSubmit.ItemCode = "ITEM-10097";
@@ -38,12 +33,7 @@ namespace Inspired.Web.Test.Model
             MiscReceiptItemSubmit.Quantity = 5;
             MiscReceiptItemSubmit.Notes = "-";
 
-            return MiscReceiptItemSubmit;
-        }
-
-        public static MiscReceiptSubmitModel.SerialNoDetails MiscReceiptSerialSubmit()
-        {
-            MiscReceiptSubmitModel.SerialNoDetails MiscReceiptSerialSubmit = new MiscReceiptSubmitModel.SerialNoDetails();
+            SerialNoDetails MiscReceiptSerialSubmit = new SerialNoDetails();
 
             MiscReceiptSerialSubmit.ItemID = 11;
             MiscReceiptSerialSubmit.WareHouseID = 2;
@@ -51,7 +41,40 @@ namespace Inspired.Web.Test.Model
             MiscReceiptSerialSubmit.SerialNo = "565587";
             MiscReceiptSerialSubmit.Quantity = 5;
 
-            return MiscReceiptSerialSubmit;
+            MiscReceiptSubmit.ItemDetail.Add(MiscReceiptItemSubmit);
+
+            MiscReceiptSubmit.SerialNoDetail.Add(MiscReceiptSerialSubmit);
+
+            return MiscReceiptSubmit;
+        }
+
+        public static MiscReceiptSubmitModel FilledWithBlankSerialNumbers()
+        {
+            MiscReceiptSubmitModel MiscReceiptSubmit = new MiscReceiptSubmitModel();
+
+            MiscReceiptSubmit.DocCode = "11";
+            MiscReceiptSubmit.DocNum = 18;
+            MiscReceiptSubmit.DocDate = DateTime.Now;
+            MiscReceiptSubmit.TransType = "misc";
+            MiscReceiptSubmit.RefNum = "1000";
+            MiscReceiptSubmit.RefDate = DateTime.Now;
+            MiscReceiptSubmit.ItemDetail = new List<ItemDetails> { };
+            MiscReceiptSubmit.SerialNoDetail = new List<SerialNoDetails> { };
+
+            ItemDetails MiscReceiptItemSubmit = new ItemDetails();
+
+            MiscReceiptItemSubmit.ItemID = 11;
+            MiscReceiptItemSubmit.ItemCode = "ITEM-10097";
+            MiscReceiptItemSubmit.ItemDesc = "Item Description 10097";
+            MiscReceiptItemSubmit.WareHouseID = 2;
+            MiscReceiptItemSubmit.WareHouse = "WHS";
+            MiscReceiptItemSubmit.BatchNum = "500";
+            MiscReceiptItemSubmit.Quantity = 5;
+            MiscReceiptItemSubmit.Notes = "-";
+
+            MiscReceiptSubmit.ItemDetail.Add(MiscReceiptItemSubmit);
+
+            return MiscReceiptSubmit;
         }
     }
 }

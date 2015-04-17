@@ -101,7 +101,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"I click create button")]
         public void WhenIClickCreateButton()
         {
-            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 57, LookupType_Id = 8, LookupGroup_Id = 1, Description = "TEST", IsOther = false, IsHidden = false } });
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 57 } });
             result = invController.CreateLookup(collection);
         }
 
@@ -263,7 +263,7 @@ namespace Inspired.Web.Test.Controllers
             collection = new FormCollection();
             collection.Add("Lookup.LookupType_Id", "1");
             collection.Add("Lookup.LookupGroup_Id", "1");
-            collection.Add("Lookup.Description", "Test description");
+            collection.Add("Description", "Test description");
             collection.Add("Lookup.isOther", "true");
             collection.Add("Lookup.isHidden", "true");
         }
@@ -276,7 +276,7 @@ namespace Inspired.Web.Test.Controllers
 
         internal LookupFormCollectionBuilder WithBlankLookupDescription()
         {
-            collection["Lookup.Description"] = "";
+            collection["Description"] = "";
             return this;
         }
 

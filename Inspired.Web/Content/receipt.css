@@ -25,3 +25,7 @@
     min-width: 1em;
     margin-right: 0.5em;
 }
+
+.doc-num {
+    position: relative; left: -50px;
+}

@@ -11,6 +11,7 @@ namespace Inspired.Web.ViewModel
     {
         public SelectList Description { get; set; }
         public Inv_MaterialDocument Documents { get; set; }
+
         public DownloadViewModel(IEnumerable<Inv_MaterialDocument> items, Inv_MaterialDocument documents)
         {
             Description = new SelectList(items.ToList(), "Document_Path", "Description");

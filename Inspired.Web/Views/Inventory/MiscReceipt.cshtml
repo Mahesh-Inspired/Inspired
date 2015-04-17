@@ -46,7 +46,7 @@
                                 @Html.DropDownListFor(m => m.Stock.DOC_CODE, Model.DocCode, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','DocNum', 'misc');" })
                             </div>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(m => m.DocNum, new { @class = "form-control", @readonly = "true" } )
+                                @Html.TextBoxFor(m => m.DocNum, new { @class = "form-control doc-num", @readonly = "true" })
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                     <tr>
                         <td>
                             @Html.HiddenFor(m => m.ItemID)
-                            @Html.TextBoxFor(m => m.ItemCode, new { @class = "form-control", @onblur = "fetchItemDetails('ItemCode','ItemDesc','ItemID','BatchNum');" })
+                            @Html.TextBoxFor(m => m.ItemCode, new { @class = "form-control", @onblur = "fetchItemDetails('ItemCode','ItemDesc','ItemID','BatchNum', 'SerialNoFlag');" })
                         </td>
                         <td>
                             @Html.TextBoxFor(m => m.ItemDesc, new { @class = "form-control" })
@@ -122,6 +122,7 @@
                             @Html.TextAreaFor(m => m.Notes)
                         </td>
                         <td>
+                            @Html.HiddenFor(m => m.SerialNoFlag)
                             <input type="button" class="btn btn-success" value="Add" onclick="AddItem()" />
                             <input type="button" class="btn btn-warning" id="delItem" value="Delete" onclick="clearItem()" />
                         </td>
@@ -245,11 +246,11 @@
         $(document).ready(function () {
             $('#ItemCode').autocomplete(
                 {
-                    source: '@Url.Action("itemSearch", "Inventory")'
+                    source: '@Url.Action("ItemSearch", "Inventory")'
                 });
             $('#WareHouse').autocomplete(
                 {
-                    source: '@Url.Action("warehouseSearch", "Inventory")'
+                    source: '@Url.Action("WarehouseSearch", "Inventory")'
                 });
 
             $('#add_notes').click(function () {

@@ -17,29 +17,28 @@ namespace Inspired.Web.ViewModel
         public DateTime RefDate { get; set; }
         public virtual ICollection<ItemDetails> ItemDetail { get; set; }
         public virtual ICollection<SerialNoDetails> SerialNoDetail { get; set; }
+    }
 
-        public class ItemDetails
-        {
-            public Int32 ItemID { get; set; }
-            public string ItemCode { get; set; }
-            public string ItemDesc { get; set; }
-            public Int32 WareHouseID { get; set; }
-            public string WareHouse { get; set; }
-            public string BatchNum { get; set; }
-            public decimal Quantity { get; set; }
-            public string Notes { get; set; }
-            public virtual MiscReceiptSubmitModel Receipt { get; set; }
-        }
+    public class ItemDetails
+    {
+        public Int32 ItemID { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemDesc { get; set; }
+        public Int32 WareHouseID { get; set; }
+        public string WareHouse { get; set; }
+        public string BatchNum { get; set; }
+        public decimal Quantity { get; set; }
+        public string Notes { get; set; }
+        public virtual MiscReceiptSubmitModel Receipt { get; set; }
+    }
 
-        public class SerialNoDetails
-        {
-            public Int32 ItemID { get; set; }
-            public Int32 WareHouseID { get; set; }
-            public string BatchNum { get; set; }
-            public string SerialNo { get; set; }
-            public decimal Quantity { get; set; }
-            public virtual MiscReceiptSubmitModel Receipt { get; set; }
-        }
-
+    public class SerialNoDetails
+    {
+        public Int32 ItemID { get; set; }
+        public Int32 WareHouseID { get; set; }
+        public string BatchNum { get; set; }
+        public string SerialNo { get; set; }
+        public decimal Quantity { get; set; }
+        public virtual MiscReceiptSubmitModel Receipt { get; set; }
     }
 }

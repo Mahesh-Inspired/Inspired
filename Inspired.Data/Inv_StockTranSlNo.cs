@@ -16,7 +16,7 @@ namespace Inspired.Data
     {
         public string DOC_CODE { get; set; }
         public decimal DOC_NUM { get; set; }
-        public System.DateTime DOC_DATE { get; set; }
+        public Nullable<System.DateTime> DOC_DATE { get; set; }
         public int ITEM_ID { get; set; }
         public int WHS_ID { get; set; }
         public string BATCH_NO { get; set; }

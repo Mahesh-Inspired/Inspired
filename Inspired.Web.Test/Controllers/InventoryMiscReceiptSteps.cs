@@ -64,7 +64,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"Start typing Item Code in textbox")]
         public void StartTypingItemCodeInTextbox()
         {
-            result = invController.itemSearch("I");
+            result = invController.ItemSearch("I");
         }
 
         [Then(@"Suggest list of Item Code based on text entered")]
@@ -78,7 +78,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"Start typing warehouse in textbox")]
         public void StartTypingWarehouseInTextbox()
         {
-            result = invController.warehouseSearch("W");
+            result = invController.WarehouseSearch("W");
         }
 
         [Then(@"Suggest list of warehouse based on text entered")]
@@ -89,24 +89,13 @@ namespace Inspired.Web.Test.Controllers
             var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
         }
 
-        [When(@"Serial flag of item is false")]
-        public void SerialFlagOfItemIsFalse()
-        {
-            baseController.MaterialMasterRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_MaterialMaster>() { new Inv_MaterialMaster { } });
-            result = invController.FetchItemSNJSON("ITEM-10097");
-        }
-
-        [Then(@"Enter default serial number")]
-        public void EnterDefaultSerialNumber()
-        {
-            Assert.IsInstanceOfType(result, typeof(JsonResult));
-            var jsonResult = (JsonResult)result;
-            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
-        }
-
         [When(@"I try to save the details entered in the Miscellaneous Receipt")]
         public void ITryToSaveTheDetailsEnteredInTheMiscellaneousReceipt()
         {
+            baseController.UserIdentity.Expect(u => u.GetUserName()).IgnoreArguments().Return("InventoryUser");
+            baseController.UserIdentity.Expect(u => u.GetCompanyId()).IgnoreArguments().Return(1);
+            baseController.StockMasterSlNoRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_StockMasterSlNo>() { new Inv_StockMasterSlNo { ITEM_ID = 11, WHS_ID = 2, BATCH_NO = "500", SERIAL_NO = "3" } });
+            baseController.DocumentMastersRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_DocumentMaster>() { new Inv_DocumentMaster { DOC_CODE = "11" } });
             MiscReceiptSubmitModel MiscReceiptSubmitModel = MiscReceiptSubmit.FilledWithData();
             result = invController.Receipt_Save(MiscReceiptSubmitModel);
         }
@@ -118,6 +107,26 @@ namespace Inspired.Web.Test.Controllers
             var jsonResult = (JsonResult)result;
             var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
             Assert.IsTrue(jsonTopLevel["success"].ToString().ToLower() == "true");
+        }
+
+        [When(@"I try to save the details entered in the Miscellaneous Receipt with blank serial numbers")]
+        public void ITryToSaveTheDetailsEnteredInTheMiscellaneousReceiptWithBlankSerialNumbers()
+        {
+            baseController.UserIdentity.Expect(u => u.GetUserName()).IgnoreArguments().Return("InventoryUser");
+            baseController.UserIdentity.Expect(u => u.GetCompanyId()).IgnoreArguments().Return(1);
+            baseController.StockMasterSlNoRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_StockMasterSlNo>() { new Inv_StockMasterSlNo { ITEM_ID = 11, WHS_ID = 2, BATCH_NO = "500", SERIAL_NO = "3" } });
+            baseController.DocumentMastersRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Inv_DocumentMaster>() { new Inv_DocumentMaster { DOC_CODE = "11" } });
+            MiscReceiptSubmitModel MiscReceiptSubmitModel = MiscReceiptSubmit.FilledWithBlankSerialNumbers();
+            result = invController.Receipt_Save(MiscReceiptSubmitModel);
+        }
+
+        [Then(@"Return error message")]
+        public void ReturnErrorMessage()
+        {
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var jsonResult = (JsonResult)result;
+            var jsonTopLevel = jsonResult.ConvertToObjectDictionary();
+            Assert.IsFalse(jsonTopLevel["success"].ToString() == "Error");
         }
     }
 }

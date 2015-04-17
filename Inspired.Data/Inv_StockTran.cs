@@ -16,7 +16,7 @@ namespace Inspired.Data
     {
         public string DOC_CODE { get; set; }
         public decimal DOC_NUM { get; set; }
-        public System.DateTime DOC_DATE { get; set; }
+        public Nullable<System.DateTime> DOC_DATE { get; set; }
         public string TRANS_TYPE { get; set; }
         public string REF_NO { get; set; }
         public Nullable<System.DateTime> REF_DT { get; set; }
