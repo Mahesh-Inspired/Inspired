@@ -1201,6 +1201,14 @@ namespace Inspired.Web.Controllers
                     Inv_StockMaster InvStockMaster;
                     Inv_StockMasterSlNo InvStockMasterSlNo;
                     Inv_DocumentMaster InvDocumentMaster;
+                    decimal DocNum = 0;
+
+                    InvDocumentMaster = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == data.DocCode).FirstOrDefault();
+
+                    if (InvDocumentMaster != null)
+                    {
+                        DocNum = InvDocumentMaster.LAST_NO + 1;
+                    }
 
                     List<ItemDetails> ItemDetails = data.ItemDetail.ToList();
                     List<SerialNoDetails> SerialNoDetails = data.SerialNoDetail.ToList();
@@ -1212,7 +1220,7 @@ namespace Inspired.Web.Controllers
                         InvStockTrans = new Inv_StockTran()
                         {
                             DOC_CODE = data.DocCode,
-                            DOC_NUM = data.DocNum,
+                            DOC_NUM = DocNum,
                             DOC_DATE = data.DocDate,
                             TRANS_TYPE = data.TransType,
                             REF_NO = data.RefNum,
