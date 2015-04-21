@@ -206,6 +206,7 @@
     <Compile Include="ViewModel\DocumentViewModel.cs" />
     <Compile Include="ViewModel\DownloadViewModel.cs" />
     <Compile Include="ViewModel\LookupViewModel.cs" />
+    <Compile Include="ViewModel\MiscIssueViewModel.cs" />
     <Compile Include="ViewModel\MiscReceiptSubmitModel.cs" />
     <Compile Include="ViewModel\MiscReceiptViewModel.cs" />
     <Compile Include="ViewModel\WarehouseViewModel.cs" />
@@ -272,7 +273,7 @@
     <Content Include="Content\DataTables-1.10.1\images\xls_hover.png" />
     <Content Include="Content\DataTables-1.10.1\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables-1.10.1\swf\copy_csv_xls_pdf.swf" />
-    <Content Include="Content\receipt.css" />
+    <Content Include="Content\Inventory.css" />
     <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
     <Content Include="Content\sweetalert\docs.css" />
     <Content Include="Content\sweetalert\sweet-alert.css" />
@@ -358,6 +359,7 @@
     <Content Include="Scripts\app\antiforgerytoken.js" />
     <Content Include="Scripts\app\customcompare.js" />
     <Content Include="Scripts\app\DateChecker.js" />
+    <Content Include="Scripts\app\inventory\miscissue.js" />
     <Content Include="Scripts\app\inventory\miscreceipt.js" />
     <Content Include="Scripts\app\inventory\warehousemaster.js" />
     <Content Include="Scripts\app\inventory\materialnotes.js" />
@@ -594,6 +596,7 @@
     <Content Include="Views\Inventory\DocumentUpload.cshtml" />
     <Content Include="Views\Inventory\DocumentList.cshtml" />
     <Content Include="Views\Inventory\MiscReceipt.cshtml" />
+    <Content Include="Views\Inventory\MiscIssue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -101,7 +101,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"I click create button")]
         public void WhenIClickCreateButton()
         {
-            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { new Gen_LookupItem { Id = 57 } });
+            baseController.LookupItemRepository.Stub(u => u.Get(null)).IgnoreArguments().Return(new List<Gen_LookupItem>() { });
             result = invController.CreateLookup(collection);
         }
 

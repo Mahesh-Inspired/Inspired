@@ -64,6 +64,7 @@ namespace Inspired.Web.Test.Controllers
         [When(@"Start typing Item Code in textbox")]
         public void StartTypingItemCodeInTextbox()
         {
+            baseController.MaterialMasterRepository.Stub(u => u.Get(m => m.Company_Id == 1)).IgnoreArguments().Return(null);
             result = invController.ItemSearch("I");
         }
 
@@ -78,6 +79,8 @@ namespace Inspired.Web.Test.Controllers
         [When(@"Start typing warehouse in textbox")]
         public void StartTypingWarehouseInTextbox()
         {
+
+            baseController.WarehouseRepository.Stub(u => u.Get(m => m.Company_Id == 1)).IgnoreArguments().Return(null);
             result = invController.WarehouseSearch("W");
         }
 

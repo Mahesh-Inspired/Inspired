@@ -1,0 +1,272 @@
+﻿@model Inspired.Web.ViewModel.MiscReceiptViewModel
+@{
+    ViewBag.Title = "Miscellaneous Issue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTables CSS -->
+<link href="~/Content/DataTables-1.10.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="~/Scripts/DataTables-1.10.1/jquery.dataTables.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/DataTables-1.10.1/dataTables.tableTools.js"></script>
+
+<h2>Miscellaneous Issue</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="nav nav-tabs" id="itemTabs">
+                <div class="col-md-12">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#Receipt" data-id="Receipt" data-toggle="tab">Receipt</a></li>
+                        <li><a href="#Serial" data-id="Serial" data-toggle="tab">Serial Number</a></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="tabs">
+        <div class="tab-pane" id="Receipt" data-id="Receipt">
+            <div class="container-fluid box">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Transaction Code
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(m => m.Stock.DOC_CODE, Model.DocCode, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','DocNum', 'misc');" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(m => m.DocNum, new { @class = "form-control doc-num", @readonly = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            Reference Number
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(m => m.RefNum, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.RefNum)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Transaction Date
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(m => m.DocDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(m => m.DocDate)
+                        </div>
+                        <div class="col-md-2">
+                            Reference Date
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(m => m.RefDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(m => m.RefDate)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                Item Code
+                            </td>
+                            <td>
+                                Item Description
+                            </td>
+                            <td>
+                                Warehouse
+                            </td>
+                            <td>
+                                Batch Number
+                            </td>
+                            <td>
+                                Current Stock
+                            </td>
+                            <td>
+                                Quantity
+                            </td>
+                            <td>
+                                Notes
+                            </td>
+                            <td>Action</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(m => m.ItemID)
+                                @Html.TextBoxFor(m => m.ItemCode, new { @class = "form-control", @onblur = "fetchItemDetails('ItemCode','ItemDesc','ItemID','BatchNum','SerialNoFlag');" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.ItemDesc, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(m => m.WareHouseID)
+                                @Html.TextBoxFor(m => m.WareHouse, new { @class = "form-control", @onblur = "fetchWarehouse('WareHouse', 'WareHouseID');" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.BatchNum, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.CurrentStock, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-success" value="Add Notes" id="add_notes" /><br />
+                                @Html.TextAreaFor(m => m.Notes)
+                            </td>
+                            <td>
+                                @Html.HiddenFor(m => m.SerialNoFlag)
+                                <input type="button" class="btn btn-success" value="Add" onclick="AddItem()" />
+                                <input type="button" class="btn btn-warning" id="delItem" value="Delete" onclick="clearItem()" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div>
+                    <table class="table" id="ItemsTable">
+                        <thead>
+                            <tr>
+                                <th>Item Code</th>
+                                <th>Description</th>
+                                <th>Item ID</th>
+                                <th>Location ID</th>
+                                <th>Location</th>
+                                <th>Batch Number</th>
+                                <th>Quantity</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ItemCode != null)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(m => m.ItemCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.ItemDesc)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.ItemID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.WareHouseID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.WareHouse)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.BatchNum)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => m.Notes)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row-fluid">
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-primary" id="btnSubmit" value="Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="Serial" data-id="Serial">
+            <div class="text-right"><label>Selected Item:&nbsp;</label><label id="selItem"></label></div>
+            <table class="table" id="SerialTable">
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Warehouse ID</th>
+                        <th>Batch Number</th>
+                        <th>Serial Number</th>
+                        <th>Serial No</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ItemCode != null)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => m.ItemID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.WareHouseID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.BatchNum)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.SerialNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.SerialNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.Quantity)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <input type="button" class="btn btn-success" value="save" onclick="Addserials()" />
+                <input type="button" class="btn btn-primary" value="Clear" onclick="Clrserials()" />
+                <input type="button" class="btn btn-primary" value="Cancel" onclick="Cancelserials()" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Styles.Render("~/Content/Inventory")
+    @Scripts.Render("~/bundles/miscreceipt")
+    @Scripts.Render("~/bundles/datechecker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/antiforgerytoken")
+    @Scripts.Render("~/scripts/app/customcompare.js")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#ItemCode').autocomplete(
+                {
+                    source: '@Url.Action("ItemSearch", "Inventory")'
+                });
+            $('#WareHouse').autocomplete(
+                {
+                    source: '@Url.Action("WarehouseSearch", "Inventory")'
+                });
+
+            $('#add_notes').click(function () {
+                $('#Notes').animate({ "width": '200px', "height": '100px', "border-color": "#999999", "margin": "5px" });
+                $('#Notes').focus();
+            });
+
+            $('#Notes').focusout(function () {
+                $('#Notes').animate({ "width": '0px', "height": '0px', "border-color": "white", "margin": "0px" });
+            });
+        });
+    </script>
+}

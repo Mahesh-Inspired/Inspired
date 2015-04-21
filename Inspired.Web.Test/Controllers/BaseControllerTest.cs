@@ -44,6 +44,7 @@ namespace Inspired.Web.Test.Controllers
         public IGenericRepository<Inv_StockTranSlNo> StockTranSlNoRepository { get; set; }
         public IGenericRepository<Inv_StockMaster> StockMasterRepository { get; set; }
         public IGenericRepository<Inv_StockMasterSlNo> StockMasterSlNoRepository { get; set; }
+        public IGenericRepository<Inv_WarehouseMaster> WarehouseRepository { get; set; }
 
         public IGenericRepository<FAS_AccountMaster> AccountMasterRepository { get; set; }
         #endregion
@@ -74,6 +75,7 @@ namespace Inspired.Web.Test.Controllers
             StockTranSlNoRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockTranSlNo>>();
             StockMasterRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockMaster>>();
             StockMasterSlNoRepository = MockRepository.GenerateMock<IGenericRepository<Inv_StockMasterSlNo>>();
+            WarehouseRepository = MockRepository.GenerateMock<IGenericRepository<Inv_WarehouseMaster>>();
 
             userPrincipal = new FakePrincipal(new FakeIdentity("InventoryUser"), null);
 
@@ -102,6 +104,7 @@ namespace Inspired.Web.Test.Controllers
             UnitOfWork.Stub(u => u.StockTranslnoRepository).Return(StockTranSlNoRepository);
             UnitOfWork.Stub(u => u.StockMasterRepository).Return(StockMasterRepository);
             UnitOfWork.Stub(u => u.StockMasterSlNoRepository).Return(StockMasterSlNoRepository);
+            UnitOfWork.Stub(u => u.WarehouseRepository).Return(WarehouseRepository);
             //// Create controller
             //HttpContext = MockRepository.GenerateStub<HttpContextBase>();
             //HttpContext.Stub(c => c.Request).Return(MockRepository.GenerateMock<HttpRequestBase>());            

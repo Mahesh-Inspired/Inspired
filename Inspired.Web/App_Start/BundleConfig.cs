@@ -65,6 +65,9 @@ namespace Inspired.Web
             bundles.Add(new ScriptBundle("~/bundles/miscreceipt").Include(
                 "~/Scripts/app/inventory/miscreceipt.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/miscissue").Include(
+                "~/Scripts/app/inventory/miscissue.js"));
+
             #endregion
 
             #region Stock
@@ -80,8 +83,8 @@ namespace Inspired.Web
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/receipt").Include(
-                        "~/Content/receipt.css"));
+            bundles.Add(new StyleBundle("~/Content/Inventory").Include(
+                        "~/Content/Inventory.css"));
 
             bundles.Add(new StyleBundle("~/Content/jtable").Include("~/Scripts/jtable/themes/metro/blue/jtable.css"));
 

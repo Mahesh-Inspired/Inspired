@@ -1087,13 +1087,15 @@ namespace Inspired.Web.Controllers
             Int32 id = 0;
             String itemDescription = String.Empty, BatchFlag = string.Empty, SerialFlag = string.Empty;
 
-            Inv_MaterialMaster item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemCode).FirstOrDefault();
-            if (item != null)
+            Inv_MaterialMaster Item = UnitOfWork.MaterialMasterRepository.Get(u => u.Code == itemCode).FirstOrDefault();
+
+            if (Item != null)
             {
-                id = item.Id;
-                itemDescription = item.Description;
-                BatchFlag = item.Batch_YN.ToString();
-                SerialFlag = item.Serial_YN.ToString();
+                id = Item.Id;
+                itemDescription = Item.Description;
+                BatchFlag = Item.Batch_YN.ToString();
+                SerialFlag = Item.Serial_YN.ToString();
+
                 return Json(new { success = true, id = id, ItemDescription = itemDescription, ItemCode = itemCode, SerialFlag = SerialFlag, flag = BatchFlag }, JsonRequestBehavior.AllowGet);
             }
             else
@@ -1141,6 +1143,14 @@ namespace Inspired.Web.Controllers
             Int32 companyId = UserIdentity.GetCompanyId();
             var docs = UnitOfWork.DocumentMasterRepository.Get(u => u.COMPANY_ID == companyId).ToList();
             MiscReceiptViewModel miscViewModel = new MiscReceiptViewModel(docs, null);
+            return View(miscViewModel);
+        }
+
+        public ActionResult MiscIssue()
+        {
+            Int32 companyId = UserIdentity.GetCompanyId();
+            var docs = UnitOfWork.DocumentMasterRepository.Get(u => u.COMPANY_ID == companyId).ToList();
+            MiscIssueViewModel miscViewModel = new MiscIssueViewModel(docs, null);
             return View(miscViewModel);
         }
 
@@ -1319,7 +1329,7 @@ namespace Inspired.Web.Controllers
 
                     UnitOfWork.Save();
 
-                    return "True";
+                    return "success";
                 }
                 catch(Exception ex)
                 {
@@ -1333,18 +1343,11 @@ namespace Inspired.Web.Controllers
         [HttpPost]
         public JsonResult Receipt_Save(MiscReceiptSubmitModel data)
         {
-            string canContinue = "";
+            string Message = "";
 
-            canContinue = SaveMiscReceiptDetail(data);
+            Message = SaveMiscReceiptDetail(data);
 
-            if (canContinue == "True")
-            {
-                return Json(new { success = canContinue }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new { success = canContinue });
-            }
+            return Json(new { message = Message }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

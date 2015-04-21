@@ -79,10 +79,10 @@ function Receipt_Save() {
         dataType: "json",
         error: function (e) { alert(e.Message); },
         success: function (data) {
-            if (data.message == "success")
+            if (data.success == "True")
                 window.location.href = "/Inventory/MiscReceipt";
             else
-                alert(data.message);
+                alert(data.Message);
         }
     });
 }
@@ -281,7 +281,7 @@ function AddItem() {
         $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
 
         rows = document.getElementById("SerialTable").getElementsByTagName("tr").length - 2;
-        
+
         if (rows == 0) {
             if (serial_flag == 'True') {
                 for (j = 0; j <= quantity - 1; j++) {
