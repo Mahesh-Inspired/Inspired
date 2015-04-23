@@ -251,6 +251,7 @@ namespace Inspired.Web.Controllers
             material.Batch_YN = Convert.ToBoolean(data.Batch_YN);
             material.Serial_YN = Convert.ToBoolean(data.Serial_YN);
             material.Location_YN = Convert.ToBoolean(data.Location_YN);
+            material.Negative_Stock = Convert.ToBoolean(data.Location_YN);
             material.Shelf_Life = data.Shelf_Life;
             material.Barcode = data.Barcode;
             material.Max_Level = data.Max_Level;
@@ -1120,7 +1121,7 @@ namespace Inspired.Web.Controllers
         }
 
         //Generate new document code
-        public JsonResult FetchDocnoJSON(String doccode, string trans_type)
+        public JsonResult FetchDocnoJSON(String doccode)
         {
             var companyId = UserIdentity.GetCompanyId();
 
@@ -1138,11 +1139,38 @@ namespace Inspired.Web.Controllers
             return Json(new { success = true, currno = DocNum }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult FetchQuantity(Int32 itemid, Int32 warehouseid, String batchnum)
+        {
+            var companyId = UserIdentity.GetCompanyId();
+
+            decimal Quantity = 0;
+            bool NegativeStock = false;
+
+            Inv_StockMaster Stock;
+            Inv_MaterialMaster Item;
+
+            Stock = UnitOfWork.StockMasterRepository.Get(u => u.ITEM_ID == itemid && u.WHS_ID == warehouseid && u.BATCH_NO == batchnum && u.COMPANY_ID == companyId).FirstOrDefault();
+            Item = UnitOfWork.MaterialMasterRepository.Get(u => u.Company_Id == companyId && u.Id == itemid).FirstOrDefault();
+
+            if (Stock != null)
+            {
+                Quantity = Stock.CB_QTY;
+            }
+            else
+            {
+                return Json(new { success = false, Message = "Stock does not exist" }, JsonRequestBehavior.AllowGet);
+            }
+
+            NegativeStock = Item.Negative_Stock;
+
+            return Json(new { success = true, quantity = Quantity, NegativeStock=NegativeStock.ToString() }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult MiscReceipt()
         {
             Int32 companyId = UserIdentity.GetCompanyId();
             var docs = UnitOfWork.DocumentMasterRepository.Get(u => u.COMPANY_ID == companyId).ToList();
-            MiscReceiptViewModel miscViewModel = new MiscReceiptViewModel(docs, null);
+            MiscStockViewModel miscViewModel = new MiscStockViewModel(docs, null);
             return View(miscViewModel);
         }
 
@@ -1150,7 +1178,7 @@ namespace Inspired.Web.Controllers
         {
             Int32 companyId = UserIdentity.GetCompanyId();
             var docs = UnitOfWork.DocumentMasterRepository.Get(u => u.COMPANY_ID == companyId).ToList();
-            MiscIssueViewModel miscViewModel = new MiscIssueViewModel(docs, null);
+            MiscStockViewModel miscViewModel = new MiscStockViewModel(docs, null);
             return View(miscViewModel);
         }
 
@@ -1346,6 +1374,128 @@ namespace Inspired.Web.Controllers
             string Message = "";
 
             Message = SaveMiscReceiptDetail(data);
+
+            return Json(new { message = Message }, JsonRequestBehavior.AllowGet);
+        }
+
+        private String SaveMiscIssueDetail(MiscReceiptSubmitModel data)
+        {
+            try
+            {
+                Inv_StockTran InvStockTrans;
+                Inv_StockTranSlNo InvStockTranslno;
+                Inv_StockMaster InvStockMaster;
+                Inv_StockMasterSlNo InvStockMasterSlNo;
+                Inv_DocumentMaster InvDocumentMaster;
+                decimal DocNum = 0;
+
+                InvDocumentMaster = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == data.DocCode).FirstOrDefault();
+
+                if (InvDocumentMaster != null)
+                {
+                    DocNum = InvDocumentMaster.LAST_NO + 1;
+                }
+
+                List<ItemDetails> ItemDetails = data.ItemDetail.ToList();
+                List<SerialNoDetails> SerialNoDetails = data.SerialNoDetail.ToList();
+
+                Int32 Company_Id = UserIdentity.GetCompanyId();
+
+                foreach (ItemDetails ItemList in ItemDetails)
+                {
+                    InvStockTrans = new Inv_StockTran()
+                    {
+                        DOC_CODE = data.DocCode,
+                        DOC_NUM = DocNum,
+                        DOC_DATE = data.DocDate,
+                        TRANS_TYPE = data.TransType,
+                        REF_NO = data.RefNum,
+                        REF_DT = data.RefDate,
+                        NOTES = ItemList.Notes,
+                        ITEM_ID = ItemList.ItemID,
+                        WHS_ID = ItemList.WareHouseID,
+                        BATCH_NO = ItemList.BatchNum,
+                        ISS_QTY = ItemList.Quantity,
+                        USER_ID = UserIdentity.GetUserId(),
+                        LAST_UPDATED = DateTime.Now
+                    };
+
+                    UnitOfWork.StockTransRepository.Insert(InvStockTrans);
+
+                        try
+                        {
+                            InvStockMaster = UnitOfWork.StockMasterRepository.Get(u => u.COMPANY_ID == Company_Id && u.ITEM_ID == ItemList.ItemID && u.WHS_ID == ItemList.WareHouseID && u.BATCH_NO == ItemList.BatchNum).FirstOrDefault();
+                        }
+                        catch
+                        {
+                            InvStockMaster = null;
+                        }
+
+                        if (InvStockMaster == null)
+                        {
+                            return "Batch number " + ItemList.BatchNum + " does not exist for item " + ItemList.ItemCode + " in warehouse " + ItemList.WareHouse;
+                        }
+                        else
+                        {
+                            InvStockMaster.CB_QTY = ItemList.CurrentStock - ItemList.Quantity;
+                            InvStockMaster.NOTES = ItemList.Notes;
+                            InvStockMaster.USER_ID = UserIdentity.GetUserId();
+                            InvStockMaster.LAST_UPDATED = DateTime.Now;
+
+                            UnitOfWork.StockMasterRepository.Update(InvStockMaster);
+                        }
+
+                    foreach (SerialNoDetails SerialNumList in SerialNoDetails)
+                    {
+                        InvStockTranslno = new Inv_StockTranSlNo()
+                        {
+                            DOC_CODE = data.DocCode,
+                            DOC_NUM = data.DocNum,
+                            DOC_DATE = data.DocDate,
+                            ITEM_ID = SerialNumList.ItemID,
+                            WHS_ID = SerialNumList.WareHouseID,
+                            BATCH_NO = SerialNumList.BatchNum,
+                            ISS_QTY = SerialNumList.Quantity,
+                            SERIAL_NO = SerialNumList.SerialNo
+                        };
+
+                        UnitOfWork.StockTranslnoRepository.Insert(InvStockTranslno);
+
+                        InvStockMasterSlNo = UnitOfWork.StockMasterSlNoRepository.Get(u => u.ITEM_ID == SerialNumList.ItemID && u.WHS_ID == SerialNumList.WareHouseID && u.BATCH_NO == SerialNumList.BatchNum && u.SERIAL_NO == SerialNumList.SerialNo).FirstOrDefault();
+
+                        if (InvStockMasterSlNo == null)
+                        {
+                            return "Serial number "+ SerialNumList.SerialNo +" does not exist in Batch number " + ItemList.BatchNum + " does not exist for item " + ItemList.ItemCode + " in warehouse " + ItemList.WareHouse;
+                        }
+                        else
+                        {
+                            InvStockMasterSlNo.CB_QTY = InvStockMasterSlNo.CB_QTY - 1;
+
+                            UnitOfWork.StockMasterSlNoRepository.Update(InvStockMasterSlNo);
+                        }
+                    }
+                }
+
+                InvDocumentMaster = UnitOfWork.DocumentMasterRepository.Get(u => u.DOC_CODE == data.DocCode).FirstOrDefault();
+
+                InvDocumentMaster.LAST_NO = data.DocNum;
+
+                UnitOfWork.Save();
+
+                return "success";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Issue_Save(MiscReceiptSubmitModel data)
+        {
+            string Message = "";
+
+            Message = SaveMiscIssueDetail(data);
 
             return Json(new { message = Message }, JsonRequestBehavior.AllowGet);
         }

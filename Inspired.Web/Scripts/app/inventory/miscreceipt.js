@@ -37,7 +37,7 @@ function Receipt_Save() {
     Receipt.DocNum = $("#DocNum").val();
     Receipt.DocCode = $("#Stock_DOC_CODE").val();
     Receipt.DocDate = $("#DocDate").val();
-    Receipt.TransType = "misc";
+    Receipt.TransType = "MiscReciept";
 
     var ItemTable = $('#ItemsTable').dataTable().fnGetData();
 
@@ -99,7 +99,7 @@ function fetchItemDetails(CtrlItemCode, CtrlItemDesc, CtrlItemId, CtrlBatchYN, C
     $.ajax({
         context: document.body,
         data: addAntiForgeryToken({ itemcode: spareitemcode }),
-        error: function (e) { alert(e.Message); },
+        error: function (e) { $('#' + CtrlItemCode).val(""); $('#' + CtrlItemCode).focus(); },
         success: function (data) {
             if (data.success == true) {
                 $('#' + CtrlItemDesc).val(data.ItemDescription);
@@ -132,7 +132,7 @@ function fetchWarehouse(CtrlWrhCode, CtrlWrhID) {
     $.ajax({
         context: document.body,
         data: addAntiForgeryToken({ WarehouseCode: warehousecode }),
-        error: function (e) { alert(e.Message); },
+        error: function (e) { $('#' + CtrlWrhCode).val(""); $('#' + CtrlWrhCode).focus(); },
         success: function (data) {
             if (data.success == true) {
                 $('#' + CtrlWrhID).val(data.id);
@@ -213,6 +213,35 @@ function clearItem() {
     $("#Notes").val("");
 }
 
+function deleteItem() {
+    $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
+    var i = document.getElementById("SerialTable").getElementsByTagName("tr").length;
+    var i = i - 1;
+
+    for (j = 0; j <= i - 1; j++) {
+        var itemid = $('#SerialTable').dataTable().fnGetData(j, 0);
+        var warehouseid = $('#SerialTable').dataTable().fnGetData(j, 1);
+        var batchnum = $('#SerialTable').dataTable().fnGetData(j, 2);
+
+        console.log(itemid + ':' + $("#ItemID").val());
+        console.log(warehouseid + ':' + $("#WareHouseID").val());
+        console.log(batchnum + ':' + $("#BatchNum").val());
+        console.log('row:' + j);
+        console.log('serial:' + $('#SerialTable').dataTable().fnGetData(j, 4));
+
+        $('#SerialTable').dataTable().fnDeleteRow(0);
+    }
+
+    $("#delItem").hide("slow");
+    $("#ItemCode").val("");
+    $("#ItemDesc").val("");
+    $("#ItemID").val("");
+    $("#WareHouseID").val("");
+    $("#WareHouse").val("");
+    $("#BatchNum").val("");
+    $("#Quantity").val("");
+    $("#Notes").val("");
+}
 
 function validate() {
     var i = document.getElementById("ItemsTable").getElementsByTagName("tr").length;
@@ -325,7 +354,6 @@ function AddItem() {
             }
 
             else if (i > 0) {
-                console.log('here' + i);
                 if (serial_flag == 'True') {
                     for (j = 0; j <= i - 1; j++) {
                         $('#SerialTable').dataTable().fnAddData([$("#ItemID").val(), $("#WareHouseID").val(), $("#BatchNum").val(), "<input type='text' value='' alt=" + $("#ItemCode").val() + ">", "", $("#Quantity").val()]);
@@ -345,8 +373,10 @@ function AddItem() {
             }
 
             else if (i == 0) {
-                $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
-                clearItem();
+                $('#Receipt').removeClass('active');
+                $('#Serial').removeClass('inactive');
+                $('#Receipt').addClass('inactive');
+                $('#Serial').addClass('active');
             }
 
         }
@@ -372,10 +402,23 @@ function Addserials() {
 
     var i = document.getElementById("SerialTable").getElementsByTagName("tr").length;
     var i = i - 1;
+    var serialno = $('#SerialTable tbody tr td input[type=text]:eq(' + j + ')').val();
+
     for (j = 0; j <= i - 1; j++) {
-        var serialno = $('#SerialTable tbody tr td input[type=text]:eq(' + j + ')').val();
-        $('#SerialTable').dataTable().fnUpdate(serialno, j, 4);
-        $('#SerialTable tbody tr td input[type=text]:eq(' + j + ')').val(serialno);
+        if (serialno == '') {
+            alert("Serial number is empty. Please fill all the serial numbers");
+            return false;
+        }
+        else {
+            if (/^[a-zA-Z0-9- ]*$/.test(serialno) == false) {
+                alert("Invalid serial number");
+                return false;
+            }
+            else {
+                $('#SerialTable').dataTable().fnUpdate(serialno, j, 4);
+                $('#SerialTable tbody tr td input[type=text]:eq(' + j + ')').val(serialno);
+            }
+        }
     }
 
     $('#ItemsTable').dataTable().fnAddData([$("#ItemCode").val(), $("#ItemDesc").val(), $("#ItemID").val(), $("#WareHouseID").val(), $("#WareHouse").val(), $("#BatchNum").val(), $("#Quantity").val(), $("#Notes").val()]);
@@ -384,6 +427,7 @@ function Addserials() {
     $('#Serial').removeClass('active');
     $('#Receipt').addClass('active');
     $('#Serial').addClass('inactive');
+    $('#SerialTable').dataTable().fnFilter();
 }
 
 function Clrserials() {
@@ -391,8 +435,8 @@ function Clrserials() {
     var i = i - 1;
     for (j = 0; j <= i - 1; j++) {
         $('#SerialTable').dataTable().fnUpdate("<input type='text' alt=" + $("#ItemCode").val() + ">", j, 3);
+        $('#SerialTable').dataTable().fnUpdate('', j, 4);
     }
-    $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
 }
 
 function Cancelserials() {
@@ -400,8 +444,8 @@ function Cancelserials() {
     var i = i - 1;
     for (j = 0; j <= i - 1; j++) {
         $('#SerialTable').dataTable().fnUpdate("<input type='text' alt=" + $("#ItemCode").val() + ">", j, 3);
+        $('#SerialTable').dataTable().fnUpdate('', j, 4);
     }
-    $('#SerialTable').dataTable().fnFilter($("#ItemCode").val());
     $('#Receipt').removeClass('inactive');
     $('#Serial').removeClass('active');
     $('#Receipt').addClass('active');
@@ -457,7 +501,7 @@ function fetchDocNo(CtrlDocDesc, CtrlDocno, TransType) {
 
     $.ajax({
         context: document.body,
-        data: addAntiForgeryToken({ doccode: doccode, trans_type: transtype }),
+        data: addAntiForgeryToken({ doccode: doccode }),
         error: function (e) { alert(e.Message); },
         success: function (data) {
             if (data.success == true) {

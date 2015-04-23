@@ -43,7 +43,7 @@ function Item_Save() {
     var ItemNotes = { "ItemId": "", "SuppCustId": "", "TakenById": "", "EntryDate": "", "ExpiryDate": "", "Notes": "", "ActionById": "", "ActionByDate": "", "NotesTypeId": "", "PriorityFlagId": "" };
     var Item = {
         "Id": "", "Code": "", "Description": "", "SKU_Number": "", "Long_Description": "", "Overview": "", "UOM": "",
-        "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Shelf_Life": "", "Barcode": "",
+        "Margin_Percent": "", "Batch_YN": "", "Serial_YN": "", "Location_YN": "", "Negative_Stock": "", "Shelf_Life": "", "Barcode": "",
         "Max_Level": "", "Min_Level": "", "Re_order_level": "", "Lead_Time": "", "NETT_Price": "", "Sale_Price": "", "Cost_Price": "",
         "MCarton_Quantity": "", "MCarton_Length": "", "MCarton_Width": "", "MCarton_Height": "",
         "MCarton_Gross_Weight": "", "MCarton_NETT_Weight": "",
@@ -67,6 +67,7 @@ function Item_Save() {
     Item.Batch_YN = $("#Material_Batch_YN").val();
     Item.Serial_YN= $("#Material_Serial_YN").val();
     Item.Location_YN = $("#Material_Location_YN").val();
+    Item.Negative_Stock = $("#Negative_Stock").val();
     Item.Shelf_Life = $("#Material_Shelf_Life").val();
     Item.Barcode = $("#Material_Barcode").val();
     Item.Max_Level = $("#Material_Max_Level").val();

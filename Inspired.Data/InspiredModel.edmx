@@ -288,6 +288,7 @@
           <Property Name="Batch_YN" Type="bit" />
           <Property Name="Serial_YN" Type="bit" />
           <Property Name="Location_YN" Type="bit" />
+          <Property Name="Negative_Stock" Type="bit" />
           <Property Name="Shelf_Life" Type="int" />
           <Property Name="Barcode" Type="varchar" MaxLength="250" />
           <Property Name="Max_Level" Type="int" />
@@ -3203,6 +3204,7 @@
           <NavigationProperty Name="Inv_StockMasterSlNo" Relationship="InspiredModel.FK_INVSTOCKMASTERSLNO_MATERIALMASTER" FromRole="Inv_MaterialMaster" ToRole="Inv_StockMasterSlNo" />
           <NavigationProperty Name="Inv_MaterialDocument" Relationship="InspiredModel.FK_Inv_MaterialDocument_Inv_MaterialMaster" FromRole="Inv_MaterialMaster" ToRole="Inv_MaterialDocument" />
           <NavigationProperty Name="Inv_StockTran" Relationship="InspiredModel.FK_Inv_StockTran_Item" FromRole="Inv_MaterialMaster" ToRole="Inv_StockTran" />
+          <Property Name="Negative_Stock" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Inv_MaterialMaster_Gen_CompanyMaster">
           <End Type="InspiredModel.Gen_CompanyMaster" Role="Gen_CompanyMaster" Multiplicity="1" />
@@ -4301,6 +4303,7 @@
           <EntitySetMapping Name="Inv_MaterialMaster">
             <EntityTypeMapping TypeName="InspiredModel.Inv_MaterialMaster">
               <MappingFragment StoreEntitySet="Inv_MaterialMaster">
+                <ScalarProperty Name="Negative_Stock" ColumnName="Negative_Stock" />
                 <ScalarProperty Name="Last_Updated" ColumnName="Last_Updated" />
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />

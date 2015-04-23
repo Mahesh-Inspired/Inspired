@@ -56,6 +56,9 @@ namespace Inspired.Data
             [Display(Name = "Stock by location")]
             public Nullable<bool> Location_YN { get; set; }
             
+            [Display(Name = "Allow negative stock")]
+            public Nullable<bool> Negative_Stock { get; set; }
+            
             [Display(Name = "Shelf life")]
             public Nullable<int> Shelf_Life { get; set; }
             

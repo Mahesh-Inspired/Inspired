@@ -1,4 +1,4 @@
-﻿@model Inspired.Web.ViewModel.MiscReceiptViewModel
+﻿@model Inspired.Web.ViewModel.MiscStockViewModel
 @{
     ViewBag.Title = "Miscellaneous Receipt";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,37 +18,32 @@
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    
-<div class="row-fluid">
-    <div class="col-md-12">
-        <div class="nav nav-tabs" id="itemTabs">
-            <div class="col-md-12">
-                <ul class="nav navbar-nav">
-                    <li><a href="#Receipt" data-id="Receipt" data-toggle="tab">Receipt</a></li>
-                    <li><a href="#Serial" data-id="Serial" data-toggle="tab">Serial Number</a></li>
-                    <li></li>
-                </ul>
+
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="nav nav-tabs" id="itemTabs">
+                <div class="col-md-12">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#Receipt" data-id="Receipt" data-toggle="tab">Receipt</a></li>
+                        <li><a href="#Serial" data-id="Serial" data-toggle="tab">Serial Number</a></li>
+                        <li></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 <div class="tab-content" id="tabs">
     <div class="tab-pane" id="Receipt" data-id="Receipt">
         <div class="container-fluid box">
             <div class="form-group">
-                <div class="row">
+                <div class="row row-fluid">
                     <div class="col-md-2">
                         Transaction Code
                     </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(m => m.Stock.DOC_CODE, Model.DocCode, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','DocNum', 'misc');" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.TextBoxFor(m => m.DocNum, new { @class = "form-control doc-num", @readonly = "true" })
-                            </div>
-                        </div>
+                    <div class="col-md-4 form-group">
+                        @Html.DropDownListFor(m => m.Stock.DOC_CODE, Model.ReceiptDocCode, new { @class = "form-control", @onblur = "fetchDocNo('Stock_DOC_CODE','DocNum', 'MiscReciept');" })
+                        @Html.TextBoxFor(m => m.DocNum, new { @class = "form-control", @readonly = "true" })
                     </div>
                     <div class="col-md-2">
                         Reference Number
@@ -105,7 +100,7 @@
                             @Html.TextBoxFor(m => m.ItemCode, new { @class = "form-control", @onblur = "fetchItemDetails('ItemCode','ItemDesc','ItemID','BatchNum', 'SerialNoFlag');" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.ItemDesc, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.ItemDesc, new { @class = "form-control", @readonly = "true" })
                         </td>
                         <td>
                             @Html.HiddenFor(m => m.WareHouseID)
@@ -124,7 +119,7 @@
                         <td>
                             @Html.HiddenFor(m => m.SerialNoFlag)
                             <input type="button" class="btn btn-success" value="Add" onclick="AddItem()" />
-                            <input type="button" class="btn btn-warning" id="delItem" value="Delete" onclick="clearItem()" />
+                            <input type="button" class="btn btn-warning" id="delItem" value="Delete" onclick="deleteItem()" />
                         </td>
                     </tr>
                 </table>

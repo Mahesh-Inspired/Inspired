@@ -105,6 +105,13 @@
         @Html.TextBoxFor(m => m.Material.Re_order_Level, new { @class = "form-control", placeholder = "Re-order Level" })
         @Html.ValidationMessageFor(m => m.Material.Re_order_Level)
     </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Material.Negative_Stock, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.NegativeStock, Model.ListYesNo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NegativeStock)
+    </div>
 </div>
 <div class="row-fluid">
     <div class="col-md-12"><p class="bg-info">Purchase and Pricing details</p></div>

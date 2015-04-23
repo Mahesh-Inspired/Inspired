@@ -70,13 +70,6 @@ namespace Inspired.Web
 
             #endregion
 
-            #region Stock
-
-            bundles.Add(new ScriptBundle("~/bundles/stock").Include(
-                "~/Scripts/app/inventory/MiscReceipt.js"));
-
-            #endregion
-
             #region Bootstrap, JTable Stylesheets
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

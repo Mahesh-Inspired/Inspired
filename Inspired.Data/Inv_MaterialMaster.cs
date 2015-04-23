@@ -71,6 +71,7 @@ namespace Inspired.Data
         public int Company_Id { get; set; }
         public Nullable<int> User_Id { get; set; }
         public Nullable<System.DateTime> Last_Updated { get; set; }
+        public bool Negative_Stock { get; set; }
     
         public virtual Gen_CompanyMaster Gen_CompanyMaster { get; set; }
         public virtual Gen_LookupItem Gen_LookupItem { get; set; }

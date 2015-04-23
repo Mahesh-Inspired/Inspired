@@ -84,6 +84,9 @@ namespace Inspired.Web.ViewModel
         [Display(Name = "Stock by Serial")]
         public bool BranchStockBySerial { get; set; }
 
+        [Display(Name = "Allow negative stock")]
+        public bool NegativeStock { get; set; }
+
         [Display(Name = "Specification Code")]
         public String BranchSpecificationCode { get; set; }
 

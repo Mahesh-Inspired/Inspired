@@ -42,7 +42,7 @@ namespace Inspired.Web.Test.Controllers
         public void ThenMiscellaneousReceiptShouldBeDisplayed()
         {
             Assert.IsInstanceOfType(result, typeof(ViewResult));
-            Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(MiscReceiptViewModel));
+            Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(MiscStockViewModel));
         }
 
         [When(@"Document type is selected")]

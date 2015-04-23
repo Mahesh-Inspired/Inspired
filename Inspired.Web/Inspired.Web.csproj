@@ -206,9 +206,8 @@
     <Compile Include="ViewModel\DocumentViewModel.cs" />
     <Compile Include="ViewModel\DownloadViewModel.cs" />
     <Compile Include="ViewModel\LookupViewModel.cs" />
-    <Compile Include="ViewModel\MiscIssueViewModel.cs" />
     <Compile Include="ViewModel\MiscReceiptSubmitModel.cs" />
-    <Compile Include="ViewModel\MiscReceiptViewModel.cs" />
+    <Compile Include="ViewModel\MiscStockViewModel.cs" />
     <Compile Include="ViewModel\WarehouseViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\MaterialSubmitModel.cs" />

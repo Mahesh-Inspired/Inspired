@@ -20,6 +20,7 @@ namespace Inspired.Web.ViewModel
         public String Batch_YN { get; set; }
         public String Serial_YN { get; set; }
         public String Location_YN { get; set; }
+        public String Negative_Stock { get; set; }
         public Int32? Shelf_Life { get; set; }
         public string Barcode { get; set; }
         public Int32? Max_Level { get; set; }

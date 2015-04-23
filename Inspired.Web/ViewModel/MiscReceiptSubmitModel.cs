@@ -29,6 +29,7 @@ namespace Inspired.Web.ViewModel
         public string BatchNum { get; set; }
         public decimal Quantity { get; set; }
         public string Notes { get; set; }
+        public decimal CurrentStock { get; set; }
         public virtual MiscReceiptSubmitModel Receipt { get; set; }
     }
 
